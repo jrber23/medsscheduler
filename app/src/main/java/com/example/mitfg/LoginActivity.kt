@@ -1,0 +1,178 @@
+package com.example.mitfg
+
+import android.content.ContentValues.TAG
+import android.content.Intent
+import android.content.IntentSender
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.text.Editable
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.viewModels
+import com.example.mitfg.databinding.ActivityLoginBinding
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
+
+class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
+
+    private lateinit var signInRequest: BeginSignInRequest
+    private lateinit var oneTapClient: SignInClient
+
+    private val REQ_ONE_TAP = 2
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQ_ONE_TAP -> {
+                try {
+                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
+                    val idToken = credential.googleIdToken
+                    when {
+                        idToken != null -> {
+                            Log.d(TAG, "Got ID token.")
+                        }
+                        else -> {
+                            Log.d(TAG, "No ID token!")
+                        }
+                    }
+                } catch (e: ApiException) {
+                    Toast.makeText(
+                        baseContext,
+                        "HA FALLADO GUARRO",
+                        Toast.LENGTH_SHORT
+                    )
+                }
+            }
+        }
+
+        val googleCredential = oneTapClient.getSignInCredentialFromIntent(data)
+        val idToken = googleCredential.googleIdToken
+
+        when {
+            idToken != null -> {
+                val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                auth.signInWithCredential(firebaseCredential)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                baseContext,
+                                "signInWithCredential: success",
+                                Toast.LENGTH_SHORT
+                            )
+                        } else {
+                            Toast.makeText(
+                                baseContext,
+                                "signInWithCredential: failure",
+                                Toast.LENGTH_SHORT
+                            )
+                        }
+                    }
+            }
+            else -> {
+                Log.d(TAG, "No ID token!")
+            }
+        }
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val viewModel: LoginViewModel by viewModels()
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        // Initialize Firebase Auth
+        auth = Firebase.auth
+
+        oneTapClient = Identity.getSignInClient(this)
+        signInRequest = BeginSignInRequest.builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(getString(R.string.web_client_id))
+                    .setFilterByAuthorizedAccounts(true)
+                    .build()
+            ).setAutoSelectEnabled(true)
+            .build()
+
+        binding.bGoogleSignIn.setOnClickListener {
+            signInWithGoogleCredentials()
+        }
+
+        binding.bLogin.setOnClickListener {
+
+            val email = binding.tietEmail.text.toString()
+            val password = binding.tietPassword.text.toString()
+
+            signInWithEmailAndPassword(email, password)
+        }
+
+
+    }
+
+    public override fun onStart() {
+        super.onStart()
+
+        val currentUser = auth.currentUser
+        /* if (currentUser != null) {
+            reload()
+        } */
+    }
+
+    private fun reload() {
+        TODO("Not yet implemented")
+    }
+
+    private fun signInWithGoogleCredentials() {
+
+    }
+
+    private fun signInWithEmailAndPassword(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "signInWithEmail: SUCCESFUL!!")
+
+                    val user = auth.currentUser
+
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication successful!!",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+
+                    // updateUI(user)
+                } else {
+                    Log.d(TAG, "signInWithEmail: FAILURE!!", task.exception)
+
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication failed!!",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+
+                    // updateUI(null)
+                }
+            }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        TODO("Not yet implemented")
+    }
+}

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MiTFG</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="helloWorld">Hola mundo!!</string>
+    <string name="tf_login_email_hint">Introduce tu email...</string>
+    <string name="tf_login_password_hint">Introduce tu contraseña...</string>
+    <string name="tv_login_email">Email*:</string>
+    <string name="tv_login_password">Contraseña*:</string>
+    <string name="b_login">INICIAR SESIÓN</string>
+    <string name="web_client_id">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</string>
 </resources>
