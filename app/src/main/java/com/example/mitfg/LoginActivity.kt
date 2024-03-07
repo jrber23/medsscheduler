@@ -1,6 +1,7 @@
 package com.example.mitfg
 
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.example.mitfg.databinding.ActivityLoginBinding
+import com.example.mitfg.ui.MainActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -32,9 +35,10 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var signInRequest: BeginSignInRequest
     private lateinit var oneTapClient : SignInClient
-    private var showOneTapUI = true
 
     private val REQ_ONE_TAP = 2
+
+    private val dialogHelper: DialogHelper = DialogHelper(this)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -51,8 +55,13 @@ class LoginActivity : AppCompatActivity() {
                                 .addOnCompleteListener(this) { task ->
                                     if (task.isSuccessful) {
                                         Log.d(TAG, "signInWithCredential:success")
+
+                                        swapToMainScreen()
                                     } else {
                                         Log.w(TAG, "signInWithCredential:failure", task.exception)
+
+                                        val message = getString(R.string.signInWithGoogleWasNotPossible)
+                                        showPopUp(message)
                                     }
                                 }
 
@@ -67,6 +76,16 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun swapToMainScreen() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun swapToRegisterScreen() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,45 +111,61 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         binding.bGoogleSignIn.setOnClickListener {
-            oneTapClient.beginSignIn(signInRequest)
-                .addOnSuccessListener(this) { result ->
-                    try {
-                        startIntentSenderForResult(
-                            result.pendingIntent.intentSender, REQ_ONE_TAP,
-                            null, 0, 0, 0, null)
-                    } catch (e: IntentSender.SendIntentException) {
-                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
-                    }
-                }
-                .addOnFailureListener(this) { e ->
-                    // No saved credentials found. Launch the One Tap sign-up flow, or
-                    // do nothing and continue presenting the signed-out UI.
-                    Log.d(TAG, e.localizedMessage)
-                }
+            showOneTapUI()
         }
 
         binding.bLogin.setOnClickListener {
+            if (!fieldsEmpty()) {
+                val email = binding.tietEmail.text.toString()
+                val password = binding.tietPassword.text.toString()
 
-            val email = binding.tietEmail.text.toString()
-            val password = binding.tietPassword.text.toString()
+                signInWithEmailAndPassword(email, password)
+            } else {
+                val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)
 
-            signInWithEmailAndPassword(email, password)
+                showPopUp(message)
+            }
         }
 
+        binding.tvRegisterLink.setOnClickListener {
+            swapToRegisterScreen()
+        }
+    }
 
+    private fun showOneTapUI() {
+        oneTapClient.beginSignIn(signInRequest)
+            .addOnSuccessListener(this) { result ->
+                try {
+                    startIntentSenderForResult(
+                        result.pendingIntent.intentSender, REQ_ONE_TAP,
+                        null, 0, 0, 0, null)
+                } catch (e: IntentSender.SendIntentException) {
+                    Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                }
+            }
+            .addOnFailureListener(this) { e ->
+                // No saved credentials found. Launch the One Tap sign-up flow, or
+                // do nothing and continue presenting the signed-out UI.
+                Log.d(TAG, e.localizedMessage)
+            }
+    }
+
+    private fun showPopUp(message: String) {
+        dialogHelper.showPopUp(message)
+    }
+
+    private fun fieldsEmpty(): Boolean {
+        return (binding.tietEmail.text.toString().isEmpty() ||
+                binding.tietPassword.text.toString().isEmpty())
     }
 
     public override fun onStart() {
         super.onStart()
 
         val currentUser = auth.currentUser
-        /* if (currentUser != null) {
-            reload()
-        } */
-    }
-
-    private fun reload() {
-        TODO("Not yet implemented")
+        if (currentUser != null) {
+            swapToMainScreen()
+        }
     }
 
     private fun signInWithEmailAndPassword(email: String, password: String) {
@@ -139,30 +174,14 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail: SUCCESFUL!!")
 
-                    val user = auth.currentUser
-
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication successful!!",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-
-                    // updateUI(user)
+                    swapToMainScreen()
                 } else {
                     Log.d(TAG, "signInWithEmail: FAILURE!!", task.exception)
 
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed!!",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    val message = getString(R.string.userNotFoundMessage)
 
-                    // updateUI(null)
+                    showPopUp(message)
                 }
             }
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        TODO("Not yet implemented")
     }
 }

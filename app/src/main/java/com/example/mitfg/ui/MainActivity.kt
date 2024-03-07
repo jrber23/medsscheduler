@@ -11,8 +11,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
+import com.example.mitfg.LoginActivity
 import com.example.mitfg.R
 import com.example.mitfg.ui.AlarmReceiver.Companion.NOTIFICATION_ID
 import com.firebase.geofire.GeoFireUtils
@@ -20,12 +26,16 @@ import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import java.util.Calendar
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MenuProvider {
+
+    private lateinit var auth : FirebaseAuth
 
     companion object {
         const val MY_CHANNEL_ID = "myChannel"
@@ -36,8 +46,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createChannel()
-        scheduleNotification()
+        auth = Firebase.auth
+
+        addMenuProvider(this)
+
+        // createChannel()
+        // scheduleNotification()
     }
 
     private fun scheduleNotification() {
@@ -165,5 +179,26 @@ class MainActivity : AppCompatActivity() {
 
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_main_activity, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.signOut -> {
+                signOut()
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun signOut() {
+        auth.signOut()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

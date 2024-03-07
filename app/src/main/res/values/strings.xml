@@ -8,4 +8,14 @@
     <string name="tv_login_password">Contraseña*:</string>
     <string name="b_login">INICIAR SESIÓN</string>
     <string name="web_client_id">763236116994-60rbnod6u9420llf9athned097a7jlrp.apps.googleusercontent.com</string>
+    <string name="emptyFieldsLoginOrRegisterMessage">Se deben cumplimentar todos los campos</string>
+    <string name="accept">Aceptar</string>
+    <string name="userNotFoundMessage">Las credenciales no coinciden con ningún usuario</string>
+    <string name="signInWithGoogleWasNotPossible">No se pudo iniciar sesión con su cuenta de Google</string>
+    <string name="signOutTitle">Cerrar sesión</string>
+    <string name="signInTitle">Iniciar sesión</string>
+    <string name="linkRegister">¿No tienes cuenta? Regístrate</string>
+    <string name="b_register">REGISTRARSE</string>
+    <string name="registerTitle">Registrarse</string>
+    <string name="registerFail">Algo no salió como se esperaba</string>
 </resources>

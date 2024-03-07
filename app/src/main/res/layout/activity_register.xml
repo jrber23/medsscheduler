@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/tiet_email"
@@ -18,17 +18,6 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_email" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/bGoogleSignIn"
-        android:layout_width="247dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="44dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bLogin"
-        app:layout_constraintVertical_bias="0.049" />
 
     <TextView
         android:id="@+id/tv_email"
@@ -70,38 +59,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_password" />
 
     <Button
-        android:id="@+id/bLogin"
+        android:id="@+id/bRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
-        android:text="@string/b_login"
+        android:text="@string/b_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tiet_password" />
 
     <TextView
-        android:id="@+id/tv_Login"
+        android:id="@+id/tv_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signInTitle"
+        android:text="@string/registerTitle"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_RegisterLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:linksClickable="false"
-        android:text="@string/linkRegister"
-        android:textColor="#03A9F4"
-        android:textColorLink="#2196F3"
-        app:layout_constraintStart_toStartOf="@+id/tiet_password"
-        app:layout_constraintTop_toBottomOf="@+id/tiet_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
