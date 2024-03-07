@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.example.mitfg.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -18,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
+import com.google.firebase.app
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -29,10 +31,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var signInRequest: BeginSignInRequest
-    private lateinit var oneTapClient: SignInClient
+    private lateinit var oneTapClient : SignInClient
+    private var showOneTapUI = true
 
     private val REQ_ONE_TAP = 2
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -40,54 +42,33 @@ class LoginActivity : AppCompatActivity() {
         when (requestCode) {
             REQ_ONE_TAP -> {
                 try {
-                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
-                    val idToken = credential.googleIdToken
+                    val googleCredential = oneTapClient.getSignInCredentialFromIntent(data)
+                    val idToken = googleCredential.googleIdToken
                     when {
                         idToken != null -> {
-                            Log.d(TAG, "Got ID token.")
+                            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                            auth.signInWithCredential(firebaseCredential)
+                                .addOnCompleteListener(this) { task ->
+                                    if (task.isSuccessful) {
+                                        Log.d(TAG, "signInWithCredential:success")
+                                    } else {
+                                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                                    }
+                                }
+
+                            Log.d(TAG, "Got ID token")
                         }
                         else -> {
                             Log.d(TAG, "No ID token!")
                         }
                     }
                 } catch (e: ApiException) {
-                    Toast.makeText(
-                        baseContext,
-                        "HA FALLADO GUARRO",
-                        Toast.LENGTH_SHORT
-                    )
+                    Log.w(TAG, "Google sign in failed", e)
                 }
             }
         }
-
-        val googleCredential = oneTapClient.getSignInCredentialFromIntent(data)
-        val idToken = googleCredential.googleIdToken
-
-        when {
-            idToken != null -> {
-                val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                auth.signInWithCredential(firebaseCredential)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(
-                                baseContext,
-                                "signInWithCredential: success",
-                                Toast.LENGTH_SHORT
-                            )
-                        } else {
-                            Toast.makeText(
-                                baseContext,
-                                "signInWithCredential: failure",
-                                Toast.LENGTH_SHORT
-                            )
-                        }
-                    }
-            }
-            else -> {
-                Log.d(TAG, "No ID token!")
-            }
-        }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -97,9 +78,6 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-
         oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
@@ -107,12 +85,28 @@ class LoginActivity : AppCompatActivity() {
                     .setSupported(true)
                     .setServerClientId(getString(R.string.web_client_id))
                     .setFilterByAuthorizedAccounts(true)
-                    .build()
-            ).setAutoSelectEnabled(true)
+                    .build())
             .build()
 
+        // Initialize Firebase Auth
+        auth = Firebase.auth
+
         binding.bGoogleSignIn.setOnClickListener {
-            signInWithGoogleCredentials()
+            oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(this) { result ->
+                    try {
+                        startIntentSenderForResult(
+                            result.pendingIntent.intentSender, REQ_ONE_TAP,
+                            null, 0, 0, 0, null)
+                    } catch (e: IntentSender.SendIntentException) {
+                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                    }
+                }
+                .addOnFailureListener(this) { e ->
+                    // No saved credentials found. Launch the One Tap sign-up flow, or
+                    // do nothing and continue presenting the signed-out UI.
+                    Log.d(TAG, e.localizedMessage)
+                }
         }
 
         binding.bLogin.setOnClickListener {
@@ -137,10 +131,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun reload() {
         TODO("Not yet implemented")
-    }
-
-    private fun signInWithGoogleCredentials() {
-
     }
 
     private fun signInWithEmailAndPassword(email: String, password: String) {
