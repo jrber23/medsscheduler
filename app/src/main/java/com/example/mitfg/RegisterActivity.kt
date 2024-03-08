@@ -1,11 +1,12 @@
 package com.example.mitfg
 
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.mitfg.databinding.ActivityLoginBinding
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.databinding.ActivityRegisterBinding
 import com.example.mitfg.ui.MainActivity
 import com.google.firebase.Firebase
@@ -16,7 +17,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var auth : FirebaseAuth
-    private val dialogHelper : DialogHelper = DialogHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +47,15 @@ class RegisterActivity : AppCompatActivity() {
                 binding.tietPassword.text.toString().isEmpty())
     }
 
-    private fun showPopUp(message: String) {
-        dialogHelper.showPopUp(message)
+    fun showPopUp(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.accept, DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+            })
+        val alert = builder.create()
+        alert?.show()
     }
 
     private fun swapToMainScreen() {

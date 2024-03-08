@@ -1,10 +1,8 @@
 package com.example.mitfg
 
-import android.content.Context
-import android.content.DialogInterface
-import androidx.appcompat.app.AlertDialog
+class DialogHelper(/* private val context: Context */) {
 
-class DialogHelper(private val context: Context) {
+    /* var alertDialog: AlertDialog? = null
 
     fun showPopUp(message: String) {
         val builder = AlertDialog.Builder(context)
@@ -13,8 +11,8 @@ class DialogHelper(private val context: Context) {
             .setPositiveButton(R.string.accept, DialogInterface.OnClickListener { dialog, _ ->
                 dialog.dismiss()
             })
-        val alert = builder.create()
-        alert.show()
-    }
+        alertDialog = builder.create()
+        alertDialog?.show()
+    } */
 
 }

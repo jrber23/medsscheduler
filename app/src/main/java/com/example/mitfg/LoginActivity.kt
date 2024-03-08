@@ -4,27 +4,19 @@ import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.databinding.ActivityLoginBinding
 import com.example.mitfg.ui.MainActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
-import com.google.firebase.app
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 
@@ -37,8 +29,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var oneTapClient : SignInClient
 
     private val REQ_ONE_TAP = 2
-
-    private val dialogHelper: DialogHelper = DialogHelper(this)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -150,8 +140,15 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun showPopUp(message: String) {
-        dialogHelper.showPopUp(message)
+    fun showPopUp(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.accept, DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+            })
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun fieldsEmpty(): Boolean {
