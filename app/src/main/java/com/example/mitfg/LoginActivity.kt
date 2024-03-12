@@ -1,14 +1,19 @@
 package com.example.mitfg
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.mitfg.databinding.ActivityLoginBinding
 import com.example.mitfg.ui.MainActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -19,14 +24,19 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private var _binding: ActivityLoginBinding? = null
+    private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
 
     private lateinit var signInRequest: BeginSignInRequest
     private lateinit var oneTapClient : SignInClient
+
+    private val viewModel : LoginViewModel by viewModels()
 
     private val REQ_ONE_TAP = 2
 
@@ -81,9 +91,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel: LoginViewModel by viewModels()
-
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        _binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -120,6 +128,9 @@ class LoginActivity : AppCompatActivity() {
         binding.tvRegisterLink.setOnClickListener {
             swapToRegisterScreen()
         }
+
+        Log.d("CAMPEONES", viewModel.healthAdvice.toString())
+
     }
 
     private fun showOneTapUI() {
@@ -138,6 +149,33 @@ class LoginActivity : AppCompatActivity() {
                 // do nothing and continue presenting the signed-out UI.
                 Log.d(TAG, e.localizedMessage)
             }
+    }
+
+    fun showCustomPopup(/* adviceDto: HealthAdviceDto */) {
+
+        // Log.d("POPOPO", adviceDto.toString())
+
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val dialogView = inflater.inflate(R.layout.popup_layout, null)
+
+        val imageView = dialogView.findViewById<ImageView>(R.id.healthAdvice_image)
+        val titleTextView = dialogView.findViewById<TextView>(R.id.healthAdvice_title)
+        val descriptionTextView = dialogView.findViewById<TextView>(R.id.healthAdvice_description)
+
+        // Personaliza el diálogo emergente con los datos proporcionados
+        Glide.with(this)
+            .load("https://alicorp-prod-medias.s3.amazonaws.com/static-img/files/2022-01/es_mejor_correr_por_la_manana_o_por_la_noche_/ilustracion-de-mujer-corriendo-ejercitandose-por-las-mananas.svg")
+            .into(imageView)
+
+        /* titleTextView.text = adviceDto.title
+        descriptionTextView.text = adviceDto.description */
+
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setCancelable(true)
+
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
     }
 
     fun showPopUp(message: String) {

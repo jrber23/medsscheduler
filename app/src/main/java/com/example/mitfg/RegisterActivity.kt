@@ -12,7 +12,9 @@ import com.example.mitfg.ui.MainActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
@@ -55,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
                 dialog.dismiss()
             })
         val alert = builder.create()
-        alert?.show()
+        alert.show()
     }
 
     private fun swapToMainScreen() {

@@ -14,7 +14,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import com.example.mitfg.LoginActivity
@@ -30,8 +29,10 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MenuProvider {
 
     private lateinit var auth : FirebaseAuth
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         const val MY_CHANNEL_ID = "myChannel"
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
