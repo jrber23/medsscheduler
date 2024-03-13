@@ -1,9 +1,9 @@
 package com.example.mitfg.data.healthAdvices.model
 
 data class HealthAdviceDto(
-    val title: String,
-    val description: String,
-    val image: String
+    var title: String,
+    var description: String,
+    var image: String
 ) {
     constructor() : this("", "", "")
 }

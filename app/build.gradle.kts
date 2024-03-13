@@ -79,6 +79,7 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.dagger:hilt-android:2.51")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
     testImplementation("org.hamcrest:hamcrest-library:2.2")

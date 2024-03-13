@@ -5,6 +5,6 @@ import com.example.mitfg.data.healthAdvices.model.HealthAdviceDto
 
 interface HealthAdviceDataSource {
 
-    fun getRandomHealthAdvice(): HealthAdviceDto?
+    suspend fun getAllHealthAdvices(): Result<List<HealthAdviceDto?>>
 
 }

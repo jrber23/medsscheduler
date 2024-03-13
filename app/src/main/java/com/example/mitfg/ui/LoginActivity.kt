@@ -1,21 +1,17 @@
-package com.example.mitfg
+package com.example.mitfg.ui
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.viewModels
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityLoginBinding
-import com.example.mitfg.ui.MainActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -36,17 +32,17 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signInRequest: BeginSignInRequest
     private lateinit var oneTapClient : SignInClient
 
-    private val viewModel : LoginViewModel by viewModels()
+    companion object {
+        private const val REQ_ONE_TAP = 2
+    }
 
-    private val REQ_ONE_TAP = 2
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            REQ_ONE_TAP -> {
+    private val requestCredentials = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        when (result.resultCode) {
+            REQ_ONE_TAP ->
                 try {
-                    val googleCredential = oneTapClient.getSignInCredentialFromIntent(data)
+                    val googleCredential = oneTapClient.getSignInCredentialFromIntent(result.data)
                     val idToken = googleCredential.googleIdToken
                     when {
                         idToken != null -> {
@@ -74,7 +70,6 @@ class LoginActivity : AppCompatActivity() {
                 } catch (e: ApiException) {
                     Log.w(TAG, "Google sign in failed", e)
                 }
-            }
         }
     }
 
@@ -129,17 +124,15 @@ class LoginActivity : AppCompatActivity() {
             swapToRegisterScreen()
         }
 
-        Log.d("CAMPEONES", viewModel.healthAdvice.toString())
-
     }
 
     private fun showOneTapUI() {
         oneTapClient.beginSignIn(signInRequest)
             .addOnSuccessListener(this) { result ->
                 try {
-                    startIntentSenderForResult(
-                        result.pendingIntent.intentSender, REQ_ONE_TAP,
-                        null, 0, 0, 0, null)
+                    requestCredentials.launch(
+                        IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                    )
                 } catch (e: IntentSender.SendIntentException) {
                     Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
                 }
@@ -149,33 +142,6 @@ class LoginActivity : AppCompatActivity() {
                 // do nothing and continue presenting the signed-out UI.
                 Log.d(TAG, e.localizedMessage)
             }
-    }
-
-    fun showCustomPopup(/* adviceDto: HealthAdviceDto */) {
-
-        // Log.d("POPOPO", adviceDto.toString())
-
-        val dialogBuilder = AlertDialog.Builder(this)
-        val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val dialogView = inflater.inflate(R.layout.popup_layout, null)
-
-        val imageView = dialogView.findViewById<ImageView>(R.id.healthAdvice_image)
-        val titleTextView = dialogView.findViewById<TextView>(R.id.healthAdvice_title)
-        val descriptionTextView = dialogView.findViewById<TextView>(R.id.healthAdvice_description)
-
-        // Personaliza el diálogo emergente con los datos proporcionados
-        Glide.with(this)
-            .load("https://alicorp-prod-medias.s3.amazonaws.com/static-img/files/2022-01/es_mejor_correr_por_la_manana_o_por_la_noche_/ilustracion-de-mujer-corriendo-ejercitandose-por-las-mananas.svg")
-            .into(imageView)
-
-        /* titleTextView.text = adviceDto.title
-        descriptionTextView.text = adviceDto.description */
-
-        dialogBuilder.setView(dialogView)
-        dialogBuilder.setCancelable(true)
-
-        val alertDialog = dialogBuilder.create()
-        alertDialog.show()
     }
 
     fun showPopUp(message: String) {

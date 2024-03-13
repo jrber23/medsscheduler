@@ -5,19 +5,28 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
-import com.example.mitfg.LoginActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.example.mitfg.R
+import com.example.mitfg.databinding.ActivityMainBinding
+import com.example.mitfg.domain.model.HealthAdvice
 import com.example.mitfg.ui.AlarmReceiver.Companion.NOTIFICATION_ID
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
@@ -30,12 +39,22 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MenuProvider {
 
+    private val viewModel: MainViewModel by viewModels()
+
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var auth : FirebaseAuth
+
+    private lateinit var imageView: ImageView
+    private lateinit var titleTextView: TextView
+    private lateinit var descriptionTextView: TextView
 
     companion object {
         const val MY_CHANNEL_ID = "myChannel"
@@ -43,7 +62,8 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = Firebase.auth
 
@@ -51,6 +71,43 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
         // createChannel()
         // scheduleNotification()
+
+        popUpSetUp()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.healthAdvice.collect { advice ->
+                    updateHealthAdvicePopup(advice)
+                }
+            }
+        }
+
+    }
+
+    private fun popUpSetUp() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val dialogView = inflater.inflate(R.layout.popup_layout, null)
+
+        imageView = dialogView.findViewById(R.id.healthAdvice_image)
+        titleTextView = dialogView.findViewById(R.id.healthAdvice_title)
+        descriptionTextView = dialogView.findViewById(R.id.healthAdvice_description)
+
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setCancelable(true)
+
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
+    }
+
+    fun updateHealthAdvicePopup(advice: HealthAdvice?) {
+        Glide.with(this)
+            .load(advice?.image)
+            .override(400, 400)
+            .into(imageView)
+
+        titleTextView.text = advice?.title
+        descriptionTextView.text = advice?.description
     }
 
     private fun scheduleNotification() {
@@ -62,7 +119,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             PendingIntent.FLAG_MUTABLE
         )
 
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         val calendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 12)
@@ -174,7 +231,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             }
 
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
             notificationManager.createNotificationChannel(channel)
         }

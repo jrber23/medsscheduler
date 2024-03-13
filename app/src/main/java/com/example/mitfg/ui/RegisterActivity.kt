@@ -1,4 +1,4 @@
-package com.example.mitfg
+package com.example.mitfg.ui
 
 import android.content.ContentValues.TAG
 import android.content.DialogInterface
@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityRegisterBinding
-import com.example.mitfg.ui.MainActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -19,6 +19,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var auth : FirebaseAuth
+
+    private val PASSWORD_MIN_LENGTH = 8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +34,17 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.bRegister.setOnClickListener {
             if (!fieldsEmpty()) {
-                val email = binding.tietEmail.text.toString()
-                val password = binding.tietPassword.text.toString()
 
-                registerUser(email, password)
+                if (binding.tietPassword.text!!.length < PASSWORD_MIN_LENGTH) {
+                    val message = getString(R.string.password_length_insufficient)
+
+                    showPopUp(message)
+                } else {
+                    val email = binding.tietEmail.text.toString()
+                    val password = binding.tietPassword.text.toString()
+
+                    registerUser(email, password)
+                }
             } else {
                 val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)
 

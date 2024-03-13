@@ -4,6 +4,6 @@ import com.example.mitfg.domain.model.HealthAdvice
 
 interface HealthAdviceRepository {
 
-    fun getRandomHealthAdvice(): HealthAdvice?
+    suspend fun getRandomHealthAdvice(): Result<HealthAdvice?>
 
 }

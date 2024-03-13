@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="30dp">
 
         <ImageView
             android:id="@+id/healthAdvice_image"
@@ -29,6 +29,7 @@
             android:textAlignment="center"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/healthAdvice_image" />
@@ -39,6 +40,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
             android:text="HOLA A TODOS!!"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
