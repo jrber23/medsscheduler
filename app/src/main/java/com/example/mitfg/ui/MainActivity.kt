@@ -23,6 +23,9 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
@@ -33,6 +36,7 @@ import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -48,14 +52,13 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
-
     private lateinit var auth : FirebaseAuth
 
     private lateinit var imageView: ImageView
     private lateinit var titleTextView: TextView
     private lateinit var descriptionTextView: TextView
+
+    private lateinit var navController: NavController
 
     companion object {
         const val MY_CHANNEL_ID = "myChannel"
@@ -63,12 +66,11 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = Firebase.auth
-
-        addMenuProvider(this)
 
         // createChannel()
         // scheduleNotification()
@@ -82,6 +84,12 @@ class MainActivity : AppCompatActivity(), MenuProvider {
                 }
             }
         }
+
+        navController = binding.navHostFragment.getFragment<NavHostFragment>().navController
+        binding.bottomNavigationView as NavigationBarView
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+        addMenuProvider(this)
 
     }
 
