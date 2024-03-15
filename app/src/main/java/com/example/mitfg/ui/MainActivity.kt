@@ -224,7 +224,6 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
     }
 
-
     /**
      * Método para crear un canal de notificaciones
      * NO BORRAR

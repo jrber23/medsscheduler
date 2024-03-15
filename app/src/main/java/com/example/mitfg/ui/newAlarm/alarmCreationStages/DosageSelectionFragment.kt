@@ -21,7 +21,7 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDosageSelectionBinding.bind(view)
 
-        binding.button.setOnClickListener {
+        binding.buttonNext.setOnClickListener {
             viewModel.decreseProgressBar()
 
             navigateBack()

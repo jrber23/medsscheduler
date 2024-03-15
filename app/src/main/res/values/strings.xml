@@ -23,4 +23,6 @@
     <string name="password_length_insufficient">La contraseña debe tener 8 caracteres como mínimo</string>
     <string name="alarmsFragmentTitle">Alarmas</string>
     <string name="newAlarm">Crear alarma</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="last">ANTERIOR</string>
 </resources>

@@ -21,7 +21,7 @@ class HealthAdviceDataSourceImpl @Inject constructor(
                 val documents = snapshot.documents
 
                 for (element in documents) {
-                    list.add(element.toObject<HealthAdviceDto>())
+                    list.add(element.toObject<HealthAdviceDto?>())
                 }
 
                 Result.success(list)
