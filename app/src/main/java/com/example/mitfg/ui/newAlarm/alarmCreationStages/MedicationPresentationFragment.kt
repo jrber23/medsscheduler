@@ -21,13 +21,13 @@ class MedicationPresentationFragment : Fragment(R.layout.fragment_medication_pre
         _binding = FragmentMedicationPresentationBinding.bind(view)
 
         binding.buttonNext.setOnClickListener {
-            viewModel.increseProgressBar()
+            viewModel.increaseProgressBar()
 
             navigateToNextScene()
         }
 
         binding.buttonBefore.setOnClickListener {
-            viewModel.decreseProgressBar()
+            viewModel.decreaseProgressBar()
 
             navigateBack()
         }

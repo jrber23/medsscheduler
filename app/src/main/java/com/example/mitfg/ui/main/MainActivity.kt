@@ -1,4 +1,4 @@
-package com.example.mitfg.ui
+package com.example.mitfg.ui.main
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -30,8 +30,8 @@ import com.bumptech.glide.Glide
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
 import com.example.mitfg.domain.model.HealthAdvice
-import com.example.mitfg.ui.AlarmReceiver.Companion.NOTIFICATION_ID
 import com.example.mitfg.ui.login.LoginActivity
+import com.example.mitfg.ui.main.AlarmReceiver.Companion.NOTIFICATION_ID
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             SystemClock.elapsedRealtime(),
-            AlarmManager.INTERVAL_HOUR,
+            AlarmManager.INTERVAL_DAY,
             pendingIntent
         )
 

@@ -18,11 +18,19 @@ class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection)
     private val binding get() = _binding!!
     private val viewModel: AlarmCreationViewModel by activityViewModels()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMedicineSelectionBinding.bind(view)
-        val adapter: MedicineListAdapter = MedicineListAdapter()
+
+        val callback = object : MedicineListAdapter.ItemClicked {
+            override fun onClick(medicineName: String) {
+                viewModel.assignMedicineName(medicineName)
+                viewModel.increaseProgressBar()
+
+                navigateToNextScene()
+            }
+        }
+        val adapter = MedicineListAdapter(callback)
         binding.recyclerViewMedicines.adapter = adapter
 
         lifecycleScope.launch {
@@ -30,16 +38,10 @@ class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection)
                 adapter.submitList(list)
             }
         }
-
-        binding.buttonNext.setOnClickListener {
-            viewModel.increseProgressBar()
-
-            navigateToNextScene()
-        }
     }
 
     private fun navigateToNextScene() {
-        findNavController().navigate(R.id.medicationPresentationFragment)
+        findNavController().navigate(R.id.dosageSelectionFragment)
     }
 
     override fun onDestroyView() {

@@ -58,6 +58,9 @@ android {
 
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    val room_version = "2.6.1"
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -82,7 +85,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation("androidx.activity:activity:1.8.0")
+    implementation("androidx.activity:activity:1.8.2")
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
@@ -102,6 +107,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     kapt("com.google.dagger:hilt-compiler:2.51")
+    kapt("androidx.room:room-compiler:$room_version")
 }
 
 kapt {

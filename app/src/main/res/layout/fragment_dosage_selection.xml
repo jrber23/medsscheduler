@@ -11,14 +11,14 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvPillQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ADIÓS"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="136dp"
+            android:text="@string/tvPillQuantity"
             android:textColor="@color/black"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,6 +42,16 @@
             app:layout_constraintEnd_toStartOf="@+id/buttonNext"
             app:layout_constraintHorizontal_bias="0.091"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/pillQuantitySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPillQuantity"
+            app:layout_constraintStart_toEndOf="@+id/tvPillQuantity"
+            app:layout_constraintTop_toTopOf="@+id/tvPillQuantity" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

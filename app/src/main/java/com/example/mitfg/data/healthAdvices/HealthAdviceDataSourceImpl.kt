@@ -1,6 +1,7 @@
 package com.example.mitfg.data.healthAdvices
 
 import com.example.mitfg.data.healthAdvices.model.HealthAdviceDto
+import com.example.mitfg.data.medicines.model.MedicineDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.toObject
@@ -21,6 +22,8 @@ class HealthAdviceDataSourceImpl @Inject constructor(
                 val documents = snapshot.documents
 
                 for (element in documents) {
+                    var healthAdvice = element.toObject<MedicineDto>()
+                    healthAdvice!!.id = element.id
                     list.add(element.toObject<HealthAdviceDto?>())
                 }
 

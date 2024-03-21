@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityLoginBinding
-import com.example.mitfg.ui.MainActivity
+import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity

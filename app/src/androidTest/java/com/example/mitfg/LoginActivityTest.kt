@@ -15,7 +15,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.example.mitfg.ui.login.LoginActivity
-import com.example.mitfg.ui.MainActivity
+import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

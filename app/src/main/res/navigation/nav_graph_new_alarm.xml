@@ -10,8 +10,8 @@
         android:label="fragment_medicine_selection"
         tools:layout="@layout/fragment_medicine_selection" >
         <action
-            android:id="@+id/action_medicineSelectionFragment_to_medicationPresentationFragment"
-            app:destination="@id/medicationPresentationFragment" />
+            android:id="@+id/action_medicineSelectionFragment_to_dosageSelectionFragment"
+            app:destination="@id/dosageSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/dosageSelectionFragment"
@@ -22,28 +22,16 @@
             android:id="@+id/action_dosageSelectionFragment_to_frequenceFragment"
             app:destination="@id/frequenceFragment" />
         <action
-            android:id="@+id/action_dosageSelectionFragment_to_medicationPresentationFragment"
-            app:destination="@id/medicationPresentationFragment" />
+            android:id="@+id/action_dosageSelectionFragment_to_medicineSelectionFragment"
+            app:destination="@id/medicineSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/frequenceFragment"
-        android:name="com.example.mitfg.ui.newAlarm.alarmCreationStages.FrequenceFragment"
+        android:name="com.example.mitfg.ui.newAlarm.alarmCreationStages.FrequencyFragment"
         android:label="fragment_frequence"
         tools:layout="@layout/fragment_frequence" >
         <action
             android:id="@+id/action_frequenceFragment_to_dosageSelectionFragment"
             app:destination="@id/dosageSelectionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/medicationPresentationFragment"
-        android:name="com.example.mitfg.ui.newAlarm.alarmCreationStages.MedicationPresentationFragment"
-        android:label="fragment_medication_presentation"
-        tools:layout="@layout/fragment_medication_presentation" >
-        <action
-            android:id="@+id/action_medicationPresentationFragment_to_dosageSelectionFragment"
-            app:destination="@id/dosageSelectionFragment" />
-        <action
-            android:id="@+id/action_medicationPresentationFragment_to_medicineSelectionFragment"
-            app:destination="@id/medicineSelectionFragment" />
     </fragment>
 </navigation>

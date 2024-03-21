@@ -1,4 +1,4 @@
-package com.example.mitfg.ui
+package com.example.mitfg.ui.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

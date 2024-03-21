@@ -13,7 +13,7 @@ class MedicineDataSourceImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : MedicineDataSource {
     override suspend fun getAllMedicines(): Result<List<MedicineDto?>> =
-    withContext(Dispatchers.Main) {
+    withContext(Dispatchers.IO) {
         val docRef = firestore.collection("medicines")
         return@withContext try {
             val list = mutableListOf<MedicineDto?>()
@@ -21,7 +21,9 @@ class MedicineDataSourceImpl @Inject constructor(
             val documents = snapshot.documents
 
             for (element in documents) {
-                list.add(element.toObject<MedicineDto>())
+                var medicine = element.toObject<MedicineDto>()
+                medicine!!.id = element.id
+                list.add(medicine)
             }
 
             Result.success(list)

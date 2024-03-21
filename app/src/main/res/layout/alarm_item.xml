@@ -11,7 +11,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/cyan"
+        app:cardBackgroundColor="@color/grey"
         app:cardCornerRadius="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,28 +19,30 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvMedicineName"
+                android:id="@+id/tvAlarmTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textSize="25sp"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvType"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvAlarmDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="15dp"
                 android:paddingBottom="15dp"
-                android:paddingEnd="15dp"
-                android:paddingTop="10dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvMedicineName" /> -->
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/tvAlarmTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvAlarmTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

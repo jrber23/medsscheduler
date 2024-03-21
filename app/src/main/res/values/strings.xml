@@ -25,4 +25,19 @@
     <string name="newAlarm">Crear alarma</string>
     <string name="next">SIGUIENTE</string>
     <string name="last">ANTERIOR</string>
+    <string name="tvPillQuantity">Número de pastillas: </string>
+    <string-array name="pill_quantity_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string name="tvFrequence">Tomar dosis cada: </string>
+    <string-array name="frequence_array">
+        <item>24 horas</item>
+        <item>12 horas</item>
+        <item>1 hora</item>
+        <item>30 minutos</item>
+        <item>15 minutos</item>
+    </string-array>
 </resources>

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityRegisterBinding
-import com.example.mitfg.ui.MainActivity
+import com.example.mitfg.ui.main.MainActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
