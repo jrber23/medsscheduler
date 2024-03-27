@@ -1,5 +1,6 @@
 package com.example.mitfg.ui.newAlarm
 
+import android.app.AlarmManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,10 +11,6 @@ import com.example.mitfg.domain.model.Alarm
 class AlarmListAdapter : androidx.recyclerview.widget.ListAdapter<Alarm, AlarmListAdapter.ViewHolder>(
     AlarmDiff
 ) {
-
-    interface ItemClicked {
-        fun onClick()
-    }
 
     object AlarmDiff : DiffUtil.ItemCallback<Alarm>() {
         override fun areItemsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
@@ -30,7 +27,17 @@ class AlarmListAdapter : androidx.recyclerview.widget.ListAdapter<Alarm, AlarmLi
     class ViewHolder(val binding: AlarmItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(alarm: Alarm) {
             binding.tvAlarmTitle.text = alarm.medicineName
-            binding.tvAlarmDescription.text = alarm.quantity.toString() + " pastillas" + " - Cada 1 horas"
+
+            var frequencyText : String = ""
+            when (alarm.frequency) {
+                AlarmManager.INTERVAL_DAY -> frequencyText =  "24 horas"
+                AlarmManager.INTERVAL_HALF_DAY -> frequencyText =  "12 horas"
+                AlarmManager.INTERVAL_HOUR -> frequencyText =  "1 hora"
+                AlarmManager.INTERVAL_HALF_HOUR -> frequencyText =   "30 minutos"
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES -> frequencyText =  "15 minutos"
+            }
+
+            binding.tvAlarmDescription.text = "${alarm.quantity.toString()} pastillas - Cada $frequencyText"
         }
 
         init {

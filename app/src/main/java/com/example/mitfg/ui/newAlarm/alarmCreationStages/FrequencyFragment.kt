@@ -4,21 +4,24 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentFrequenceBinding
 import com.example.mitfg.ui.main.AlarmReceiver
 import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @AndroidEntryPoint
 class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnItemSelectedListener {
@@ -33,6 +36,44 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
 
         setUpFrequencySpinner()
         setUpButtonsListeners()
+
+        setUpObservers()
+    }
+
+    private fun setUpObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.alarmIsCompleted.collect { isCompleted ->
+                    if (isCompleted) {
+                        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+                        intent.putExtra("idAlarm", viewModel.alarm.value.id)
+                        intent.putExtra("medicineName", viewModel.alarm.value.medicineName)
+                        intent.putExtra("dosage", viewModel.alarm.value.quantity)
+
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            requireContext(),
+                            viewModel.alarm.value.id.toInt(),
+                            intent,
+                            PendingIntent.FLAG_MUTABLE
+                        )
+
+                        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                        val calendar = Calendar.getInstance().apply {
+                            set(Calendar.HOUR_OF_DAY, viewModel.alarm.value.hourStart)
+                            set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
+                        }
+
+                        alarmManager.setInexactRepeating(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.timeInMillis,
+                            viewModel.alarm.value.frequency,
+                            pendingIntent
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun setUpButtonsListeners() {
@@ -100,12 +141,8 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
     }
 
     private fun addAlarm() {
-
         viewModel.addAlarm()
-
-        Log.d("SIIII", viewModel.alarm.value.id.toString())
-
-        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        /* val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra("idAlarm", viewModel.alarm.value.id)
 
         val pendingIntent = PendingIntent.getBroadcast(
@@ -127,7 +164,7 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
             calendar.timeInMillis,
             viewModel.alarm.value.frequency,
             pendingIntent
-        )
+        ) */
     }
 
     override fun onDestroyView() {

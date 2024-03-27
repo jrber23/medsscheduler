@@ -1,4 +1,4 @@
-package com.example.mitfg
+package com.example.mitfg.activitiesTesting
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.clearText
@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.example.mitfg.R
 import com.example.mitfg.ui.login.LoginActivity
 import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
@@ -24,7 +25,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.CountDownLatch
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -47,15 +47,9 @@ class LoginActivityTest {
 
     @Test
     fun showPopUp_Test() {
-        val countDownLatch = CountDownLatch(1)
-
         activityRule.scenario.onActivity() { activity ->
             activity.showPopUp("Se deben cumplimentar todos los campos")
-
-            countDownLatch.countDown()
         }
-
-        countDownLatch.await()
 
         onView(withText("Se deben cumplimentar todos los campos")).check(matches(isDisplayed()))
         onView(withText(R.string.accept)).perform(click())

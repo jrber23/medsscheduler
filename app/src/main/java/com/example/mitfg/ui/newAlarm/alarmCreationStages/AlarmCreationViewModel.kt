@@ -26,6 +26,9 @@ class AlarmCreationViewModel @Inject constructor(
     private val _alarm = MutableStateFlow(Alarm(0, "", 0,0,0,0))
     val alarm = _alarm.asStateFlow()
 
+    private val _alarmIsCompleted = MutableStateFlow<Boolean>(false)
+    val alarmIsCompleted = _alarmIsCompleted.asStateFlow()
+
     private var _progressBarValue = MutableStateFlow(0)
     val progressBarValue = _progressBarValue.asStateFlow()
 
@@ -45,20 +48,14 @@ class AlarmCreationViewModel @Inject constructor(
 
     fun addAlarm() {
         viewModelScope.launch {
-
-
             val id = alarmRepository.addAlarm(_alarm.value)
 
             _alarm.update { alarm ->
                 alarm.copy(id = id)
             }
+
+            _alarmIsCompleted.update { true }
         }
-
-        /* return withContext(Dispatchers.IO) {
-            val idAlarm = alarmRepository.addAlarm(_alarm.value)
-
-            idAlarm
-        } */
     }
 
     fun decreaseProgressBar() {
