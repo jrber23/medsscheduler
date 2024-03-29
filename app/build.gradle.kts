@@ -19,7 +19,8 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.mitfg.CustomTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -53,6 +54,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
     buildToolsVersion = "34.0.0"
 }
 
@@ -65,9 +71,9 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.10.4")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2024.03.00"))
@@ -91,6 +97,11 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("com.google.dagger:hilt-android-testing:2.44")
+    testImplementation("org.robolectric:robolectric:4.11.1")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("androidx.test:core-ktx:1.5.0")
+    testImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("org.mockito:mockito-android:5.11.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
@@ -99,13 +110,18 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-remote:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.3.0")
-    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.2")
+    debugImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    debugImplementation("androidx.test.ext:junit:1.1.5")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     ksp("com.google.dagger:hilt-compiler:2.51")
     ksp("androidx.room:room-compiler:$room_version")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.51")
 }

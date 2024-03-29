@@ -35,7 +35,7 @@ class NewAlarmViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             alarmRepository.getAllAlarms().collect { list ->
-                _alarmList.value = list
+                _alarmList.update { list }
             }
         }
     }
