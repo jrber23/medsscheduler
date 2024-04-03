@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/doctor_nav_graph"
+    app:startDestination="@id/medicinesListFragment">
+
+    <fragment
+        android:id="@+id/medicinesListFragment"
+        android:name="com.example.mitfg.ui.doctor.fragments.MedicinesListFragment"
+        android:label="fragment_medicines_list"
+        tools:layout="@layout/fragment_medicines_list" />
+</navigation>

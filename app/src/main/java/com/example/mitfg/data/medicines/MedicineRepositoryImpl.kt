@@ -1,6 +1,7 @@
 package com.example.mitfg.data.medicines
 
 import com.example.mitfg.data.medicines.model.toDomain
+import com.example.mitfg.data.medicines.model.toDto
 import com.example.mitfg.domain.model.Medicine
 import javax.inject.Inject
 
@@ -23,5 +24,9 @@ class MedicineRepositoryImpl @Inject constructor(
                 Result.failure(throwable)
             }
         )
+
+    override suspend fun addNewMedicine(medicine: Medicine) {
+        medicineDataSource.addNewMedicine(medicine.toDto())
+    }
 
 }

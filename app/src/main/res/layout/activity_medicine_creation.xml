@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_medicine_creation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.medicineCreation.MedicineCreationActivity">
+
+    <TextView
+        android:id="@+id/tvMedicineCreationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
+        android:text="@string/medicineCreationName"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etMedicineName"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="84dp"
+        android:ems="10"
+        android:hint="@string/medicineNameHint"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMedicineCreationName"
+        app:layout_constraintStart_toEndOf="@+id/tvMedicineCreationName"
+        app:layout_constraintTop_toTopOf="@+id/tvMedicineCreationName"
+        app:layout_constraintVertical_bias="0.541" />
+
+    <EditText
+        android:id="@+id/etMedicineDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginStart="48dp"
+        android:ems="10"
+        android:hint="@string/tvMedicineDescriptionLabel"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMedicineDescription"
+        app:layout_constraintStart_toEndOf="@+id/tvMedicineDescription"
+        app:layout_constraintTop_toTopOf="@+id/tvMedicineDescription" />
+
+    <TextView
+        android:id="@+id/tvMedicineDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:text="@string/tvMedicineDescriptionLabel"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tvMedicineCreationName"
+        app:layout_constraintTop_toBottomOf="@+id/tvMedicineCreationName" />
+
+    <TextView
+        android:id="@+id/tvAdverseEffects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/tvSecondaryEffects"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tvMedicineDescription"
+        app:layout_constraintTop_toBottomOf="@+id/etMedicineDescription" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="416dp"
+        android:layout_marginTop="12dp"
+        android:choiceMode="multipleChoice"
+        android:isScrollContainer="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAdverseEffects" />
+
+    <Button
+        android:id="@+id/bCrearMedicamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bCrearMedicamento"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

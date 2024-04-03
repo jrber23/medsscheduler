@@ -6,4 +6,6 @@ interface MedicineDataSource {
 
     suspend fun getAllMedicines() : Result<List<MedicineDto?>>
 
+    suspend fun addNewMedicine(medicine: MedicineDto)
+
 }

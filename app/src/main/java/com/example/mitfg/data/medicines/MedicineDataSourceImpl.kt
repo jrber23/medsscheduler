@@ -21,7 +21,7 @@ class MedicineDataSourceImpl @Inject constructor(
             val documents = snapshot.documents
 
             for (element in documents) {
-                var medicine = element.toObject<MedicineDto>()
+                val medicine = element.toObject<MedicineDto>()
                 medicine!!.id = element.id
                 list.add(medicine)
             }
@@ -30,6 +30,19 @@ class MedicineDataSourceImpl @Inject constructor(
         } catch (e: FirebaseFirestoreException) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun addNewMedicine(medicine: MedicineDto) {
+        val docRef = firestore.collection("medicines")
+        val data = hashMapOf(
+            "name" to medicine.name,
+            "description" to medicine.description,
+            "adverseEffects" to medicine.adverseEffects
+        )
+
+        docRef
+            .add(data)
+            .await()
     }
 
 }

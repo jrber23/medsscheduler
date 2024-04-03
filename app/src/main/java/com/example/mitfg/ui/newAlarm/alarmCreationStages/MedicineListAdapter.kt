@@ -19,12 +19,12 @@ androidx.recyclerview.widget.ListAdapter<Medicine, MedicineListAdapter.ViewHolde
     object MedicineDiff : DiffUtil.ItemCallback<Medicine>() {
         override fun areItemsTheSame(oldItem: Medicine, newItem: Medicine): Boolean {
             return (oldItem.name == newItem.name) &&
-                    (oldItem.type == newItem.type)
+                    (oldItem.description == newItem.description)
         }
 
         override fun areContentsTheSame(oldItem: Medicine, newItem: Medicine): Boolean {
             return (oldItem.name == newItem.name) &&
-                    (oldItem.type == newItem.type)
+                    (oldItem.description == newItem.description)
         }
 
     }

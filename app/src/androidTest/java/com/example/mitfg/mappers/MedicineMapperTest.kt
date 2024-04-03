@@ -14,14 +14,14 @@ class MedicineMapperTest {
 
     @Test
     fun medicineDtoToDomain_Test() {
-        val medicineDto = MedicineDto("0", "Paracetamol", "Pastilla")
+        val medicineDto = MedicineDto("0", "Paracetamol", "Pastilla", emptyList())
 
         TestCase.assertTrue(medicineDto.toDomain() is Medicine)
     }
 
     @Test
     fun medicineToDto_Test() {
-        val medicine = Medicine("0", "Paracetamol", "Pastilla")
+        val medicine = Medicine("0", "Paracetamol", "Pastilla", emptyList())
 
         TestCase.assertTrue(medicine.toDto() is MedicineDto)
     }

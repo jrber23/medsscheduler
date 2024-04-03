@@ -33,9 +33,9 @@ class NewAlarmViewModelTest {
             alarmRepository = alarmRepository
         )
 
-        // Then
+        // When
         backgroundScope.launch {
-            // When
+            // Then
             newAlarmViewModel.alarmList.collect { listOfAlarms ->
                 assertTrue(listOfAlarms.isNotEmpty())
                 assertEquals(3, listOfAlarms.size)

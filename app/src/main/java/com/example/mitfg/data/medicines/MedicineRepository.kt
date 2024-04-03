@@ -6,4 +6,6 @@ interface MedicineRepository {
 
     suspend fun getAllMedicines(): Result<List<Medicine?>>
 
+    suspend fun addNewMedicine(medicine: Medicine)
+
 }

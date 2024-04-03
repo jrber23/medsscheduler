@@ -21,6 +21,18 @@
         android:theme="@style/Theme.MiTFG"
         tools:targetApi="31">
         <activity
+            android:name=".ui.medicineCreation.MedicineCreationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.doctor.DoctorActivity"
+            android:exported="true">
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
+        </activity>
+        <activity
             android:name=".ui.newAlarm.alarmCreationStages.AlarmCreationActivity"
             android:exported="false" />
         <activity
@@ -29,6 +41,7 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,10 +55,9 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.MiTFG">
-        </activity>
+            android:theme="@style/Theme.MiTFG" />
     </application>
 
 </manifest>

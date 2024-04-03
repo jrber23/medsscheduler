@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         when (result.resultCode) {
             REQ_ONE_TAP ->
                 try {
+
                     val googleCredential = oneTapClient.getSignInCredentialFromIntent(result.data)
                     val idToken = googleCredential.googleIdToken
                     when {

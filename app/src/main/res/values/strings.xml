@@ -40,4 +40,13 @@
         <item>30 minutos</item>
         <item>15 minutos</item>
     </string-array>
+    <string name="medicinesListTitle">Medicinas</string>
+    <string name="newMedicine">Crear medicina</string>
+    <string name="medicineCreationName">Nombre:</string>
+    <string name="medicineNameHint">"Nombre: "</string>
+    <string name="tvMedicineDescriptionLabel">"Descripción: "</string>
+    <string name="tvSecondaryEffects">Efectos secundarios: </string>
+    <string name="bCrearMedicamento">Crear medicamento</string>
+    <string name="emptyFieldsMedicineCreation">Se debe asignar un nombre y una descripción al nuevo medicamento</string>
+    <string name="tvIsUserDoctor">¿Es usted médico?</string>
 </resources>
