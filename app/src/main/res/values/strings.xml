@@ -31,15 +31,39 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="packet_quantity_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="mililiters_quantity_array">
+        <item>2.5</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
     </string-array>
     <string name="tvFrequence">Tomar dosis cada: </string>
     <string-array name="frequence_array">
-        <item>24 horas</item>
-        <item>12 horas</item>
-        <item>1 hora</item>
-        <item>30 minutos</item>
-        <item>15 minutos</item>
+        <item>@string/hours24</item>
+        <item>@string/hours12</item>
+        <item>@string/hours1</item>
+        <item>@string/minutes30</item>
+        <item>@string/minutes15</item>
     </string-array>
+    <string name="hours24">24 horas</string>
+    <string name="hours12">12 horas</string>
+    <string name="hours1">1 horas</string>
+    <string name="minutes30">30 minutos</string>
+    <string name="minutes15">15 minutos</string>
     <string name="medicinesListTitle">Medicinas</string>
     <string name="newMedicine">Crear medicina</string>
     <string name="medicineCreationName">Nombre:</string>
@@ -49,4 +73,17 @@
     <string name="bCrearMedicamento">Crear medicamento</string>
     <string name="emptyFieldsMedicineCreation">Se debe asignar un nombre y una descripción al nuevo medicamento</string>
     <string name="tvIsUserDoctor">¿Es usted médico?</string>
+    <string name="no_upper_cases_at_email">El email no puede contener ninguna mayúscula</string>
+    <string name="mililitres">Mililitros: </string>
+    <string name="packet">Número de sobres: </string>
+    <string name="pill">Número de pastillas: </string>
+    <string name="tvMililitres">Mililitros</string>
+    <string name="tvPacket">Sobres</string>
+    <string name="tvPill">Pastillas</string>
+    <string name="showPill">pastilla/s</string>
+    <string name="showPacket">sobre/s</string>
+    <string name="showMl">mililitro/s</string>
+    <string name="pillAbrev" translatable="false">P</string>
+    <string name="packetAbrev" translatable="false">Pack</string>
+    <string name="MlAbrev" translatable="false">Ml</string>
 </resources>

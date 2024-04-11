@@ -13,7 +13,7 @@ import com.example.mitfg.databinding.FragmentDosageSelectionBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection), AdapterView.OnItemSelectedListener {
+class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
 
     private var _binding : FragmentDosageSelectionBinding? = null
     private val binding get() = _binding!!
@@ -24,15 +24,66 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection), Ad
         _binding = FragmentDosageSelectionBinding.bind(view)
 
         val spinner: Spinner = binding.pillQuantitySpinner
-        ArrayAdapter.createFromResource(
-            requireActivity().baseContext,
-            R.array.pill_quantity_array,
-            android.R.layout.simple_spinner_item
-        ).also { arrayAdapter ->
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = arrayAdapter
+
+        val listener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.assignPillQuantity(parent?.getItemAtPosition(position).toString())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
         }
-        spinner.onItemSelectedListener = this
+
+        val medicinePresentation = viewModel.getMedicinePresentation()
+
+        when (medicinePresentation) {
+            getString(R.string.pillAbrev) -> {
+                binding.tvDosage.text = getString(R.string.pill)
+
+                ArrayAdapter.createFromResource(
+                    requireActivity().baseContext,
+                    R.array.pill_quantity_array,
+                    android.R.layout.simple_spinner_item
+                ).also { arrayAdapter ->
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner.adapter = arrayAdapter
+                }
+            }
+
+            getString(R.string.packetAbrev) -> {
+                binding.tvDosage.text = getString(R.string.packet)
+
+                ArrayAdapter.createFromResource(
+                    requireActivity().baseContext,
+                    R.array.packet_quantity_array,
+                    android.R.layout.simple_spinner_item
+                ).also { arrayAdapter ->
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner.adapter = arrayAdapter
+                }
+            }
+
+            getString(R.string.MlAbrev) -> {
+                binding.tvDosage.text = getString(R.string.mililitres)
+
+                ArrayAdapter.createFromResource(
+                    requireActivity().baseContext,
+                    R.array.mililiters_quantity_array,
+                    android.R.layout.simple_spinner_item
+                ).also { arrayAdapter ->
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner.adapter = arrayAdapter
+                }
+            }
+        }
+
+        spinner.onItemSelectedListener = listener
 
         binding.buttonNext.setOnClickListener {
             viewModel.increaseProgressBar()
@@ -48,7 +99,7 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection), Ad
     }
 
     private fun assignPillQuantity() {
-        viewModel.assignPillQuantity(Integer.parseInt(binding.pillQuantitySpinner.selectedItem.toString()))
+        viewModel.assignPillQuantity(binding.pillQuantitySpinner.selectedItem.toString())
     }
 
     private fun navigateForward() {
@@ -58,19 +109,11 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection), Ad
     }
 
     private fun navigateBack() {
-        findNavController().navigate(R.id.medicineSelectionFragment)
+        findNavController().navigate(R.id.medicationPresentationFragment)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        viewModel.assignPillQuantity(Integer.parseInt(parent?.getItemAtPosition(position).toString()))
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 }

@@ -12,9 +12,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
 import com.example.mitfg.R
 import com.example.mitfg.ui.login.LoginActivity
 import com.example.mitfg.ui.main.MainActivity
@@ -22,6 +21,8 @@ import com.example.mitfg.ui.register.RegisterActivity
 import com.google.firebase.Firebase
 import com.google.firebase.annotations.concurrent.UiThread
 import com.google.firebase.auth.auth
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -29,11 +30,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-@LargeTest
+@HiltAndroidTest
 class LoginActivityTest {
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(LoginActivity::class.java)
+    @get:Rule(order = 0)
+    var hiltAndroidRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    var activityRule = activityScenarioRule<LoginActivity>()
 
     @Before
     fun setup() {
@@ -130,6 +134,18 @@ class LoginActivityTest {
 
         Thread.sleep(3000)
         Intents.intended(hasComponent(RegisterActivity::class.java.name))
+    }
+
+    @Test
+    fun emailWithAnyUpperCaseLetter_ShouldDisplayPopUp() {
+        activityRule.scenario.use {
+            onView(withId(R.id.tiet_email)).perform(replaceText("HolaMundo@hotmail.com"))
+            onView(withId(R.id.tiet_password)).perform(replaceText("pppppppp"))
+
+            onView(withId(R.id.bLogin)).perform(click())
+
+            onView(withText(R.string.no_upper_cases_at_email)).check(matches(isDisplayed()))
+        }
     }
 
 }

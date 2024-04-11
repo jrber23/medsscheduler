@@ -10,9 +10,9 @@ import javax.inject.Inject
 class FakeAlarmRepository @Inject constructor() : AlarmRepository {
 
     private val fakeAlarms = mutableListOf<Alarm>(
-        Alarm(0, "Biotina", 4, AlarmManager.INTERVAL_HOUR, 15, 0),
-        Alarm(1, "Paracetamol", 3, AlarmManager.INTERVAL_HALF_HOUR, 16, 0),
-        Alarm(2, "Aspirina", 2, AlarmManager.INTERVAL_FIFTEEN_MINUTES, 17, 30),
+        Alarm(0, "Biotina", "P", "4", AlarmManager.INTERVAL_HOUR, 15, 0),
+        Alarm(1, "Paracetamol", "Pack", "3", AlarmManager.INTERVAL_HALF_HOUR, 16, 0),
+        Alarm(2, "Aspirina", "Ml", "2", AlarmManager.INTERVAL_FIFTEEN_MINUTES, 17, 30),
     )
     override suspend fun addAlarm(alarm: Alarm): Long {
         fakeAlarms.add(alarm)

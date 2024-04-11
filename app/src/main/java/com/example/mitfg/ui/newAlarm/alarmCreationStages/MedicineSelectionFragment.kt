@@ -41,7 +41,7 @@ class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection)
     }
 
     private fun navigateToNextScene() {
-        findNavController().navigate(R.id.dosageSelectionFragment)
+        findNavController().navigate(R.id.medicationPresentationFragment)
     }
 
     override fun onDestroyView() {

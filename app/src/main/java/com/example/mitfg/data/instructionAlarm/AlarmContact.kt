@@ -9,6 +9,7 @@ object AlarmContact {
 
         const val COLUMN_ID = "id";
         const val COLUMN_MEDICINE_NAME = "medicineName";
+        const val COLUMN_MEDICINE_PRESENTATION = "medicinePresentation";
         const val COLUMN_QUANTITY = "quantity";
         const val COLUMN_FREQUENCY = "frequency";
         const val COLUMN_HOUR_START = "hourStart";

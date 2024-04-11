@@ -20,6 +20,26 @@ class MedicationPresentationFragment : Fragment(R.layout.fragment_medication_pre
         super.onCreate(savedInstanceState)
         _binding = FragmentMedicationPresentationBinding.bind(view)
 
+        val callback = object : MedicinePresentationListAdapter.ItemClicked {
+            override fun onClick(presentation: String) {
+                viewModel.assignMedicinePresentation(presentation)
+                viewModel.increaseProgressBar()
+
+                navigateToNextScene()
+            }
+        }
+
+        val items = listOf<String>(
+            getString(R.string.tvPill),
+            getString(R.string.tvPacket),
+            getString(R.string.tvMililitres)
+        )
+
+        val adapter = MedicinePresentationListAdapter(callback)
+        binding.medicinePresentationRecyclerView.adapter = adapter
+
+        adapter.submitList(items)
+
         binding.buttonNext.setOnClickListener {
             viewModel.increaseProgressBar()
 

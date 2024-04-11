@@ -5,8 +5,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityRegisterBinding
 import com.example.mitfg.ui.main.MainActivity
@@ -14,12 +16,15 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var auth : FirebaseAuth
+
+    private val viewModel: RegisterViewModel by viewModels()
 
     private val PASSWORD_MIN_LENGTH = 8
 
@@ -40,11 +45,20 @@ class RegisterActivity : AppCompatActivity() {
                     val message = getString(R.string.password_length_insufficient)
 
                     showPopUp(message)
+                } else if (binding.tietEmail.text!!.any { it.isUpperCase() }) {
+                    val message = getString(R.string.no_upper_cases_at_email)
+
+                    showPopUp(message)
                 } else {
                     val email = binding.tietEmail.text.toString()
                     val password = binding.tietPassword.text.toString()
+                    val isDoctor = binding.chkBoxIsUserDoctor.isChecked
 
                     registerUser(email, password)
+
+                    lifecycleScope.launch {
+                        viewModel.addUser(email, password, isDoctor)
+                    }
                 }
             } else {
                 val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)

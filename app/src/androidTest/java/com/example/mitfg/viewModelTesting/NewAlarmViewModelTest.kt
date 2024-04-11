@@ -58,9 +58,6 @@ class NewAlarmViewModelTest {
                 assertEquals(2, newAlarmViewModel.alarmList.value.size)
             }
         }
-
-
-
     }
 
 }

@@ -10,4 +10,9 @@
         android:name="com.example.mitfg.ui.newAlarm.NewAlarmFragment"
         android:label="fragment_new_alarm"
         tools:layout="@layout/fragment_new_alarm" />
+    <fragment
+        android:id="@+id/medicinesListFragment"
+        android:name="com.example.mitfg.ui.doctor.fragments.MedicinesListFragment"
+        android:label="fragment_medicines_list"
+        tools:layout="@layout/fragment_medicines_list" />
 </navigation>

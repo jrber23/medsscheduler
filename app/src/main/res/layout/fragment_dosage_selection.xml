@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvPillQuantity"
+            android:id="@+id/tvDosage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -48,9 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvPillQuantity"
-            app:layout_constraintStart_toEndOf="@+id/tvPillQuantity"
-            app:layout_constraintTop_toTopOf="@+id/tvPillQuantity" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvDosage"
+            app:layout_constraintStart_toEndOf="@+id/tvDosage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

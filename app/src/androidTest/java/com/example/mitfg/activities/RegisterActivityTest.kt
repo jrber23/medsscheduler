@@ -2,17 +2,23 @@ package com.example.mitfg.activities
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
 import com.example.mitfg.R
 import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
 import com.google.firebase.annotations.concurrent.UiThread
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -22,15 +28,23 @@ import java.util.concurrent.CountDownLatch
 
 
 @RunWith(AndroidJUnit4::class)
-@LargeTest
+@HiltAndroidTest
 class RegisterActivityTest {
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(RegisterActivity::class.java)
+    @get:Rule(order = 0)
+    var hiltAndroidRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    var activityRule = activityScenarioRule<RegisterActivity>()
 
     @Before
     fun setUp() {
         Intents.init()
+    }
+
+    @After
+    fun tearDown() {
+        Intents.release()
     }
 
     @Test
@@ -135,13 +149,13 @@ class RegisterActivityTest {
     @Test
     fun swapToMainScreen() {
         activityRule.scenario.use {
-            onView(ViewMatchers.withId(R.id.tiet_email)).perform(ViewActions.clearText())
-            onView(ViewMatchers.withId(R.id.tiet_email)).perform(ViewActions.replaceText("pruebaregister@outlook.com"))
+            onView(withId(R.id.tiet_email)).perform(ViewActions.clearText())
+            onView(withId(R.id.tiet_email)).perform(ViewActions.replaceText("pruebaregister@outlook.com"))
 
-            onView(ViewMatchers.withId(R.id.tiet_password)).perform(ViewActions.clearText())
-            onView(ViewMatchers.withId(R.id.tiet_password)).perform(ViewActions.replaceText("pppppppp"))
+            onView(withId(R.id.tiet_password)).perform(ViewActions.clearText())
+            onView(withId(R.id.tiet_password)).perform(ViewActions.replaceText("pppppppp"))
 
-            onView(ViewMatchers.withId(R.id.bRegister)).perform(ViewActions.click())
+            onView(withId(R.id.bRegister)).perform(click())
 
             Thread.sleep(4000)
 
@@ -149,10 +163,15 @@ class RegisterActivityTest {
         }
     }
 
-    @After
-    fun tearDown() {
-        Intents.release()
+    @Test
+    fun emailWithAnyUpperCaseLetter_ShouldDisplayPopUp() {
+        activityRule.scenario.use {
+            onView(withId(R.id.tiet_email)).perform(ViewActions.replaceText("HolaMundo@hotmail.com"))
+            onView(withId(R.id.tiet_password)).perform(ViewActions.replaceText("pppppppp"))
+
+            onView(withId(R.id.bRegister)).perform(click())
+
+            onView(withText(R.string.no_upper_cases_at_email)).check(matches(isDisplayed()))
+        }
     }
-
-
 }

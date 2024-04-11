@@ -95,6 +95,7 @@ dependencies {
     implementation("androidx.activity:activity:1.8.2")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+    implementation("com.google.mlkit:translate:17.0.2")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
     testImplementation("com.google.dagger:hilt-android-testing:2.44")

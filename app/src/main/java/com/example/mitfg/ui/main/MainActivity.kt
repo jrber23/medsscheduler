@@ -25,18 +25,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
 import com.example.mitfg.domain.model.HealthAdvice
+import com.example.mitfg.firebase.FirebaseTranslator
 import com.example.mitfg.ui.login.LoginActivity
 import com.example.mitfg.ui.main.AlarmReceiver.Companion.NOTIFICATION_ID
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -50,6 +52,9 @@ import java.util.Calendar
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MenuProvider {
 
+    private lateinit var _binding : ActivityMainBinding
+    private val binding get() = _binding
+
     private val viewModel: MainViewModel by viewModels()
 
     private lateinit var auth : FirebaseAuth
@@ -58,7 +63,10 @@ class MainActivity : AppCompatActivity(), MenuProvider {
     private lateinit var titleTextView: TextView
     private lateinit var descriptionTextView: TextView
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+
+    private val translator : FirebaseTranslator = FirebaseTranslator()
 
     companion object {
         const val MY_CHANNEL_ID = "myChannel"
@@ -67,7 +75,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = Firebase.auth
@@ -85,12 +93,29 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.user.collect {
+                    showDoctorNavBar()
+                }
+            }
+        }
+
         navController = binding.navHostFragment.getFragment<NavHostFragment>().navController
-        binding.bottomNavigationView as NavigationBarView
+        binding.bottomNavigationView
         binding.bottomNavigationView.setupWithNavController(navController)
+
+        setSupportActionBar(binding.materialToolbar)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.newAlarmFragment, R.id.medicinesListFragment))
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
         addMenuProvider(this)
 
+    }
+
+    fun showDoctorNavBar() {
+        binding.bottomNavigationView.menu.findItem(R.id.medicinesListFragment).isVisible =
+            viewModel.userIsDoctor()
     }
 
     private fun popUpSetUp() {

@@ -5,6 +5,7 @@ import com.example.mitfg.domain.model.Alarm
 fun AlarmDto.toDomain() : Alarm = Alarm(
     id = id,
     medicineName = medicineName,
+    medicinePresentation = medicinePresentation,
     quantity = quantity,
     frequency = frequency,
     hourStart = hourStart,
@@ -14,6 +15,7 @@ fun AlarmDto.toDomain() : Alarm = Alarm(
 fun Alarm.toDto() : AlarmDto = AlarmDto(
     id = id,
     medicineName = medicineName,
+    medicinePresentation = medicinePresentation,
     quantity = quantity,
     frequency = frequency,
     hourStart = hourStart,

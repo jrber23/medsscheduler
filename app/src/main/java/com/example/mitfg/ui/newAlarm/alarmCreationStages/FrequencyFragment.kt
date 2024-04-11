@@ -11,16 +11,12 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentFrequenceBinding
 import com.example.mitfg.ui.main.AlarmReceiver
 import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -41,7 +37,7 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
     }
 
     private fun setUpObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        /* viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.alarmIsCompleted.collect { isCompleted ->
                     if (isCompleted) {
@@ -73,7 +69,7 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
                     }
                 }
             }
-        }
+        } */
     }
 
     private fun setUpButtonsListeners() {
@@ -142,8 +138,12 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
 
     private fun addAlarm() {
         viewModel.addAlarm()
-        /* val intent = Intent(requireContext(), AlarmReceiver::class.java)
+
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra("idAlarm", viewModel.alarm.value.id)
+        intent.putExtra("medicineName", viewModel.alarm.value.medicineName)
+        intent.putExtra("medicinePresentation", viewModel.alarm.value.medicinePresentation)
+        intent.putExtra("dosage", viewModel.alarm.value.quantity)
 
         val pendingIntent = PendingIntent.getBroadcast(
             requireContext(),
@@ -159,12 +159,12 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
             set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
         }
 
-        alarmManager.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
+        alarmManager.setRepeating(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
             calendar.timeInMillis,
-            viewModel.alarm.value.frequency,
+            60*1000,
             pendingIntent
-        ) */
+        )
     }
 
     override fun onDestroyView() {

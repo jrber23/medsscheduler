@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityLoginBinding
+import com.example.mitfg.ui.doctor.DoctorActivity
 import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -44,7 +45,6 @@ class LoginActivity : AppCompatActivity() {
         when (result.resultCode) {
             REQ_ONE_TAP ->
                 try {
-
                     val googleCredential = oneTapClient.getSignInCredentialFromIntent(result.data)
                     val idToken = googleCredential.googleIdToken
                     when {
@@ -81,6 +81,11 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun swaptToDoctorScreen() {
+        val intent: Intent = Intent(applicationContext, DoctorActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun swapToRegisterScreen() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
@@ -112,10 +117,16 @@ class LoginActivity : AppCompatActivity() {
 
         binding.bLogin.setOnClickListener {
             if (!fieldsEmpty()) {
-                val email = binding.tietEmail.text.toString()
-                val password = binding.tietPassword.text.toString()
+                if (binding.tietEmail.text!!.any { it.isUpperCase() }) {
+                    val message = getString(R.string.no_upper_cases_at_email)
 
-                signInWithEmailAndPassword(email, password)
+                    showPopUp(message)
+                } else {
+                    val email = binding.tietEmail.text.toString()
+                    val password = binding.tietPassword.text.toString()
+
+                    signInWithEmailAndPassword(email, password)
+                }
             } else {
                 val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)
 
@@ -126,7 +137,6 @@ class LoginActivity : AppCompatActivity() {
         binding.tvRegisterLink.setOnClickListener {
             swapToRegisterScreen()
         }
-
     }
 
     private fun showOneTapUI() {

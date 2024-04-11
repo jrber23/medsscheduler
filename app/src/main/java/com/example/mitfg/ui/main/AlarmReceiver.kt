@@ -15,15 +15,17 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val idAlarm = intent.getLongExtra("idAlarm", -1)
         val medicineName = intent.getStringExtra("medicineName")
+        val medicinePresentation = intent.getStringExtra("medicinePresentation")
         val dosage = intent.getIntExtra("dosage", -1)
 
-        createSimpleNotification(context, idAlarm, medicineName, dosage)
+        createSimpleNotification(context, idAlarm, medicineName, medicinePresentation, dosage)
     }
 
     private fun createSimpleNotification(
         context: Context,
         idAlarm: Long,
         medicineName: String?,
+        medicinePresentation: String?,
         dosage: Int?
     ) {
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -40,7 +42,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText("Ha llegado el momento de que te tomes la dosis correspondiente")
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText("$medicineName - $dosage pastillas")
+                    .bigText("$medicineName - $dosage $medicinePresentation")
             )
             .setVibrate(vibrationPattern)
             .setContentIntent(pendingIntent)

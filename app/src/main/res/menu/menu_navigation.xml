@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/alarmsList"
+        android:id="@+id/newAlarmFragment"
         android:title="@string/alarmsFragmentTitle"
         android:icon="@drawable/baseline_alarm_24"
+        />
+
+    <item
+        android:id="@+id/medicinesListFragment"
+        android:title="@string/medicinesListTitle"
+        android:icon="@drawable/medicines_icon"
         />
 
 </menu>
