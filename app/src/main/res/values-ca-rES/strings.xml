@@ -51,4 +51,12 @@
     <string name="showPill">pastilla/es</string>
     <string name="showPacket">sobre/s</string>
     <string name="showMl">mil·lilitres</string>
+    <string name="time_medicine">Hora de la medicina!!</string>
+    <string name="time_medicine_message">Ha arribat l\'hora de que et prenguis la dosi corresponent</string>
+    <string name="welcomeVoiceMessage">Hola, benvingut a la aplicació</string>
+    <string name="medicineSelectionVoiceMessage">Per favor, selecciona un medicament</string>
+    <string name="medicinePresentationVoiceMessage">Ara, selecciona la presentació de la medicina</string>
+    <string name="dosageSelectionVoiceMessage">Selecciona una dosi</string>
+    <string name="frequencySelectionVoiceMessage">Per últim, selecciona la freqüència d\'administració i l\'hora d\'inici</string>
+    <string name="alarmCreated">S\'ha creat l\'alarma correctament</string>
 </resources>

@@ -86,4 +86,12 @@
     <string name="pillAbrev" translatable="false">P</string>
     <string name="packetAbrev" translatable="false">Pack</string>
     <string name="MlAbrev" translatable="false">Ml</string>
+    <string name="time_medicine">Hora de la medicina!!</string>
+    <string name="time_medicine_message">Ha llegado el momento de que te tomes la dosis correspondiente</string>
+    <string name="welcomeVoiceMessage">Hola, bienvenido a la aplicación</string>
+    <string name="medicineSelectionVoiceMessage">Por favor, selecciona un medicamento</string>
+    <string name="medicinePresentationVoiceMessage">Ahora, selecciona la presentación del medicamento</string>
+    <string name="dosageSelectionVoiceMessage">Selecciona una dosis</string>
+    <string name="frequencySelectionVoiceMessage">Por último, selecciona la frecuencia de administración y la hora de inicio</string>
+    <string name="alarmCreated">Se ha creado la alarma correctamente</string>
 </resources>

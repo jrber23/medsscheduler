@@ -85,9 +85,6 @@ class NewAlarmFragment : Fragment(R.layout.fragment_new_alarm) {
                 }
             }
         }
-
-
-
     }
 
     private fun swapToCreateAlarmActivity() {

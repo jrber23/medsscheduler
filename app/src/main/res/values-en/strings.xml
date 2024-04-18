@@ -51,4 +51,12 @@
     <string name="showPill">pill/s</string>
     <string name="showPacket">packet/s</string>
     <string name="showMl">mililiter/s</string>
+    <string name="time_medicine">Medicine time!!</string>
+    <string name="time_medicine_message">Time of taking your dose has arrived</string>
+    <string name="welcomeVoiceMessage">Hello, welcome to the application</string>
+    <string name="medicineSelectionVoiceMessage">Please, select a medicine</string>
+    <string name="medicinePresentationVoiceMessage">Now, select the medicine presentation</string>
+    <string name="dosageSelectionVoiceMessage">Select the dosage</string>
+    <string name="frequencySelectionVoiceMessage">Finally, select the administration frequency and start time</string>
+    <string name="alarmCreated">Alarm has been setted succesfully</string>
 </resources>

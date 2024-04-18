@@ -1,14 +1,11 @@
 package com.example.mitfg.ui.main
 
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ContentValues.TAG
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -32,25 +29,16 @@ import com.bumptech.glide.Glide
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
 import com.example.mitfg.domain.model.HealthAdvice
-import com.example.mitfg.firebase.FirebaseTranslator
 import com.example.mitfg.ui.login.LoginActivity
-import com.example.mitfg.ui.main.AlarmReceiver.Companion.NOTIFICATION_ID
-import com.firebase.geofire.GeoFireUtils
-import com.firebase.geofire.GeoLocation
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), MenuProvider {
+class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListener {
 
     private lateinit var _binding : ActivityMainBinding
     private val binding get() = _binding
@@ -66,7 +54,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
 
-    private val translator : FirebaseTranslator = FirebaseTranslator()
+    private lateinit var textToSpeech: TextToSpeech
 
     companion object {
         const val MY_CHANNEL_ID = "myChannel"
@@ -79,9 +67,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         setContentView(binding.root)
 
         auth = Firebase.auth
-
-        // createChannel()
-        // scheduleNotification()
+        createChannel()
 
         popUpSetUp()
 
@@ -101,6 +87,8 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             }
         }
 
+        textToSpeech = TextToSpeech(applicationContext, this)
+
         navController = binding.navHostFragment.getFragment<NavHostFragment>().navController
         binding.bottomNavigationView
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -110,7 +98,10 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         addMenuProvider(this)
+    }
 
+    private fun playWelcomeMessage() {
+        textToSpeech.speak(getString(R.string.welcomeVoiceMessage), TextToSpeech.QUEUE_FLUSH, null, "1")
     }
 
     fun showDoctorNavBar() {
@@ -144,130 +135,19 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         descriptionTextView.text = advice?.description
     }
 
-    private fun scheduleNotification() {
-        val intent = Intent(applicationContext, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            NOTIFICATION_ID,
-            intent,
-            PendingIntent.FLAG_MUTABLE
-        )
-
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
-        val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 12)
-            set(Calendar.MINUTE, 5)
-            set(Calendar.SECOND, 0)
-        }
-
-        val interval: Long = 60*1000*5
-
-        alarmManager.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime(),
-            pendingIntent
-        )
-
-        alarmManager.setInexactRepeating(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime(),
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
-
-        val city = hashMapOf(
-            "name" to "London",
-            "state" to "LON",
-            "country" to "ENG",
-        )
-
-        val db = Firebase.firestore
-
-        db.collection("cities").document("LON")
-            .set(city)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-
-        val lat = 51.5074
-        val lng = 0.1278
-        val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
-
-        val updates: MutableMap<String, Any> = mutableMapOf(
-            "geohash" to hash,
-            "lat" to lat,
-            "lng" to lng,
-        )
-
-        val londonRef = db.collection("cities").document("LON")
-        londonRef.update(updates)
-            .addOnCompleteListener {
-                Log.d(TAG, "Geohash successfully written!")
-            }
-
-        val center = GeoLocation(51.5074, 0.1278)
-        val radiusInM = 50.0 * 1000.0
-
-        val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM)
-        val tasks: MutableList<Task<QuerySnapshot>> = ArrayList()
-        for (b in bounds) {
-            val q = db.collection("cities")
-                .orderBy("geohash")
-                .startAt(b.startHash)
-                .endAt(b.endHash)
-            tasks.add(q.get())
-        }
-
-        Tasks.whenAllComplete(tasks)
-            .addOnCompleteListener {
-                val matchingDocs: MutableList<DocumentSnapshot> = ArrayList()
-                for (task in tasks) {
-                    val snap = task.result
-                    for (doc in snap!!.documents) {
-                        val lat = doc.getDouble("lat")!!
-                        val lng = doc.getDouble("lng")!!
-
-                        // We have to filter out a few false positives due to GeoHash
-                        // accuracy, but most will match
-                        val docLocation = GeoLocation(lat, lng)
-                        val distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center)
-                        if (distanceInM <= radiusInM) {
-                            matchingDocs.add(doc)
-                        }
-                    }
-                }
-
-                for (doc in matchingDocs) {
-                    Log.d(TAG, doc.getDouble("lat").toString())
-                    Log.d(TAG, doc.getDouble("lng").toString())
-                    Log.d(TAG, doc.getString("name")!!)
-                    Log.d(TAG, doc.getString("state")!!)
-                    Log.d(TAG, doc.getString("country")!!)
-                }
-            }
-
-
-    }
-
-    /**
-     * Método para crear un canal de notificaciones
-     * NO BORRAR
-     */
     private fun createChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                MY_CHANNEL_ID,
-                "MySuperChannel",
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = "SUSCRIBETE"
-            }
-
-            val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-            notificationManager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            MY_CHANNEL_ID,
+            "MySuperChannel",
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = "SUSCRIBETE"
         }
+
+        val notificationManager: NotificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.createNotificationChannel(channel)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -289,5 +169,39 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = setVoiceLanguage()
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e(TAG, "Language not supported")
+            } else {
+                playWelcomeMessage()
+            }
+        } else {
+            Log.e(TAG, "Initialization failed")
+        }
+    }
+
+    private fun setVoiceLanguage() : Int {
+        val locale = Locale.getDefault().displayLanguage
+
+        val result = when (locale) {
+            "English" -> textToSpeech.setLanguage(Locale("en", "US"))
+            "Spanish" -> textToSpeech.setLanguage(Locale("es", "ES"))
+            "Catalan" -> textToSpeech.setLanguage(Locale("ca", "ES"))
+            else -> textToSpeech.setLanguage(Locale("es", "ES"))
+        }
+
+        return result
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        textToSpeech.stop()
+        textToSpeech.shutdown()
     }
 }

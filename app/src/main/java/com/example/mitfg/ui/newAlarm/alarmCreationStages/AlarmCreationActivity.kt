@@ -26,9 +26,5 @@ class AlarmCreationActivity : AppCompatActivity() {
 
     }
 
-    private fun createAlarm() {
-
-    }
-
 
 }

@@ -2,13 +2,17 @@ package com.example.mitfg.ui.newAlarm.alarmCreationStages
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -18,13 +22,20 @@ import com.example.mitfg.ui.main.AlarmReceiver
 import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
-class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnItemSelectedListener {
+class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnItemSelectedListener, TextToSpeech.OnInitListener {
 
     private var _binding : FragmentFrequenceBinding? = null
     private val binding get() = _binding
     private val viewModel: AlarmCreationViewModel by activityViewModels()
+
+    private lateinit var textToSpeech: TextToSpeech
+
+    private fun playFrequencySelectionAudioMessage() {
+        textToSpeech.speak(getString(R.string.frequencySelectionVoiceMessage), TextToSpeech.QUEUE_FLUSH, null, null)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,43 +44,20 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
         setUpFrequencySpinner()
         setUpButtonsListeners()
 
-        setUpObservers()
+        textToSpeech = TextToSpeech(requireContext(), this)
     }
 
-    private fun setUpObservers() {
-        /* viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.alarmIsCompleted.collect { isCompleted ->
-                    if (isCompleted) {
-                        val intent = Intent(requireContext(), AlarmReceiver::class.java)
-                        intent.putExtra("idAlarm", viewModel.alarm.value.id)
-                        intent.putExtra("medicineName", viewModel.alarm.value.medicineName)
-                        intent.putExtra("dosage", viewModel.alarm.value.quantity)
+    private fun setVoiceLanguage() : Int {
+        val locale = Locale.getDefault().displayLanguage
 
-                        val pendingIntent = PendingIntent.getBroadcast(
-                            requireContext(),
-                            viewModel.alarm.value.id.toInt(),
-                            intent,
-                            PendingIntent.FLAG_MUTABLE
-                        )
+        val result = when (locale) {
+            "English" -> textToSpeech.setLanguage(Locale("en", "US"))
+            "Spanish" -> textToSpeech.setLanguage(Locale("es", "ES"))
+            "Catalan" -> textToSpeech.setLanguage(Locale("ca", "ES"))
+            else -> textToSpeech.setLanguage(Locale("es", "ES"))
+        }
 
-                        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                        val calendar = Calendar.getInstance().apply {
-                            set(Calendar.HOUR_OF_DAY, viewModel.alarm.value.hourStart)
-                            set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
-                        }
-
-                        alarmManager.setInexactRepeating(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.timeInMillis,
-                            viewModel.alarm.value.frequency,
-                            pendingIntent
-                        )
-                    }
-                }
-            }
-        } */
+        return result
     }
 
     private fun setUpButtonsListeners() {
@@ -139,14 +127,24 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
     private fun addAlarm() {
         viewModel.addAlarm()
 
-        val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        intent.putExtra("idAlarm", viewModel.alarm.value.id)
+        val intent = Intent(context, AlarmReceiver::class.java)
+        intent.putExtra("idAlarm", viewModel.alarm.value.id.toInt())
         intent.putExtra("medicineName", viewModel.alarm.value.medicineName)
-        intent.putExtra("medicinePresentation", viewModel.alarm.value.medicinePresentation)
+
+        var medicinePresentation = ""
+
+        when (viewModel.getMedicinePresentation()) {
+            requireContext().getString(R.string.pillAbrev) -> medicinePresentation = requireContext().getString(R.string.showPill)
+            requireContext().getString(R.string.packetAbrev) -> medicinePresentation = requireContext().getString(R.string.showPacket)
+            requireContext().getString(R.string.MlAbrev) -> medicinePresentation = requireContext().getString(R.string.showMl)
+            else -> ""
+        }
+
+        intent.putExtra("medicinePresentation", medicinePresentation)
         intent.putExtra("dosage", viewModel.alarm.value.quantity)
 
         val pendingIntent = PendingIntent.getBroadcast(
-            requireContext(),
+            context,
             viewModel.alarm.value.id.toInt(),
             intent,
             PendingIntent.FLAG_MUTABLE
@@ -159,12 +157,26 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
             set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
         }
 
-        alarmManager.setRepeating(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            60*1000,
+            viewModel.alarm.value.frequency,
             pendingIntent
         )
+
+        Toast.makeText(context, getString(R.string.alarmCreated), Toast.LENGTH_SHORT).show()
+
+        playAlarmCreationSuccessAudioMessage()
+
+        finishActivity()
+    }
+
+    private fun playAlarmCreationSuccessAudioMessage() {
+        textToSpeech.speak(getString(R.string.alarmCreated), TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+
+    private fun finishActivity() {
+        requireActivity().finish()
     }
 
     override fun onDestroyView() {
@@ -178,6 +190,20 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = setVoiceLanguage()
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e(ContentValues.TAG, "Language not supported")
+            } else {
+                playFrequencySelectionAudioMessage()
+            }
+        } else {
+            Log.e(ContentValues.TAG, "Initialization failed")
+        }
     }
 
 }
