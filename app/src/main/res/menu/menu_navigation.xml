@@ -13,4 +13,15 @@
         android:icon="@drawable/medicines_icon"
         />
 
+    <item
+        android:id="@+id/appointmentReservationFragment"
+        android:title="@string/newAppointmentsFragment"
+        android:icon="@drawable/baseline_edit_calendar_24"
+        />
+
+    <item
+        android:id="@+id/pharmacyLocationsFragment"
+        android:title="@string/pharmacyFragmentTitle"
+        android:icon="@drawable/medicines_icon" />
+
 </menu>

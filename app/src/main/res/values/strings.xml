@@ -94,4 +94,7 @@
     <string name="dosageSelectionVoiceMessage">Selecciona una dosis</string>
     <string name="frequencySelectionVoiceMessage">Por último, selecciona la frecuencia de administración y la hora de inicio</string>
     <string name="alarmCreated">Se ha creado la alarma correctamente</string>
+    <string name="newAppointment">Nueva cita</string>
+    <string name="newAppointmentsFragment">Citas</string>
+    <string name="pharmacyFragmentTitle">Farmacias</string>
 </resources>

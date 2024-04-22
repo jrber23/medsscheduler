@@ -7,6 +7,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -66,6 +67,8 @@ android {
 
 dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
     val room_version = "2.6.1"
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -96,6 +99,8 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("com.google.mlkit:translate:17.0.2")
+    implementation("com.firebase:geofire-android-common:3.2.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
     testImplementation("com.google.dagger:hilt-android-testing:2.44")

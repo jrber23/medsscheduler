@@ -157,10 +157,10 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
             set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
         }
 
-        alarmManager.setInexactRepeating(
+        alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            viewModel.alarm.value.frequency,
+            // viewModel.alarm.value.frequency,
             pendingIntent
         )
 

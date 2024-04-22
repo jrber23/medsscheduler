@@ -59,4 +59,7 @@
     <string name="dosageSelectionVoiceMessage">Select the dosage</string>
     <string name="frequencySelectionVoiceMessage">Finally, select the administration frequency and start time</string>
     <string name="alarmCreated">Alarm has been setted succesfully</string>
+    <string name="newAppointment">New appointment</string>
+    <string name="newAppointmentsFragment">Appointments</string>
+    <string name="pharmacyFragmentTitle">Pharmacies</string>
 </resources>

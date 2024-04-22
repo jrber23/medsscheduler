@@ -59,4 +59,7 @@
     <string name="dosageSelectionVoiceMessage">Selecciona una dosi</string>
     <string name="frequencySelectionVoiceMessage">Per últim, selecciona la freqüència d\'administració i l\'hora d\'inici</string>
     <string name="alarmCreated">S\'ha creat l\'alarma correctament</string>
+    <string name="newAppointment">Nova cita</string>
+    <string name="newAppointmentsFragment">Cites</string>
+    <string name="pharmacyFragmentTitle">Farmàcies</string>
 </resources>
