@@ -4,16 +4,17 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentPharmacyLocationsBinding
-import com.firebase.geofire.GeoFireUtils
-import com.firebase.geofire.GeoLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,15 +25,18 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations), OnMapReadyCallback, OnMyLocationClickListener, OnMyLocationButtonClickListener {
 
     private var _binding : FragmentPharmacyLocationsBinding? = null
     val binding get() = _binding!!
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocation: FusedLocationProviderClient
+
+    private val viewModel : PharmacyLocationsViewModel by viewModels()
 
     companion object {
         const val REQUEST_CODE_LOCATION = 0
@@ -47,6 +51,18 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
         mapFragment.getMapAsync(this)
 
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.pharmacyList.collect { pharmaciesList ->
+                    for (element in pharmaciesList) {
+                        val coordinates = LatLng(element!!.lat, element.lng)
+
+                        mMap.addMarker(MarkerOptions().position(coordinates).title(element.pharmacyName).snippet("${element.address} - ${element.city} - ${element.region}"))
+                    }
+                }
+            }
+        }
     }
 
     private fun isLocationPermissionsGranted() = ContextCompat.checkSelfPermission(
@@ -124,31 +140,16 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
         fusedLocation.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val ubicacion = LatLng(location.latitude, location.longitude)
+
+                viewModel.updateUbication(ubicacion)
+
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 10f))
             }
         }
 
         enableLocation()
 
-        val lat = 51.5074
-        val lng = 0.1278
-        val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
 
-        // Add the hash and the lat/lng to the document. We will use the hash
-        // for queries and the lat/lng for distance comparisons.
-        val updates: MutableMap<String, Any> = mutableMapOf(
-            "geohash" to hash,
-            "lat" to lat,
-            "lng" to lng,
-        )
-        val londonRef = Firebase.firestore.collection("pharmacies").document("LON")
-        londonRef.update(updates)
-            .addOnCompleteListener {
-                Log.d("PRUEBA_GEOHASHES", "Enhorabuena, se almacenó el hash")
-            }
-
-        val miUbi = LatLng(lat, lng)
-        mMap.addMarker(MarkerOptions().position(miUbi).title("ESTO ES UNA PRUEBA IMPRESIONANTE!!").snippet("Y ESTO UN SNIPPET (no se lo que es)"))
     }
 
     override fun onMyLocationClick(location: Location) {

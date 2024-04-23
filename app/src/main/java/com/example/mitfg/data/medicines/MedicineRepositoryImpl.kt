@@ -14,7 +14,7 @@ class MedicineRepositoryImpl @Inject constructor(
             onSuccess = { list ->
                 val resultList = mutableListOf<Medicine>()
 
-                for (i in 0..<list.size) {
+                for (i in list.indices) {
                     resultList.add(list.get(i)!!.toDomain())
                 }
 

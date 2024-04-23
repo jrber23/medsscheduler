@@ -35,7 +35,6 @@ import com.firebase.geofire.GeoLocation
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -102,23 +101,22 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
 
         addMenuProvider(this)
 
-        // Compute the GeoHash for a lat/lng point
-        val lat = 51.5074
-        val lng = 0.1278
+        val lat = 41.119894516905454
+        val lng = 1.243271186006937
         val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
 
         // Add the hash and the lat/lng to the document. We will use the hash
         // for queries and the lat/lng for distance comparisons.
-        val updates: MutableMap<String, Any> = mutableMapOf(
+        /* val updates: MutableMap<String, Any> = mutableMapOf(
             "geohash" to hash,
             "lat" to lat,
             "lng" to lng,
         )
-        val londonRef = Firebase.firestore.collection("pharmacies").document("LON")
+        val londonRef = Firebase.firestore.collection("pharmacies").document("hyR9Cr6koPkTrhQ9U6VP")
         londonRef.update(updates)
             .addOnCompleteListener {
                 Log.d("PRUEBA_GEOHASHES", "Enhorabuena, se almacenó el hash")
-            }
+            } */
     }
 
     private fun playWelcomeMessage() {
