@@ -32,16 +32,8 @@ class PharmacyDataSourceImpl @Inject constructor(
                         .startAt(b.startHash)
                         .startAt(b.endHash)
 
-                    val document = q.get().await()
-
-                    val listDocuments = document.toObjects<PharmacyDto>()
-                    for (element in listDocuments) {
-                        val docLocation = GeoLocation(element.lat, element.lng)
-                        val distanceInKm = GeoFireUtils.getDistanceBetween(docLocation, center)
-                        if (distanceInKm <= radiusKm) {
-                            list.add(element)
-                        }
-                    }
+                    val document = q.get().await().toObjects<PharmacyDto>()
+                    list.addAll(document)
                 }
 
                 Result.success(list)

@@ -30,8 +30,6 @@ import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
 import com.example.mitfg.domain.model.HealthAdvice
 import com.example.mitfg.ui.login.LoginActivity
-import com.firebase.geofire.GeoFireUtils
-import com.firebase.geofire.GeoLocation
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -101,13 +99,13 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
 
         addMenuProvider(this)
 
-        val lat = 41.119894516905454
+        /* val lat = 41.119894516905454
         val lng = 1.243271186006937
         val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
 
         // Add the hash and the lat/lng to the document. We will use the hash
         // for queries and the lat/lng for distance comparisons.
-        /* val updates: MutableMap<String, Any> = mutableMapOf(
+        val updates: MutableMap<String, Any> = mutableMapOf(
             "geohash" to hash,
             "lat" to lat,
             "lng" to lng,
@@ -187,6 +185,9 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
         auth.signOut()
 
         val intent = Intent(this, LoginActivity::class.java)
+
+        finish()
+
         startActivity(intent)
     }
 

@@ -29,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations), OnMapReadyCallback, OnMyLocationClickListener, OnMyLocationButtonClickListener {
+class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations), OnMapReadyCallback {
 
     private var _binding : FragmentPharmacyLocationsBinding? = null
     val binding get() = _binding!!
@@ -141,7 +141,7 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
             if (location != null) {
                 val ubicacion = LatLng(location.latitude, location.longitude)
 
-                viewModel.updateUbication(ubicacion)
+                updateUbication(ubicacion)
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 10f))
             }
@@ -152,16 +152,8 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
 
     }
 
-    override fun onMyLocationClick(location: Location) {
-        Toast.makeText(requireContext(), "Current location:\n" + location, Toast.LENGTH_LONG)
-            .show()
-    }
-
-    override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(requireContext(), "MyLocation button clicked", Toast.LENGTH_SHORT)
-            .show()
-
-        return false
+    private fun updateUbication(ubication: com.google.android.gms.maps.model.LatLng) {
+        viewModel.updateUbication(ubication)
     }
 
 }
