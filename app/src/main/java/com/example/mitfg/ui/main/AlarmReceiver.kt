@@ -7,32 +7,52 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.example.mitfg.R
-import com.example.mitfg.ui.newAlarm.alarmCreationStages.FrequencyFragment
+import com.example.mitfg.data.instructionAlarm.AlarmRepository
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver() {
-    companion object {
-        const val NOTIFICATION_ID = 1
-    }
+
+    @Inject
+    lateinit var alarmRepository: AlarmRepository
 
     override fun onReceive(context: Context, intent: Intent) {
-        val idAlarm = intent.getIntExtra("idAlarm", -1)
+        val idAlarm = intent.getLongExtra("idAlarm", -1)
         val medicineName = intent.getStringExtra("medicineName")
         val medicinePresentation = intent.getStringExtra("medicinePresentation")
         val dosage = intent.getStringExtra("dosage")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            alarmRepository.addDosageToAlarm(idAlarm.toLong())
+        }
 
         createSimpleNotification(context, idAlarm, medicineName, medicinePresentation, dosage)
     }
 
     private fun createSimpleNotification(
         context: Context,
-        idAlarm: Int,
+        idAlarm: Long,
         medicineName: String?,
         medicinePresentation: String?,
         dosage: String?
     ) {
-        val intent = Intent(context, FrequencyFragment::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            /* extras.apply {
+                putExtra("alarmDialog", true)
+            } */
+
+            action = "addTakenDosage"
+            extras.apply {
+                putExtra("idAlarm", idAlarm)
+            }
         }
+
+
 
         val flag = PendingIntent.FLAG_MUTABLE
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, idAlarm.toInt(), intent, flag)
@@ -46,12 +66,13 @@ class AlarmReceiver : BroadcastReceiver() {
                 NotificationCompat.BigTextStyle()
                     .bigText("$medicineName - $dosage $medicinePresentation")
             )
+            .addAction(R.drawable.medicines_icon, "DOSIS ADMINISTRADA", pendingIntent)
             .setVibrate(vibrationPattern)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(idAlarm, notification)
+        manager.notify(idAlarm.toInt(), notification)
     }
 }

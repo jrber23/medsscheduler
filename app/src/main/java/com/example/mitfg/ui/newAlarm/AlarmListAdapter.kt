@@ -10,9 +10,13 @@ import com.example.mitfg.R
 import com.example.mitfg.databinding.AlarmItemBinding
 import com.example.mitfg.domain.model.Alarm
 
-class AlarmListAdapter() : androidx.recyclerview.widget.ListAdapter<Alarm, AlarmListAdapter.ViewHolder>(
+class AlarmListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<Alarm, AlarmListAdapter.ViewHolder>(
     AlarmDiff
 ) {
+
+    interface ItemClicked {
+        fun onClick(id: Long)
+    }
 
     object AlarmDiff : DiffUtil.ItemCallback<Alarm>() {
         override fun areItemsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
@@ -26,7 +30,7 @@ class AlarmListAdapter() : androidx.recyclerview.widget.ListAdapter<Alarm, Alarm
         }
     }
 
-    class ViewHolder(val binding: AlarmItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: AlarmItemBinding, private val context: Context, val callback: ItemClicked) : RecyclerView.ViewHolder(binding.root) {
         fun bind(alarm: Alarm) {
             binding.tvAlarmTitle.text = alarm.medicineName
 
@@ -47,11 +51,9 @@ class AlarmListAdapter() : androidx.recyclerview.widget.ListAdapter<Alarm, Alarm
             }
 
             binding.tvAlarmDescription.text = "${alarm.quantity.toString()} $medicinePresentation - $frequencyText - ${alarm.hourStart}:${alarm.minuteStart}"
-        }
 
-        init {
             binding.root.setOnClickListener {
-
+                callback.onClick(alarm.id)
             }
         }
     }
@@ -63,7 +65,8 @@ class AlarmListAdapter() : androidx.recyclerview.widget.ListAdapter<Alarm, Alarm
                 parent,
                 false
             ),
-            parent.context
+            parent.context,
+            itemClicked
         )
     }
 

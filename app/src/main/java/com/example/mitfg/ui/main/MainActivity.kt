@@ -71,6 +71,22 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
 
         popUpSetUp()
 
+        val cierto = this.intent.getBooleanExtra("alarmDialog", false)
+
+        if (cierto) {
+            val builder = AlertDialog.Builder(this)
+
+            builder.setTitle("ALARMA ABIERTA!!")
+            builder.setMessage("Has abierto la alarma desde la notificación")
+
+            builder.setPositiveButton("Aceptar") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.healthAdvice.collect { advice ->
@@ -99,22 +115,11 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
 
         addMenuProvider(this)
 
-        /* val lat = 41.119894516905454
-        val lng = 1.243271186006937
-        val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
+        if (intent.action == "addTakenDosage") {
+            val idAlarm = intent.getLongExtra("idAlarm", -1)
 
-        // Add the hash and the lat/lng to the document. We will use the hash
-        // for queries and the lat/lng for distance comparisons.
-        val updates: MutableMap<String, Any> = mutableMapOf(
-            "geohash" to hash,
-            "lat" to lat,
-            "lng" to lng,
-        )
-        val londonRef = Firebase.firestore.collection("pharmacies").document("hyR9Cr6koPkTrhQ9U6VP")
-        londonRef.update(updates)
-            .addOnCompleteListener {
-                Log.d("PRUEBA_GEOHASHES", "Enhorabuena, se almacenó el hash")
-            } */
+            viewModel.addTakenDosage(idAlarm)
+        }
     }
 
     private fun playWelcomeMessage() {

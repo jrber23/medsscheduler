@@ -14,6 +14,8 @@ object AlarmContact {
         const val COLUMN_FREQUENCY = "frequency";
         const val COLUMN_HOUR_START = "hourStart";
         const val COLUMN_MINUTE_START = "minuteStart";
+        const val COLUMN_TOTAL_DOSAGES = "totalDosages";
+        const val COLUMN_TAKEN_DOSAGES = "takenDosages";
     }
 
 }

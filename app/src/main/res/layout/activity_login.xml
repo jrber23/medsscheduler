@@ -95,9 +95,10 @@
     <TextView
         android:id="@+id/tv_RegisterLink"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:linksClickable="false"
+        android:textSize="18sp"
         android:text="@string/linkRegister"
         android:textColor="#03A9F4"
         android:textColorLink="#2196F3"

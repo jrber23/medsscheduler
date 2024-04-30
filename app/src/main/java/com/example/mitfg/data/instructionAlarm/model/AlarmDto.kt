@@ -10,6 +10,8 @@ import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_ME
 import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_MEDICINE_PRESENTATION
 import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_MINUTE_START
 import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_QUANTITY
+import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_TAKEN_DOSAGES
+import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_TOTAL_DOSAGES
 import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.TABLE_NAME
 
 @Entity(tableName = TABLE_NAME)
@@ -20,5 +22,7 @@ data class AlarmDto(
     @ColumnInfo(name = COLUMN_QUANTITY) val quantity: String,
     @ColumnInfo(name = COLUMN_FREQUENCY) val frequency: Long,
     @ColumnInfo(name = COLUMN_HOUR_START) val hourStart: Int,
-    @ColumnInfo(name = COLUMN_MINUTE_START) val minuteStart: Int
+    @ColumnInfo(name = COLUMN_MINUTE_START) val minuteStart: Int,
+    @ColumnInfo(name = COLUMN_TOTAL_DOSAGES) val totalDosages: Int,
+    @ColumnInfo(name = COLUMN_TAKEN_DOSAGES) val takenDosages: Int
 )

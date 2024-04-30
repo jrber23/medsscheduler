@@ -9,7 +9,9 @@ fun AlarmDto.toDomain() : Alarm = Alarm(
     quantity = quantity,
     frequency = frequency,
     hourStart = hourStart,
-    minuteStart = minuteStart
+    minuteStart = minuteStart,
+    totalDosages = totalDosages,
+    takenDosages = takenDosages
 )
 
 fun Alarm.toDto() : AlarmDto = AlarmDto(
@@ -19,5 +21,7 @@ fun Alarm.toDto() : AlarmDto = AlarmDto(
     quantity = quantity,
     frequency = frequency,
     hourStart = hourStart,
-    minuteStart = minuteStart
+    minuteStart = minuteStart,
+    totalDosages = totalDosages,
+    takenDosages = takenDosages
 )

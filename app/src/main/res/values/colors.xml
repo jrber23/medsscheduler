@@ -10,4 +10,7 @@
     <color name="grey">#9EAFAF</color>
     <color name="cyan">#FF00FFFF</color>
     <color name="orange">#FF8C00</color>
+    <color name="blue">#2196F3</color>
+    <color name="green_water">#00BCD4</color>
+    <color name="grey_light">#E0E0E0</color>
 </resources>

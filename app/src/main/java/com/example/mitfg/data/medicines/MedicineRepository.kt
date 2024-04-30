@@ -8,4 +8,6 @@ interface MedicineRepository {
 
     suspend fun addNewMedicine(medicine: Medicine)
 
+    suspend fun getMedicineByName(name: String) : Result<Medicine?>
+
 }

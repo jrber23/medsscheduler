@@ -62,4 +62,10 @@
     <string name="newAppointment">New appointment</string>
     <string name="newAppointmentsFragment">Appointments</string>
     <string name="pharmacyFragmentTitle">Pharmacies</string>
+    <string name="completedDosesTitle">Completed doses:</string>
+    <string name="medicineTvTitle">"Medicine: "</string>
+    <string name="instructionTvTitle">"Instruction: "</string>
+    <string name="dosagesOnARowTitle">"Notified dosages: "</string>
+    <string name="alarmDetailTitle">Alarm details</string>
+    <string name="everyWord">every</string>
 </resources>

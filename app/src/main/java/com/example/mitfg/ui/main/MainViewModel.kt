@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mitfg.data.healthAdvices.HealthAdviceRepository
+import com.example.mitfg.data.instructionAlarm.AlarmRepository
 import com.example.mitfg.data.users.UserRepository
 import com.example.mitfg.domain.model.HealthAdvice
 import com.example.mitfg.domain.model.User
@@ -21,7 +22,8 @@ class MainViewModel @Inject constructor(
     private val healthAdviceRepository: HealthAdviceRepository,
     private val userRepository: UserRepository,
     private val auth: FirebaseAuth,
-    private val translator: FirebaseTranslator
+    private val translator: FirebaseTranslator,
+    private val alarmRepository: AlarmRepository
 ) : ViewModel() {
 
     private val _healthAdvice = MutableStateFlow<HealthAdvice?>(null)
@@ -92,4 +94,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun addTakenDosage(idAlarm: Long) {
+        viewModelScope.launch {
+            alarmRepository.addTakenDosageToAlarm(idAlarm)
+        }
+    }
 }

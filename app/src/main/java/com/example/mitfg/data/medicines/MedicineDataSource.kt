@@ -8,4 +8,6 @@ interface MedicineDataSource {
 
     suspend fun addNewMedicine(medicine: MedicineDto)
 
+    suspend fun getMedicineByName(name: String) : Result<MedicineDto?>
+
 }

@@ -29,4 +29,16 @@ class MedicineRepositoryImpl @Inject constructor(
         medicineDataSource.addNewMedicine(medicine.toDto())
     }
 
+    override suspend fun getMedicineByName(name: String): Result<Medicine?> =
+        medicineDataSource.getMedicineByName(name).fold(
+            onSuccess = { foundMedicine ->
+                val result = foundMedicine?.toDomain()
+
+                Result.success(result)
+            },
+            onFailure = { throwable ->
+                Result.failure(throwable)
+            }
+        )
+
 }

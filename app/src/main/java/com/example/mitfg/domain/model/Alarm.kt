@@ -7,5 +7,7 @@ data class Alarm(
     val quantity: String,
     val frequency: Long,
     val hourStart: Int,
-    val minuteStart: Int
+    val minuteStart: Int,
+    var totalDosages: Int,
+    val takenDosages: Int
 )

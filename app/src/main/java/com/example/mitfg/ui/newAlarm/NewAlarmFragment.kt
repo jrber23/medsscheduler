@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mitfg.ui.alarmDetail.AlarmDetailActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentNewAlarmBinding
 import com.example.mitfg.ui.main.AlarmReceiver
@@ -45,6 +46,15 @@ class NewAlarmFragment : Fragment(R.layout.fragment_new_alarm) {
             }
 
         }
+    private val callback = object : AlarmListAdapter.ItemClicked {
+        override fun onClick(id: Long) {
+            val intent = Intent(requireContext(), AlarmDetailActivity::class.java)
+
+            intent.putExtra("alarmId", id)
+            startActivity(intent)
+        }
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +64,7 @@ class NewAlarmFragment : Fragment(R.layout.fragment_new_alarm) {
             swapToCreateAlarmActivity()
         }
 
-        val adapter = AlarmListAdapter()
+        val adapter = AlarmListAdapter(callback)
         binding.recyclerViewAlarms.adapter = adapter
 
         lifecycleScope.launch {

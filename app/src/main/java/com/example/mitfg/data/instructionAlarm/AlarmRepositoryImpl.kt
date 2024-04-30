@@ -29,4 +29,17 @@ class AlarmRepositoryImpl @Inject constructor(
     override suspend fun deleteAllAlarms() {
         alarmDataSource.deleteAllAlarms()
     }
+
+    override fun getAlarmById(id: Long): Flow<Alarm> =
+        alarmDataSource.getAlarmById(id).map { alarmDto ->
+            alarmDto!!.toDomain()
+        }
+
+    override suspend fun addDosageToAlarm(id: Long) : Int{
+        return alarmDataSource.addDosageToAlarm(id)
+    }
+
+    override suspend fun addTakenDosageToAlarm(id: Long) : Int {
+        return alarmDataSource.addTakenDosageToAlarm(id)
+    }
 }

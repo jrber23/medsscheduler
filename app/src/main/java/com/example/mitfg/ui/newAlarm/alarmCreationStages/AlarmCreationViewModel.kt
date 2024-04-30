@@ -27,7 +27,7 @@ class AlarmCreationViewModel @Inject constructor(
     private val _medicinesList = MutableStateFlow<List<Medicine?>>(listOf())
     val medicinesList = _medicinesList.asStateFlow()
 
-    private val _alarm = MutableStateFlow(Alarm(0, "", "","",0,0,0))
+    private val _alarm = MutableStateFlow(Alarm(0, "", "","",0,0,0, 0, 0))
     val alarm = _alarm.asStateFlow()
 
     private val _alarmIsCompleted = MutableStateFlow<Boolean>(false)
@@ -138,5 +138,12 @@ class AlarmCreationViewModel @Inject constructor(
 
     fun getMedicinePresentation(): String {
         return _alarm.value.medicinePresentation
+    }
+
+    fun sumale() {
+        viewModelScope.launch {
+            val rows = alarmRepository.addDosageToAlarm(_alarm.value.id)
+            Log.d("SE SUMA UNA DOSIS", rows.toString())
+        }
     }
 }

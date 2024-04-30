@@ -45,4 +45,19 @@ class MedicineDataSourceImpl @Inject constructor(
             .await()
     }
 
+    override suspend fun getMedicineByName(name: String): Result<MedicineDto?> =
+        withContext(Dispatchers.IO) {
+            val docRef = firestore.collection("medicines").whereEqualTo("name", name)
+            return@withContext try {
+                val snapshot = docRef.get().await()
+                val document = snapshot.documents.get(0)
+
+                val foundMedicine = document.toObject<MedicineDto>()
+
+                Result.success(foundMedicine)
+            } catch (e: FirebaseFirestoreException) {
+                Result.failure(e)
+            }
+        }
+
 }

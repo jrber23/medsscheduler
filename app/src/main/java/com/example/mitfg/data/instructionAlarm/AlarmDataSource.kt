@@ -13,4 +13,10 @@ interface AlarmDataSource {
 
     suspend fun deleteAllAlarms()
 
+    fun getAlarmById(id: Long): Flow<AlarmDto?>
+
+    suspend fun addDosageToAlarm(id: Long) : Int
+
+    suspend fun addTakenDosageToAlarm(id: Long) : Int
+
 }

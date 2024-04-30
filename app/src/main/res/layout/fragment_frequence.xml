@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.newAlarm.alarmCreationStages.FrequenceFragment">
+    tools:context=".ui.newAlarm.alarmCreationStages.FrequencyFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="64dp"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/black"
             android:text="@string/tvFrequence"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
 
         <Spinner
             android:id="@+id/frequence_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="48dp"
             android:layout_marginStart="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvFrequenceInstruction"

@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
 @Module
 @InstallIn(SingletonComponent::class)
 class AlarmProviderModule {
@@ -19,7 +20,9 @@ class AlarmProviderModule {
     @Provides
     @Singleton
     fun provideAlarmDatabase(@ApplicationContext context: Context): AlarmDatabase =
-        Room.databaseBuilder(context, AlarmDatabase::class.java, DB_NAME).build()
+        Room.databaseBuilder(context, AlarmDatabase::class.java, DB_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     fun provideAlarmDao(alarmDatabase: AlarmDatabase): AlarmDao =

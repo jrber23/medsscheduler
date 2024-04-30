@@ -13,4 +13,9 @@ interface AlarmRepository {
 
     suspend fun deleteAllAlarms()
 
+    fun getAlarmById(id: Long): Flow<Alarm>
+
+    suspend fun addDosageToAlarm(id: Long) : Int
+
+    suspend fun addTakenDosageToAlarm(id: Long) : Int
 }

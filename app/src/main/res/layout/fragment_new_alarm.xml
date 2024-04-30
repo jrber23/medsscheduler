@@ -28,6 +28,7 @@
                 android:contentDescription="@string/newAlarm"
                 android:src="@drawable/baseline_add_24"
                 android:visibility="visible"
+                android:backgroundTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

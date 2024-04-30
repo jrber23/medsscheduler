@@ -5,6 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_ID
+import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_TAKEN_DOSAGES
+import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_TOTAL_DOSAGES
 import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.TABLE_NAME
 import com.example.mitfg.data.instructionAlarm.model.AlarmDto
 import kotlinx.coroutines.flow.Flow
@@ -23,5 +26,15 @@ interface AlarmDao {
 
     @Query("DELETE FROM ${TABLE_NAME}")
     suspend fun deleteAllAlarms()
+
+    @Query("SELECT * FROM ${TABLE_NAME} WHERE ${COLUMN_ID} = :id")
+    fun getAlarmById(id: Long): Flow<AlarmDto?>
+
+    @Query("UPDATE OR IGNORE ${TABLE_NAME} SET ${COLUMN_TOTAL_DOSAGES} = ${COLUMN_TOTAL_DOSAGES} + 1 WHERE ${COLUMN_ID} = :id")
+    suspend fun addDosageToAlarm(id: Long) : Int
+
+    @Query("UPDATE OR IGNORE ${TABLE_NAME} SET ${COLUMN_TAKEN_DOSAGES} = ${COLUMN_TAKEN_DOSAGES} + 1 WHERE ${COLUMN_ID} = :id")
+    suspend fun addTakenDosageToAlarm(id: Long) : Int
+
 
 }

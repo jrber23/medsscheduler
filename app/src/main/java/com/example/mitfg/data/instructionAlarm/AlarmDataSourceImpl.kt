@@ -21,4 +21,15 @@ class AlarmDataSourceImpl @Inject constructor(
     override suspend fun deleteAllAlarms() {
         alarmDao.deleteAllAlarms()
     }
+
+    override fun getAlarmById(id: Long): Flow<AlarmDto?> =
+        alarmDao.getAlarmById(id)
+
+    override suspend fun addDosageToAlarm(id: Long) : Int {
+        return alarmDao.addDosageToAlarm(id)
+    }
+
+    override suspend fun addTakenDosageToAlarm(id: Long) : Int {
+        return alarmDao.addTakenDosageToAlarm(id)
+    }
 }

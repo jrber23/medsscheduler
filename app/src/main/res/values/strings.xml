@@ -97,4 +97,10 @@
     <string name="newAppointment">Nueva cita</string>
     <string name="newAppointmentsFragment">Citas</string>
     <string name="pharmacyFragmentTitle">Farmacias</string>
+    <string name="completedDosesTitle">"Dosis administradas: "</string>
+    <string name="medicineTvTitle">"Medicamento: "</string>
+    <string name="instructionTvTitle">"Pauta: "</string>
+    <string name="dosagesOnARowTitle">"Dosis notificadas: "</string>
+    <string name="alarmDetailTitle">Detalle de la alarma</string>
+    <string name="everyWord">cada</string>
 </resources>
