@@ -5,8 +5,8 @@
     <string name="helloWorld">Hola món!!</string>
     <string name="tf_login_email_hint">Introdueix el teu email...</string>
     <string name="tf_login_password_hint">Introdueix la teua contrasenya</string>
-    <string name="tv_login_email">Email*:</string>
-    <string name="tv_login_password">Contrasenya*:</string>
+    <string name="tv_login_email">Email:</string>
+    <string name="tv_login_password">Contrasenya:</string>
     <string name="b_login">INICIAR SESSIÓ</string>
     <string name="web_client_id">763236116994-60rbnod6u9420llf9athned097a7jlrp.apps.googleusercontent.com</string>
     <string name="emptyFieldsLoginOrRegisterMessage">Es té que omplir tots els camps</string>
@@ -68,4 +68,9 @@
     <string name="dosagesOnARowTitle">"Dosis notificades: "</string>
     <string name="alarmDetailTitle">Detall de l\'alarma</string>
     <string name="everyWord">cada</string>
+    <string name="bSelectDoctorButton">Finalitzar registre</string>
+    <string name="tv_login_surname">Cognoms:</string>
+    <string name="tv_login_name">Nom:</string>
+    <string name="name_user_hint">Introdueix el teu nom...</string>
+    <string name="surnames_user_hint">Introdueix els teus cognoms...</string>
 </resources>

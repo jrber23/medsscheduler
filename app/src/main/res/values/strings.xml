@@ -4,8 +4,8 @@
     <string name="helloWorld">Hola mundo!!</string>
     <string name="tf_login_email_hint">Introduce tu email...</string>
     <string name="tf_login_password_hint">Introduce tu contraseña...</string>
-    <string name="tv_login_email">Email*:</string>
-    <string name="tv_login_password">Contraseña*:</string>
+    <string name="tv_login_email">Email:</string>
+    <string name="tv_login_password">Contraseña:</string>
     <string name="b_login">INICIAR SESIÓN</string>
     <string name="web_client_id">763236116994-60rbnod6u9420llf9athned097a7jlrp.apps.googleusercontent.com</string>
     <string name="emptyFieldsLoginOrRegisterMessage">Se deben cumplimentar todos los campos</string>
@@ -103,4 +103,9 @@
     <string name="dosagesOnARowTitle">"Dosis notificadas: "</string>
     <string name="alarmDetailTitle">Detalle de la alarma</string>
     <string name="everyWord">cada</string>
+    <string name="bSelectDoctorButton">Finalizar registro</string>
+    <string name="tv_login_surname">Apellidos:</string>
+    <string name="tv_login_name">Nombre:</string>
+    <string name="name_user_hint">Introduce tu nombre...</string>
+    <string name="surnames_user_hint">Introduce tus apellidos...</string>
 </resources>

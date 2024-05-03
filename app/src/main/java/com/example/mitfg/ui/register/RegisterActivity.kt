@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityRegisterBinding
 import com.example.mitfg.ui.main.MainActivity
@@ -16,7 +15,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
@@ -53,12 +51,16 @@ class RegisterActivity : AppCompatActivity() {
                     val email = binding.tietEmail.text.toString()
                     val password = binding.tietPassword.text.toString()
                     val isDoctor = binding.chkBoxIsUserDoctor.isChecked
+                    val name = binding.etUserName.text.toString()
+                    val surname = binding.etUserSurname.text.toString()
 
-                    registerUser(email, password)
+                    swapToSelectDoctor()
 
-                    lifecycleScope.launch {
+                    // registerUser(email, password)
+
+                    /* lifecycleScope.launch {
                         viewModel.addUser(email, password, isDoctor)
-                    }
+                    } */
                 }
             } else {
                 val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)
@@ -70,7 +72,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun fieldsEmpty(): Boolean {
         return (binding.tietEmail.text.toString().isEmpty() ||
-                binding.tietPassword.text.toString().isEmpty())
+                binding.tietPassword.text.toString().isEmpty() ||
+                binding.etUserName.text.toString().isEmpty() ||
+                binding.etUserSurname.text.toString().isEmpty())
     }
 
     fun showPopUp(message: String) {
@@ -86,7 +90,20 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun swapToMainScreen() {
         val intent = Intent(this, MainActivity::class.java)
+
+        finish()
         startActivity(intent)
+    }
+
+    fun swapToSelectDoctor() {
+        if (!binding.chkBoxIsUserDoctor.isChecked) {
+            val intent = Intent(this, DoctorSelectionActivity::class.java)
+
+            finish()
+            startActivity(intent)
+        } else {
+            swapToMainScreen()
+        }
     }
 
     private fun registerUser(email: String, password: String) {
