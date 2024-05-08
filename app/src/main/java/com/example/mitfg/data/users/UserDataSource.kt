@@ -8,4 +8,8 @@ interface UserDataSource {
 
     suspend fun addUser(user: UserDto)
 
+    suspend fun getAllDoctors() : Result<List<UserDto?>>
+
+    suspend fun updateDoctor(doctorEmail: String, userEmail: String)
+
 }

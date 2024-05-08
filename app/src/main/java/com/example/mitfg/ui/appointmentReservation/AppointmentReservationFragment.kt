@@ -17,6 +17,13 @@ class AppointmentReservationFragment : Fragment(R.layout.fragment_appointment_re
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAppointmentReservationBinding.bind(view)
 
+        binding.createNewAppointmentButton.setOnClickListener {
+            /* val intent = Intent(requireContext(), DatePickerFragment::class.java)
+            startActivity(intent) */
+
+            val newFragment = DatePickerFragment()
+            newFragment.show(parentFragmentManager, "datePicker")
+        }
 
     }
 }

@@ -8,4 +8,8 @@ interface UserRepository {
 
     suspend fun addUser(user: User)
 
+    suspend fun getAllDoctors() : Result<List<User?>>
+
+    suspend fun updateDoctor(doctorEmail: String, userEmail: String)
+
 }

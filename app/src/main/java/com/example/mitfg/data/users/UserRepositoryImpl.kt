@@ -21,4 +21,23 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun addUser(user: User) {
         userDataSource.addUser(user.toDto())
     }
+
+    override suspend fun getAllDoctors(): Result<List<User?>> =
+        userDataSource.getAllDoctors().fold(
+            onSuccess = { list ->
+                val resultList = mutableListOf<User?>()
+                for (element in list) {
+                    resultList.add(element?.toDomain())
+                }
+
+                Result.success(resultList)
+            },
+            onFailure = { throwable ->
+                Result.failure(throwable)
+            }
+        )
+
+    override suspend fun updateDoctor(doctorEmail: String, userEmail: String) {
+        userDataSource.updateDoctor(doctorEmail, userEmail)
+    }
 }

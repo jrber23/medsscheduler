@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityRegisterBinding
 import com.example.mitfg.ui.main.MainActivity
@@ -15,12 +16,14 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var auth : FirebaseAuth
+
+    private lateinit var auth: FirebaseAuth
 
     private val viewModel: RegisterViewModel by viewModels()
 
@@ -31,10 +34,10 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
 
+        auth = Firebase.auth
+
         val view = binding.root
         setContentView(view)
-
-        auth = Firebase.auth
 
         binding.bRegister.setOnClickListener {
             if (!fieldsEmpty()) {
@@ -54,13 +57,11 @@ class RegisterActivity : AppCompatActivity() {
                     val name = binding.etUserName.text.toString()
                     val surname = binding.etUserSurname.text.toString()
 
-                    swapToSelectDoctor()
+                    registerUser(email, password)
 
-                    // registerUser(email, password)
-
-                    /* lifecycleScope.launch {
-                        viewModel.addUser(email, password, isDoctor)
-                    } */
+                    lifecycleScope.launch {
+                        viewModel.addUser(name, surname, email, password, isDoctor)
+                    }
                 }
             } else {
                 val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)
@@ -91,7 +92,6 @@ class RegisterActivity : AppCompatActivity() {
     private fun swapToMainScreen() {
         val intent = Intent(this, MainActivity::class.java)
 
-        finish()
         startActivity(intent)
     }
 
@@ -99,7 +99,6 @@ class RegisterActivity : AppCompatActivity() {
         if (!binding.chkBoxIsUserDoctor.isChecked) {
             val intent = Intent(this, DoctorSelectionActivity::class.java)
 
-            finish()
             startActivity(intent)
         } else {
             swapToMainScreen()
@@ -110,7 +109,7 @@ class RegisterActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    swapToMainScreen()
+                    swapToSelectDoctor()
 
                     Log.d(TAG, "User created successfully!!")
                 } else {

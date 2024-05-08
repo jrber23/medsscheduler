@@ -6,8 +6,8 @@ data class User(
     val email: String,
     val password: String,
     val isDoctor: Boolean,
-    val patientsList: List<User>?,
-    val associatedDoctor: User?
+    val patientsList: List<User>,
+    val associatedDoctor: String?
 ) {
-    constructor() : this("", "", "", "", false, null, null)
+    constructor() : this("", "", "", "", false, emptyList(), null)
 }
