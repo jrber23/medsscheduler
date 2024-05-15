@@ -12,4 +12,6 @@ interface UserRepository {
 
     suspend fun updateDoctor(doctorEmail: String, userEmail: String)
 
+    suspend fun getPatientDoctorByEmail(patientEmail: String) : Result<String>
+
 }

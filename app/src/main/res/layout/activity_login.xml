@@ -14,21 +14,11 @@
         android:hint="@string/tf_login_email_hint"
         android:maxLines="1"
         android:inputType="textEmailAddress"
+        android:contentDescription="@string/tiet_email_Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_email" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/bGoogleSignIn"
-        android:layout_width="247dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="44dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bLogin"
-        app:layout_constraintVertical_bias="0.049" />
 
     <TextView
         android:id="@+id/tv_email"
@@ -64,6 +54,7 @@
         android:hint="@string/tf_login_password_hint"
         android:inputType="textPassword"
         android:maxLines="1"
+        android:contentDescription="@string/tiet_password_Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:text="@string/b_login"
+        android:contentDescription="@string/bLogin_Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

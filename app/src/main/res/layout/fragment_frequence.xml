@@ -17,6 +17,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
             android:text="@string/next"
+            android:contentDescription="@string/buttonNext_Description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="@string/last"
+            android:contentDescription="@string/buttonBefore_Description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonNext"
             app:layout_constraintHorizontal_bias="0.091"
@@ -48,6 +50,7 @@
             android:layout_width="150dp"
             android:layout_height="48dp"
             android:layout_marginStart="25dp"
+            android:contentDescription="@string/frequence_spinner_Description"
             app:layout_constraintBottom_toBottomOf="@+id/tvFrequenceInstruction"
             app:layout_constraintStart_toEndOf="@+id/tvFrequenceInstruction"
             app:layout_constraintTop_toTopOf="@+id/tvFrequenceInstruction" />
@@ -59,6 +62,7 @@
             android:layout_gravity="center"
             android:timePickerMode="spinner"
             android:format24Hour="true"
+            android:contentDescription="@string/timePickerFrequence_Description"
             app:layout_constraintBottom_toTopOf="@+id/buttonBefore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

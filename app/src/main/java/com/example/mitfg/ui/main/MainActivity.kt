@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
         binding.bottomNavigationView.setupWithNavController(navController)
 
         setSupportActionBar(binding.materialToolbar)
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.newAlarmFragment, R.id.medicinesListFragment, R.id.appointmentReservationFragment, R.id.pharmacyLocationsFragment))
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.newAlarmFragment, R.id.medicinesListFragment, R.id.appointmentReservationFragment, R.id.pharmacyLocationsFragment, R.id.doctorAppointmentsFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         addMenuProvider(this)
@@ -129,6 +129,9 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
     fun showDoctorNavBar() {
         binding.bottomNavigationView.menu.findItem(R.id.medicinesListFragment).isVisible =
             viewModel.userIsDoctor()
+
+        binding.bottomNavigationView.menu.findItem(R.id.appointmentReservationFragment).isVisible =
+            !viewModel.userIsDoctor()
     }
 
     private fun popUpSetUp() {
@@ -228,5 +231,11 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
 
         textToSpeech.stop()
         textToSpeech.shutdown()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        finish()
     }
 }

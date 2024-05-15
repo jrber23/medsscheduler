@@ -25,4 +25,9 @@
         android:name="com.example.mitfg.ui.pharmacy.PharmacyLocationsFragment"
         android:label="fragment_pharmacy_locations"
         tools:layout="@layout/fragment_pharmacy_locations" />
+    <fragment
+        android:id="@+id/doctorAppointmentsFragment"
+        android:name="com.example.mitfg.ui.doctor.DoctorAppointmentsFragment"
+        android:label="fragment_doctor_appointments"
+        tools:layout="@layout/fragment_doctor_appointments" />
 </navigation>

@@ -54,9 +54,9 @@ class AlarmDatabaseTest {
     fun getAllAlarms_Test() = runTest {
         // Given
         val objectsToAdd = listOf(
-            Alarm(0, "Biotina", "P", "4", AlarmManager.INTERVAL_HOUR, 15, 0),
-            Alarm(1, "Paracetamol", "Ml", "3", AlarmManager.INTERVAL_HALF_HOUR, 16, 0),
-            Alarm(2, "Aspirina", "Pack", "2", AlarmManager.INTERVAL_FIFTEEN_MINUTES, 17, 30)
+            Alarm(0, "Biotina", "P", "4", AlarmManager.INTERVAL_HOUR, 15, 0, 0, 0),
+            Alarm(1, "Paracetamol", "Ml", "3", AlarmManager.INTERVAL_HALF_HOUR, 16, 0, 0, 0),
+            Alarm(2, "Aspirina", "Pack", "2", AlarmManager.INTERVAL_FIFTEEN_MINUTES, 17, 30, 0, 0)
         )
 
         // When
@@ -73,7 +73,7 @@ class AlarmDatabaseTest {
     @Test
     fun addAlarm_Test() = runTest {
         // Given
-        val alarm = Alarm(3, "Frenadol", "P", "1", AlarmManager.INTERVAL_HALF_DAY, 20, 0)
+        val alarm = Alarm(3, "Frenadol", "P", "1", AlarmManager.INTERVAL_HALF_DAY, 20, 0, 0, 0)
 
         // When
         backgroundScope.launch {
@@ -89,7 +89,7 @@ class AlarmDatabaseTest {
     @Test
     fun deleteAlarm_Test() = runTest {
         // Given
-        val alarm = Alarm(3, "Frenadol", "P", "1", AlarmManager.INTERVAL_HALF_DAY, 20, 0)
+        val alarm = Alarm(3, "Frenadol", "P", "1", AlarmManager.INTERVAL_HALF_DAY, 20, 0, 0, 0)
 
 
         backgroundScope.launch {
@@ -109,10 +109,10 @@ class AlarmDatabaseTest {
     fun deleteAllAlarms_Test() = runTest {
         // Given
         val alarmsBunch = listOf<Alarm>(
-            Alarm(3, "Frenadol", "P", "1", AlarmManager.INTERVAL_HALF_DAY, 20, 10),
-            Alarm(4, "Aspirina", "P", "1", AlarmManager.INTERVAL_FIFTEEN_MINUTES, 21, 20),
-            Alarm(5, "Ketoconazol", "P", "1", AlarmManager.INTERVAL_HALF_HOUR, 22, 30),
-            Alarm(6, "Biotina", "P", "1", AlarmManager.INTERVAL_DAY, 23, 40)
+            Alarm(3, "Frenadol", "P", "1", AlarmManager.INTERVAL_HALF_DAY, 20, 10, 0, 0),
+            Alarm(4, "Aspirina", "P", "1", AlarmManager.INTERVAL_FIFTEEN_MINUTES, 21, 20, 0, 0),
+            Alarm(5, "Ketoconazol", "P", "1", AlarmManager.INTERVAL_HALF_HOUR, 22, 30, 0, 0),
+            Alarm(6, "Biotina", "P", "1", AlarmManager.INTERVAL_DAY, 23, 40, 0, 0)
         )
 
 

@@ -2,9 +2,11 @@ package com.example.mitfg.ui.newAlarm.alarmCreationStages
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -21,6 +23,7 @@ import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentFrequenceBinding
 import com.example.mitfg.ui.main.AlarmReceiver
 import com.example.mitfg.ui.main.MainActivity
+import com.example.mitfg.ui.main.RebootReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -164,6 +167,14 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
                     set(Calendar.HOUR_OF_DAY, viewModel.alarm.value.hourStart)
                     set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
                 }
+
+                val receiver = ComponentName(requireContext(), RebootReceiver::class.java)
+
+                requireContext().packageManager.setComponentEnabledSetting(
+                    receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP
+                )
 
                 alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,

@@ -61,4 +61,20 @@ class UserDataSourceImpl @Inject constructor(
 
         documentRef.update("associatedDoctor", doctorEmail).await()
     }
+
+    override suspend fun getPatientDoctorByEmail(patientEmail: String): Result<String> =
+        withContext(Dispatchers.IO) {
+            val docRef = firestore.collection("users").document(patientEmail)
+            return@withContext try {
+                val doctorEmail = docRef.get().await().get("associatedDoctor").toString()
+
+                Result.success(doctorEmail)
+            } catch (e: FirebaseFirestoreException) {
+                Result.failure(e)
+            }
+
+
+
+
+    }
 }

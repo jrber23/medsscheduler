@@ -2,6 +2,7 @@ package com.example.mitfg.viewModelTesting
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.mitfg.data.FakeAlarmRepository
 import com.example.mitfg.data.FakeHealthAdviceRepository
 import com.example.mitfg.data.FakeUserRepository
 import com.example.mitfg.domain.model.User
@@ -27,11 +28,12 @@ class MainViewModelTest {
     private lateinit var userRepository: FakeUserRepository
     private lateinit var auth: FirebaseAuth
     private lateinit var translator: FirebaseTranslator
+    private lateinit var alarmRepository: FakeAlarmRepository
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val testUser = User("nach8@yahoo.com", "holamundo", true)
+    private val testUser = User("Rodrigo", "Pineda","nach8@yahoo.com", "holamundo", true, emptyList(), null)
 
     @Before
     fun setUp() {
@@ -39,6 +41,7 @@ class MainViewModelTest {
         userRepository = FakeUserRepository()
         auth = Firebase.auth
         translator = FirebaseTranslator()
+        alarmRepository = FakeAlarmRepository()
 
         auth.signInWithEmailAndPassword(testUser.email, testUser.password)
     }
@@ -50,7 +53,8 @@ class MainViewModelTest {
                 healthAdviceRepository = healthAdviceRepository,
                 userRepository = userRepository,
                 auth = auth,
-                translator = translator
+                translator = translator,
+                alarmRepository = alarmRepository
             )
 
             assertTrue(mainViewModel.userIsDoctor())
@@ -65,7 +69,8 @@ class MainViewModelTest {
                 healthAdviceRepository = healthAdviceRepository,
                 userRepository = userRepository,
                 auth = auth,
-                translator =translator
+                translator = translator,
+                alarmRepository = alarmRepository
             )
 
             backgroundScope.launch {

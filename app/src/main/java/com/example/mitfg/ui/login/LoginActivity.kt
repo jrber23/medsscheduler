@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityLoginBinding
-import com.example.mitfg.ui.doctor.DoctorActivity
 import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -78,16 +77,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun swapToMainScreen() {
         val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
 
-    private fun swaptToDoctorScreen() {
-        val intent: Intent = Intent(applicationContext, DoctorActivity::class.java)
+        finish()
         startActivity(intent)
     }
 
     private fun swapToRegisterScreen() {
         val intent = Intent(this, RegisterActivity::class.java)
+
+        finish()
         startActivity(intent)
     }
 

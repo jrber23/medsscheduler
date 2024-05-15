@@ -16,14 +16,14 @@ class AlarmMapperTest {
 
     @Test
     fun alarmDtoToDomain_Test() {
-        val alarmDto = AlarmDto(0, "Biotina", "P", "4", AlarmManager.INTERVAL_HOUR, 15, 0)
+        val alarmDto = AlarmDto(0, "Biotina", "P", "4", AlarmManager.INTERVAL_HOUR, 15, 0, 0, 0)
 
         assertTrue(alarmDto.toDomain() is Alarm)
     }
 
     @Test
     fun alarmToDto_Test() {
-        val alarm = Alarm(0, "Biotina", "Ml", "4", AlarmManager.INTERVAL_HOUR, 15, 0)
+        val alarm = Alarm(0, "Biotina", "Ml", "4", AlarmManager.INTERVAL_HOUR, 15, 0, 0, 0)
 
         assertTrue(alarm.toDto() is AlarmDto)
     }

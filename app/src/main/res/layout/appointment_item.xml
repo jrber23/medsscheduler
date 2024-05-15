@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/grey"
+        app:cardBackgroundColor="@color/green_water"
         app:cardCornerRadius="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvAlarmTitle"
+                android:id="@+id/tvDateAppointment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="15dp"
@@ -34,7 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvAlarmDescription"
+                android:id="@+id/tvDoctorData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="15dp"
@@ -42,8 +42,8 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="@+id/tvAlarmTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvAlarmTitle" />
+                app:layout_constraintStart_toStartOf="@+id/tvDateAppointment"
+                app:layout_constraintTop_toBottomOf="@+id/tvDateAppointment" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

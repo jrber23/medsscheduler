@@ -40,4 +40,14 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateDoctor(doctorEmail: String, userEmail: String) {
         userDataSource.updateDoctor(doctorEmail, userEmail)
     }
-}
+
+    override suspend fun getPatientDoctorByEmail(patientEmail: String): Result<String> =
+        userDataSource.getPatientDoctorByEmail(patientEmail).fold(
+            onSuccess = { result ->
+                Result.success(result)
+            },
+            onFailure = { throwable ->
+                Result.failure(throwable)
+            }
+        )
+    }

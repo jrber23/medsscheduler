@@ -20,6 +20,12 @@
         />
 
     <item
+        android:id="@+id/doctorAppointmentsFragment"
+        android:title="@string/newAppointmentsFragment"
+        android:icon="@drawable/baseline_edit_calendar_24"
+        />
+
+    <item
         android:id="@+id/pharmacyLocationsFragment"
         android:title="@string/pharmacyFragmentTitle"
         android:icon="@drawable/medicines_icon" />

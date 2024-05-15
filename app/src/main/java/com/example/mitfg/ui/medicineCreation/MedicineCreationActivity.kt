@@ -1,7 +1,6 @@
 package com.example.mitfg.ui.medicineCreation
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMedicineCreationBinding
-import com.example.mitfg.ui.doctor.DoctorActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -53,9 +51,6 @@ class MedicineCreationActivity : AppCompatActivity() {
                 viewModel.addNewMedicine(medicineName, description)
 
                 Toast.makeText(applicationContext, "Se ha insertado una nueva medicina", Toast.LENGTH_SHORT).show()
-
-                val intent: Intent = Intent(applicationContext, DoctorActivity::class.java)
-                startActivity(intent)
             } else {
                 val message = getString(R.string.emptyFieldsMedicineCreation)
 
