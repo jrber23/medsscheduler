@@ -109,9 +109,9 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
-        binding.bGoogleSignIn.setOnClickListener {
+        /* binding.bGoogleSignIn.setOnClickListener {
             showOneTapUI()
-        }
+        } */
 
         binding.bLogin.setOnClickListener {
             if (!fieldsEmpty()) {
