@@ -8,7 +8,7 @@
   -->
 
 <resources>
-    <string name="app_name">MiTFG</string>
+    <string name="app_name">MedsScheduler</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="helloWorld">Hola mundo!!</string>
     <string name="tf_login_email_hint">Introduce tu email...</string>

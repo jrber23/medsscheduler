@@ -37,6 +37,6 @@
     <item
         android:id="@+id/pharmacyLocationsFragment"
         android:title="@string/pharmacyFragmentTitle"
-        android:icon="@drawable/medicines_icon" />
+        android:icon="@drawable/healing_icon" />
 
 </menu>

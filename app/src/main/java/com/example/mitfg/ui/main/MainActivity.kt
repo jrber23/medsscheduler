@@ -139,6 +139,9 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
         binding.bottomNavigationView.menu.findItem(R.id.medicinesListFragment).isVisible =
             viewModel.userIsDoctor()
 
+        binding.bottomNavigationView.menu.findItem(R.id.doctorAppointmentsFragment).isVisible =
+            viewModel.userIsDoctor()
+
         binding.bottomNavigationView.menu.findItem(R.id.appointmentReservationFragment).isVisible =
             !viewModel.userIsDoctor()
     }
