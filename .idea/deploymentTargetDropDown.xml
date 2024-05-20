@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="Tests in 'com.example.mitfg'">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\34601\.android\avd\Pixel_7_Pro_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-03-27T17:31:53.364717500Z" />
+        </State>
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="clickOnPharmacies_goesToPharmaciesLocationFragment()">
+        <State />
+      </entry>
+      <entry key="getAllPharmacyLocationsWithinRadius_Test()">
+        <State />
+      </entry>
+      <entry key="getUserByEmail_Test()">
+        <State />
+      </entry>
+      <entry key="loginOfDoctor_ShouldDisplayDoctorFunctions()">
+        <State />
+      </entry>
+      <entry key="loginOfDoctor_ShouldDisplayDoctorFunctions() (1)">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>
