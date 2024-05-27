@@ -11,9 +11,15 @@ package com.example.mitfg.ui.alarmDetail
 
 import android.app.AlarmManager
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityAlarmDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,19 +73,71 @@ class AlarmDetailActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            viewModel.medicineAdverseEffects.collect { list ->
-                if (list != null) {
-                    for ((index, element) in list.withIndex()) {
-                        if (index == list.size - 1) {
-                            binding.secondaryEffectsDetails.append("$element")
-                        } else {
-                            binding.secondaryEffectsDetails.append("$element, ")
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.medicineAdverseEffects.collect { list ->
+                    if (list != null) {
+
+                        var text = ""
+                        for ((index, element) in list.withIndex()) {
+                            text = if (index == list.size - 1) {
+                                "$element"
+                            } else {
+                                "$element, "
+                            }
+
+                            binding.secondaryEffectsDetails.append(text)
                         }
                     }
                 }
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userCriticalInteractions.collect { list ->
+                    if (list != null) {
+                        var text = ""
+                        for ((index, element) in list.withIndex()) {
+                            text = if (index == list.size - 1) {
+                                "$element"
+                            } else {
+                                "$element, "
+                            }
 
+                            binding.criticalInteractionsDetailTv.append(text)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun appendCriticalInteractionsText() {
+        val list = viewModel.userCriticalInteractions.value
+
+        var text = ""
+        for ((index, element) in list!!.withIndex()) {
+            if (index == list.size - 1) {
+                text = "$element"
+            } else {
+                text = "$element, "
+            }
+
+            binding.criticalInteractionsDetailTv.append(text)
+        }
+    }
+
+    private fun paintText(text: String) {
+        val spannableString = SpannableStringBuilder(text)
+
+        spannableString.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(applicationContext, R.color.red)),
+            0,
+            text.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        binding.secondaryEffectsDetails.append(spannableString)
     }
 }
+

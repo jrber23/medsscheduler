@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mitfg.databinding.MedicinePresentationItemBinding
 
-class MedicinePresentationListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<String, MedicinePresentationListAdapter.ViewHolder>(
+class MedicinePresentationListAdapter(private val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<String, MedicinePresentationListAdapter.ViewHolder>(
     MedicinePresentationDiff
 ) {
 

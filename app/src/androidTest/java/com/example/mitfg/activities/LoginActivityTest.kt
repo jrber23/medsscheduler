@@ -63,7 +63,7 @@ class LoginActivityTest {
     @UiThread
     @Test
     fun showPopUp_Test() {
-        activityRule.scenario.onActivity() { activity ->
+        activityRule.scenario.onActivity { activity ->
             activity.showPopUp("Se deben cumplimentar todos los campos")
         }
 

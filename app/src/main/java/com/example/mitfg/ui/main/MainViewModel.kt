@@ -30,7 +30,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val healthAdviceRepository: HealthAdviceRepository,
     private val userRepository: UserRepository,
-    private val auth: FirebaseAuth,
+    auth: FirebaseAuth,
     private val translator: FirebaseTranslator,
     private val alarmRepository: AlarmRepository
 ) : ViewModel() {
@@ -76,7 +76,7 @@ class MainViewModel @Inject constructor(
         return this.user.value.isDoctor
     }
 
-    fun translateHealthAdvice(advice: HealthAdvice?) {
+    private fun translateHealthAdvice(advice: HealthAdvice?) {
         viewModelScope.launch {
                 translator.translate(advice!!.title).fold(
                     onSuccess = {

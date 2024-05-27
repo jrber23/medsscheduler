@@ -61,7 +61,7 @@ class DateTimeViewModel @Inject constructor(
         }
     }
 
-    fun getAppointmentsOfUser() {
+    private fun getAppointmentsOfUser() {
         viewModelScope.launch {
             val email = auth.currentUser!!.email.toString()
 
@@ -76,7 +76,7 @@ class DateTimeViewModel @Inject constructor(
         }
     }
 
-    fun getPatientDoctorByEmail() {
+    private fun getPatientDoctorByEmail() {
         viewModelScope.launch {
             val email = auth.currentUser!!.email.toString()
 

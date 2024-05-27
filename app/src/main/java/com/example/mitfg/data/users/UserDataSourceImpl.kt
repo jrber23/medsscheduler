@@ -9,6 +9,7 @@
 
 package com.example.mitfg.data.users
 
+import android.util.Log
 import com.example.mitfg.data.users.model.UserDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -81,9 +82,29 @@ class UserDataSourceImpl @Inject constructor(
             } catch (e: FirebaseFirestoreException) {
                 Result.failure(e)
             }
-
-
-
-
     }
+
+    override suspend fun getDrugInteractionsByEmail(patientEmail: String): Result<List<String>> =
+        withContext(Dispatchers.IO) {
+            val docRef = firestore.collection("users").document(patientEmail)
+            return@withContext try {
+                val list = docRef.get().await().get("drugInteractions") as ArrayList<String>
+                val resultList = mutableListOf<String>()
+
+                for (element in list) {
+                    val drugInteraction = firestore.collection("adverse_effects").document(element).get().await().get("name") as String
+
+                    resultList.add(drugInteraction)
+                }
+
+                for (element in resultList) {
+                    Log.d("DRUG_INTERACTIONS", element)
+                }
+
+                Result.success(resultList)
+            } catch (e: FirebaseFirestoreException) {
+                Result.failure(e)
+            }
+        }
+
 }

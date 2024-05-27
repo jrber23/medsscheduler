@@ -11,8 +11,7 @@
 <resources>
     <string name="app_name">MiTFG</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="helloWorld">Hola món!!</string>
-    <string name="tf_login_email_hint">Introdueix el teu email...</string>
+    <string name="tf_login_email_hint">Introdueix el teu email…</string>
     <string name="tf_login_password_hint">Introdueix la teua contrasenya</string>
     <string name="tv_login_email">Email:</string>
     <string name="tv_login_password">Contrasenya:</string>
@@ -28,7 +27,6 @@
     <string name="b_register">REGISTRARSE</string>
     <string name="registerTitle">Registrarse</string>
     <string name="registerFail">Ja existeix al sistema un compte amb el mateix email</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password_length_insufficient">La contrasenya té que tindre al menys 8 caràters</string>
     <string name="alarmsFragmentTitle">Alarmes</string>
     <string name="newAlarm">Crear alarma</string>
@@ -77,9 +75,10 @@
     <string name="dosagesOnARowTitle">"Dosis notificades: "</string>
     <string name="alarmDetailTitle">Detall de l\'alarma</string>
     <string name="everyWord">cada</string>
-    <string name="bSelectDoctorButton">Finalitzar registre</string>
     <string name="tv_login_surname">Cognoms:</string>
     <string name="tv_login_name">Nom:</string>
-    <string name="name_user_hint">Introdueix el teu nom...</string>
-    <string name="surnames_user_hint">Introdueix els teus cognoms...</string>
+    <string name="name_user_hint">Introdueix el teu nom…</string>
+    <string name="surnames_user_hint">Introdueix els teus cognoms…</string>
+    <string name="existing_medicine_name">Ja existeix un medicament amb el nom proporcionat</string>
+    <string name="patient_critical_effects">Efectes crítics per al usuari:</string>
 </resources>

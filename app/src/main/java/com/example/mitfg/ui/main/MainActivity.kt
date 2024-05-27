@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
         alertDialog.show()
     }
 
-    fun updateHealthAdvicePopup(advice: HealthAdvice?) {
+    private fun updateHealthAdvicePopup(advice: HealthAdvice?) {
         Glide.with(this)
             .load(advice?.image)
             .override(400, 400)

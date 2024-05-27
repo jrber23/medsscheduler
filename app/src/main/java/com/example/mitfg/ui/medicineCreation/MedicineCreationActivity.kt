@@ -54,12 +54,22 @@ class MedicineCreationActivity : AppCompatActivity() {
 
         binding.bCrearMedicamento.setOnClickListener {
             val medicineName = binding.etMedicineName.text.toString()
+            viewModel.existsNewMedicine(medicineName)
+
             val description = binding.etMedicineDescription.text.toString()
 
             if (!thereAreEmptyFields(medicineName, description)) {
-                viewModel.addNewMedicine(medicineName, description)
+                if (viewModel.existsMedicine.value != null) {
+                    if (!viewModel.existsMedicine.value!!) {
+                        viewModel.addNewMedicine(medicineName, description)
 
-                Toast.makeText(applicationContext, "Se ha insertado una nueva medicina", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "Se ha insertado una nueva medicina", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val message = getString(R.string.existing_medicine_name)
+
+                        showPopUp(message)
+                    }
+                }
             } else {
                 val message = getString(R.string.emptyFieldsMedicineCreation)
 
@@ -72,7 +82,7 @@ class MedicineCreationActivity : AppCompatActivity() {
         return (medicineName.isEmpty() || medicineDescription.isEmpty())
     }
 
-    fun showPopUp(message: String) {
+    private fun showPopUp(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(message)
             .setCancelable(false)

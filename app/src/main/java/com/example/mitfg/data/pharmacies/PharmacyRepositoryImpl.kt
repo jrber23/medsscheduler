@@ -25,12 +25,12 @@ class PharmacyRepositoryImpl @Inject constructor(
                 val resultList = mutableListOf<Pharmacy>()
 
                 val center = GeoLocation(ubication.latitude, ubication.longitude)
-                val RADIUS_KM = 60.0 * 1000.0
+                val radius_km = 60.0 * 1000.0
 
                 for (element in list) {
                     val docLocation = GeoLocation(element!!.lat, element.lng)
                     val distanceInKm = GeoFireUtils.getDistanceBetween(docLocation, center)
-                    if (distanceInKm <= RADIUS_KM) {
+                    if (distanceInKm <= radius_km) {
                         resultList.add(element.toDomain())
                     }
                 }

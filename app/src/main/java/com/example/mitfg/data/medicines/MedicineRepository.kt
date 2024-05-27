@@ -19,4 +19,6 @@ interface MedicineRepository {
 
     suspend fun getMedicineByName(name: String) : Result<Medicine?>
 
+    suspend fun existsMedicine(medicineName: String) : Result<Boolean>
+
 }

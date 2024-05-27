@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mitfg.databinding.MedicineItemBinding
 import com.example.mitfg.domain.model.Medicine
 
-class MedicineListAdapter(val itemClicked: ItemClicked) :
+class MedicineListAdapter(private val itemClicked: ItemClicked) :
 androidx.recyclerview.widget.ListAdapter<Medicine, MedicineListAdapter.ViewHolder>(
     MedicineDiff
 ){

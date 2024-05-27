@@ -24,7 +24,7 @@ class FakeHealthAdviceRepository @Inject constructor() : HealthAdviceRepository{
 
     override suspend fun getRandomHealthAdvice(): Result<HealthAdvice?> {
         val randomNumber : Int = (random() * fakeHealthAdvice.size).toInt()
-        val randomHealthAdvice = fakeHealthAdvice.get(randomNumber)
+        val randomHealthAdvice = fakeHealthAdvice[randomNumber]
 
         return Result.success(randomHealthAdvice)
     }

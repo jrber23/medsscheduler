@@ -11,7 +11,6 @@ package com.example.mitfg.ui.pharmacy
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -28,8 +27,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
-import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -130,13 +127,13 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
 
         if (ActivityCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         )
             != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )
             return
@@ -161,7 +158,7 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
 
     }
 
-    private fun updateUbication(ubication: com.google.android.gms.maps.model.LatLng) {
+    private fun updateUbication(ubication: LatLng) {
         viewModel.updateUbication(ubication)
     }
 

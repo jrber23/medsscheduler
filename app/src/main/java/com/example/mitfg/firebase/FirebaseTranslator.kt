@@ -21,10 +21,10 @@ class FirebaseTranslator {
     private lateinit var targetLanguage: String
 
     suspend fun translate(text: String): Result<String> {
-        when (Locale.current.language) {
-            "en" -> targetLanguage = TranslateLanguage.ENGLISH
-            "ca" -> targetLanguage = TranslateLanguage.CATALAN
-            else -> targetLanguage = TranslateLanguage.SPANISH
+        targetLanguage = when (Locale.current.language) {
+            "en" -> TranslateLanguage.ENGLISH
+            "ca" -> TranslateLanguage.CATALAN
+            else -> TranslateLanguage.SPANISH
         }
 
         val options = TranslatorOptions.Builder()

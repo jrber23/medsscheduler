@@ -60,7 +60,7 @@ class RegisterActivityTest {
     fun showPopUp_Test() {
         val countDownLatch = CountDownLatch(1)
 
-        activityRule.scenario.onActivity() { activity ->
+        activityRule.scenario.onActivity { activity ->
             activity.showPopUp("Se deben cumplimentar todos los campos")
 
             countDownLatch.countDown()
@@ -69,11 +69,11 @@ class RegisterActivityTest {
         countDownLatch.await()
 
         activityRule.scenario.use {
-            onView(ViewMatchers.withText("Se deben cumplimentar todos los campos"))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            onView(ViewMatchers.withText(R.string.accept)).perform(ViewActions.click())
+            onView(withText("Se deben cumplimentar todos los campos"))
+                .check(matches(isDisplayed()))
+            onView(withText(R.string.accept)).perform(click())
 
-            onView(ViewMatchers.withText("Se deben cumplimentar todos los campos"))
+            onView(withText("Se deben cumplimentar todos los campos"))
                 .check(ViewAssertions.doesNotExist())
         }
     }
@@ -83,14 +83,14 @@ class RegisterActivityTest {
     fun bothEmailAndPasswordEmpty_ShouldNotBeAllowed() {
         activityRule.scenario.use {
             // PopUp con campos vacíos
-            onView(ViewMatchers.withId(R.id.bRegister)).perform(ViewActions.click())
+            onView(withId(R.id.bRegister)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+            onView(withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
+                matches(isDisplayed())
             )
-            onView(ViewMatchers.withText(R.string.accept)).perform(ViewActions.click())
+            onView(withText(R.string.accept)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
+            onView(withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
                 ViewAssertions.doesNotExist()
             )
         }
@@ -101,17 +101,17 @@ class RegisterActivityTest {
     fun passwordEmpty_ShouldNotBeAllowed() {
         activityRule.scenario.use {
             // PopUp con solo password vacío
-            onView(ViewMatchers.withId(R.id.tiet_email)).perform(ViewActions.clearText())
-            onView(ViewMatchers.withId(R.id.tiet_email)).perform(ViewActions.replaceText("pepepp@outlook.com"))
+            onView(withId(R.id.tiet_email)).perform(ViewActions.clearText())
+            onView(withId(R.id.tiet_email)).perform(ViewActions.replaceText("pepepp@outlook.com"))
 
-            onView(ViewMatchers.withId(R.id.bRegister)).perform(ViewActions.click())
+            onView(withId(R.id.bRegister)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+            onView(withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
+                matches(isDisplayed())
             )
-            onView(ViewMatchers.withText(R.string.accept)).perform(ViewActions.click())
+            onView(withText(R.string.accept)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
+            onView(withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
                 ViewAssertions.doesNotExist()
             )
         }
@@ -122,17 +122,17 @@ class RegisterActivityTest {
     fun emailEmpty_ShouldNotBeAllowed() {
         activityRule.scenario.use {
             // PopUp con solo email vacío
-            onView(ViewMatchers.withId(R.id.tiet_email)).perform(ViewActions.clearText())
-            onView(ViewMatchers.withId(R.id.tiet_password)).perform(ViewActions.replaceText("pppppp"))
+            onView(withId(R.id.tiet_email)).perform(ViewActions.clearText())
+            onView(withId(R.id.tiet_password)).perform(ViewActions.replaceText("pppppp"))
 
-            onView(ViewMatchers.withId(R.id.bRegister)).perform(ViewActions.click())
+            onView(withId(R.id.bRegister)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+            onView(withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
+                matches(isDisplayed())
             )
-            onView(ViewMatchers.withText(R.string.accept)).perform(ViewActions.click())
+            onView(withText(R.string.accept)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
+            onView(withText(R.string.emptyFieldsLoginOrRegisterMessage)).check(
                 ViewAssertions.doesNotExist()
             )
         }
@@ -142,15 +142,15 @@ class RegisterActivityTest {
     @Test
     fun moreThan8CharactersLengthPassword_Test() {
         activityRule.scenario.use {
-            onView(ViewMatchers.withId(R.id.tiet_email)).perform(ViewActions.replaceText("pepepp@outlook.com"))
-            onView(ViewMatchers.withId(R.id.tiet_password)).perform(ViewActions.replaceText("1234567"))
+            onView(withId(R.id.tiet_email)).perform(ViewActions.replaceText("pepepp@outlook.com"))
+            onView(withId(R.id.tiet_password)).perform(ViewActions.replaceText("1234567"))
 
-            onView(ViewMatchers.withId(R.id.bRegister)).perform(ViewActions.click())
-            onView(ViewMatchers.withText(R.string.password_length_insufficient))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            onView(ViewMatchers.withText(R.string.accept)).perform(ViewActions.click())
+            onView(withId(R.id.bRegister)).perform(click())
+            onView(withText(R.string.password_length_insufficient))
+                .check(matches(isDisplayed()))
+            onView(withText(R.string.accept)).perform(click())
 
-            onView(ViewMatchers.withText(R.string.password_length_insufficient))
+            onView(withText(R.string.password_length_insufficient))
                 .check(ViewAssertions.doesNotExist())
         }
     }

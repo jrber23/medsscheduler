@@ -36,7 +36,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val dosage = intent.getStringExtra("dosage")
 
         CoroutineScope(Dispatchers.IO).launch {
-            alarmRepository.addDosageToAlarm(idAlarm.toLong())
+            alarmRepository.addDosageToAlarm(idAlarm)
         }
 
         createSimpleNotification(context, idAlarm, medicineName, medicinePresentation, dosage)

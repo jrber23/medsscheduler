@@ -11,7 +11,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_medicine_creation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.medicineCreation.MedicineCreationActivity">
@@ -36,11 +35,11 @@
         android:ems="10"
         android:hint="@string/medicineNameHint"
         android:inputType="text"
-        android:contentDescription="@string/etMedicineName_Description"
         app:layout_constraintBottom_toBottomOf="@+id/tvMedicineCreationName"
         app:layout_constraintStart_toEndOf="@+id/tvMedicineCreationName"
         app:layout_constraintTop_toTopOf="@+id/tvMedicineCreationName"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintVertical_bias="0.541"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/etMedicineDescription"
@@ -50,10 +49,10 @@
         android:ems="10"
         android:hint="@string/tvMedicineDescriptionLabel"
         android:inputType="text"
-        android:contentDescription="@string/etMedicineDescription_Description"
         app:layout_constraintBottom_toBottomOf="@+id/tvMedicineDescription"
         app:layout_constraintStart_toEndOf="@+id/tvMedicineDescription"
-        app:layout_constraintTop_toTopOf="@+id/tvMedicineDescription" />
+        app:layout_constraintTop_toTopOf="@+id/tvMedicineDescription"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/tvMedicineDescription"

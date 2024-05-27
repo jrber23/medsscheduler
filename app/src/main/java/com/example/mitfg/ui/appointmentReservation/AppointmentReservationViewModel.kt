@@ -35,7 +35,7 @@ class AppointmentReservationViewModel @Inject constructor(
         getAppointmentsOfUser()
     }
 
-    fun getAppointmentsOfUser() {
+    private fun getAppointmentsOfUser() {
         viewModelScope.launch {
             val email = auth.currentUser!!.email.toString()
 

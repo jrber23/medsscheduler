@@ -48,7 +48,7 @@ class MainActivityTest {
 
     @Test
     fun loginOfDoctor_ShouldDisplayDoctorFunctions() {
-        activityRule.scenario.onActivity() { activity ->
+        activityRule.scenario.onActivity { activity ->
             activity.showDoctorNavBar()
         }
 

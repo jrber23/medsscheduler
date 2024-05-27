@@ -19,4 +19,6 @@ interface MedicineDataSource {
 
     suspend fun getMedicineByName(name: String) : Result<MedicineDto?>
 
+    suspend fun existsMedicine(medicineName: String) : Result<Boolean>
+
 }

@@ -11,8 +11,7 @@
 <resources>
     <string name="app_name">MiTFG</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="helloWorld">Hello World!!</string>
-    <string name="tf_login_email_hint">Type your email...</string>
+    <string name="tf_login_email_hint">Type your email…</string>
     <string name="tf_login_password_hint">Type your password</string>
     <string name="tv_login_email">Email:</string>
     <string name="tv_login_password">Password:</string>
@@ -28,7 +27,6 @@
     <string name="b_register">SIGN IN</string>
     <string name="registerTitle">Sign in</string>
     <string name="registerFail">An account with the same email address already exists</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password_length_insufficient">Password must have at least 8 characters</string>
     <string name="alarmsFragmentTitle">Alarms</string>
     <string name="newAlarm">Create alarm</string>
@@ -67,7 +65,7 @@
     <string name="medicinePresentationVoiceMessage">Now, select the medicine presentation</string>
     <string name="dosageSelectionVoiceMessage">Select the dosage</string>
     <string name="frequencySelectionVoiceMessage">Finally, select the administration frequency and start time</string>
-    <string name="alarmCreated">Alarm has been setted succesfully</string>
+    <string name="alarmCreated">Alarm has been set successfully</string>
     <string name="newAppointment">New appointment</string>
     <string name="newAppointmentsFragment">Appointments</string>
     <string name="pharmacyFragmentTitle">Pharmacies</string>
@@ -77,9 +75,10 @@
     <string name="dosagesOnARowTitle">"Notified dosages: "</string>
     <string name="alarmDetailTitle">Alarm details</string>
     <string name="everyWord">every</string>
-    <string name="bSelectDoctorButton">Finish Sign Up</string>
     <string name="tv_login_surname">Surname:</string>
     <string name="tv_login_name">Name:</string>
-    <string name="name_user_hint">Type your name...</string>
-    <string name="surnames_user_hint">Type your surname...</string>
+    <string name="name_user_hint">Type your name…</string>
+    <string name="surnames_user_hint">Type your surname…</string>
+    <string name="existing_medicine_name">A medicine with the given name already exists</string>
+    <string name="patient_critical_effects">Critical interactions for the user:</string>
 </resources>

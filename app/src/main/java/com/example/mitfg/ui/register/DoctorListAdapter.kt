@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mitfg.databinding.DoctorItemBinding
 import com.example.mitfg.domain.model.User
 
-class DoctorListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<User, DoctorListAdapter.ViewHolder>(
+class DoctorListAdapter(private val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<User, DoctorListAdapter.ViewHolder>(
     DoctorDiff
 ) {
 
@@ -39,7 +39,7 @@ class DoctorListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.wi
 
     }
 
-    class ViewHolder(val binding: DoctorItemBinding, val callback: ItemClicked) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: DoctorItemBinding, private val callback: ItemClicked) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User?) {
             binding.tvDoctorNameSurname.text = "${user?.name} ${user?.surnames}"
 

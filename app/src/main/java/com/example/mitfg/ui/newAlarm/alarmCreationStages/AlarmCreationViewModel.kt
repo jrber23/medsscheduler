@@ -97,7 +97,7 @@ class AlarmCreationViewModel @Inject constructor(
             alarm.copy(quantity = quantity)
         }
 
-        Log.d("DOSAGE", _alarm.value.quantity.toString())
+        Log.d("DOSAGE", _alarm.value.quantity)
     }
 
     fun assignMedicineName(medicineName : String) {

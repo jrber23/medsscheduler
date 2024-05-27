@@ -24,7 +24,7 @@ class MedicineRepositoryImpl @Inject constructor(
                 val resultList = mutableListOf<Medicine>()
 
                 for (i in list.indices) {
-                    resultList.add(list.get(i)!!.toDomain())
+                    resultList.add(list[i]!!.toDomain())
                 }
 
                 Result.success(resultList)
@@ -50,4 +50,13 @@ class MedicineRepositoryImpl @Inject constructor(
             }
         )
 
+    override suspend fun existsMedicine(medicineName: String): Result<Boolean> =
+        medicineDataSource.existsMedicine(medicineName).fold(
+            onSuccess = { exists ->
+                Result.success(exists)
+            },
+            onFailure = { throwable ->
+                Result.failure(throwable)
+            }
+        )
 }

@@ -59,7 +59,7 @@ class MedicineDataSourceImpl @Inject constructor(
             val docRef = firestore.collection("medicines").whereEqualTo("name", name)
             return@withContext try {
                 val snapshot = docRef.get().await()
-                val document = snapshot.documents.get(0)
+                val document = snapshot.documents[0]
 
                 val foundMedicine = document.toObject<MedicineDto>()
 
@@ -68,5 +68,18 @@ class MedicineDataSourceImpl @Inject constructor(
                 Result.failure(e)
             }
         }
+
+    override suspend fun existsMedicine(medicineName: String): Result<Boolean> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                val docRef = firestore.collection("medicines").whereEqualTo("name", medicineName).get().await()
+                val result = docRef.documents.isNotEmpty()
+
+                Result.success(result)
+            } catch (e: FirebaseFirestoreException) {
+                Result.failure(e)
+            }
+
+    }
 
 }

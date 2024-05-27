@@ -36,7 +36,7 @@ class DoctorSelectionViewModel @Inject constructor(
         getAllDoctors()
     }
 
-    fun getAllDoctors() {
+    private fun getAllDoctors() {
         viewModelScope.launch {
             userRepository.getAllDoctors().fold(
                 onSuccess = { list ->

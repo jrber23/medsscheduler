@@ -19,7 +19,7 @@ import com.example.mitfg.R
 import com.example.mitfg.databinding.AlarmItemBinding
 import com.example.mitfg.domain.model.Alarm
 
-class AlarmListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<Alarm, AlarmListAdapter.ViewHolder>(
+class AlarmListAdapter(private val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<Alarm, AlarmListAdapter.ViewHolder>(
     AlarmDiff
 ) {
 
@@ -39,7 +39,7 @@ class AlarmListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.wid
         }
     }
 
-    class ViewHolder(val binding: AlarmItemBinding, private val context: Context, val callback: ItemClicked) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: AlarmItemBinding, private val context: Context, private val callback: ItemClicked) : RecyclerView.ViewHolder(binding.root) {
         fun bind(alarm: Alarm) {
             binding.tvAlarmTitle.text = alarm.medicineName
 
@@ -59,7 +59,7 @@ class AlarmListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.wid
                 context.getString(R.string.MlAbrev) -> medicinePresentation = context.getString(R.string.showMl)
             }
 
-            binding.tvAlarmDescription.text = "${alarm.quantity.toString()} $medicinePresentation - $frequencyText - ${alarm.hourStart}:${alarm.minuteStart}"
+            binding.tvAlarmDescription.text = "${alarm.quantity} $medicinePresentation - $frequencyText - ${alarm.hourStart}:${alarm.minuteStart}"
 
             binding.root.setOnClickListener {
                 callback.onClick(alarm.id)

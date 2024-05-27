@@ -78,7 +78,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
-    val room_version = "2.6.1"
+    val ROOM_VERSION = "2.6.1"
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -104,9 +104,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation("androidx.activity:activity:1.9.0")
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.room:room-runtime:$ROOM_VERSION")
+    implementation("androidx.room:room-ktx:$ROOM_VERSION")
     implementation("com.google.mlkit:translate:17.0.2")
     implementation("com.firebase:geofire-android-common:3.2.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
@@ -137,6 +137,6 @@ dependencies {
     debugImplementation("androidx.test.ext:junit:1.1.5")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     ksp("com.google.dagger:hilt-compiler:2.51")
-    ksp("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$ROOM_VERSION")
     kspAndroidTest("com.google.dagger:hilt-android-compiler:2.51")
 }

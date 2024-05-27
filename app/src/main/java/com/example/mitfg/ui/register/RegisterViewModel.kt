@@ -24,7 +24,7 @@ class RegisterViewModel @Inject constructor(
 
     fun addUser(name: String, surname: String, email: String, passwd: String, isDoctor: Boolean) {
         viewModelScope.launch {
-            val newUser = User(name, surname, email, passwd, isDoctor, emptyList(), null)
+            val newUser = User(name, surname, email, passwd, isDoctor, emptyList(), null, emptyList())
 
             userRepository.addUser(newUser)
         }

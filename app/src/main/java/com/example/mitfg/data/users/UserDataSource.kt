@@ -23,4 +23,6 @@ interface UserDataSource {
 
     suspend fun getPatientDoctorByEmail(patientEmail: String) : Result<String>
 
+    suspend fun getDrugInteractionsByEmail(patientEmail: String) : Result<List<String>>
+
 }

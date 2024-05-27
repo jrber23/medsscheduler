@@ -59,4 +59,15 @@ class UserRepositoryImpl @Inject constructor(
                 Result.failure(throwable)
             }
         )
-    }
+
+    override suspend fun getDrugInteractionsByEmail(patientEmail: String): Result<List<String>> =
+        userDataSource.getDrugInteractionsByEmail(patientEmail).fold(
+            onSuccess = { result ->
+                Result.success(result)
+            },
+            onFailure = { throwable ->
+                Result.failure(throwable)
+            }
+        )
+
+}

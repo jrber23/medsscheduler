@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -35,6 +36,9 @@ class MedicineCreationViewModel @Inject constructor(
 
     private val _selectedAdverseEffects = MutableStateFlow<List<String>>(ArrayList<String>())
     val selectedAdverseEffect : StateFlow<List<String>> = _selectedAdverseEffects.asStateFlow()
+
+    private val _existsMedicine = MutableStateFlow<Boolean?>(null)
+    val existsMedicine : StateFlow<Boolean?> = _existsMedicine.asStateFlow()
 
     init {
         getAllAdverseEffects()
@@ -70,6 +74,19 @@ class MedicineCreationViewModel @Inject constructor(
             _selectedAdverseEffects.update { newList ->
                 newList - selectedItem
             }
+        }
+    }
+
+    fun existsNewMedicine(medicineName: String) {
+        runBlocking {
+            medicineRepository.existsMedicine(medicineName).fold(
+                onSuccess = { exists ->
+                    _existsMedicine.update { exists }
+                },
+                onFailure = { throwable ->
+                    Log.d("FAILURE", throwable.toString())
+                }
+            )
         }
     }
 

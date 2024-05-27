@@ -104,11 +104,13 @@ class RegisterActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun swapToSelectDoctor() {
+    private fun swapToSelectDoctor() {
         if (!binding.chkBoxIsUserDoctor.isChecked) {
             val intent = Intent(this, DoctorSelectionActivity::class.java)
 
             startActivity(intent)
+
+            finish()
         } else {
             swapToMainScreen()
         }
