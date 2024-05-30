@@ -12,117 +12,67 @@ package com.example.mitfg.ui.login
 import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityLoginBinding
 import com.example.mitfg.ui.main.MainActivity
 import com.example.mitfg.ui.register.RegisterActivity
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * The login activity that shows up the UI
+ */
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
+    // Automatically generated binding class for activity_main.xml
     private var _binding: ActivityLoginBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
 
-    private lateinit var signInRequest: BeginSignInRequest
-    private lateinit var oneTapClient : SignInClient
+    // The Firebase Authentication instance
+    private val auth: FirebaseAuth = Firebase.auth
 
-    companion object {
-        private const val REQ_ONE_TAP = 2
-    }
-
-    private val requestCredentials = registerForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
-    ) { result ->
-        when (result.resultCode) {
-            REQ_ONE_TAP ->
-                try {
-                    val googleCredential = oneTapClient.getSignInCredentialFromIntent(result.data)
-                    val idToken = googleCredential.googleIdToken
-                    when {
-                        idToken != null -> {
-                            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                            auth.signInWithCredential(firebaseCredential)
-                                .addOnCompleteListener(this) { task ->
-                                    if (task.isSuccessful) {
-                                        Log.d(TAG, "signInWithCredential:success")
-
-                                        swapToMainScreen()
-                                    } else {
-                                        Log.w(TAG, "signInWithCredential:failure", task.exception)
-
-                                        val message = getString(R.string.signInWithGoogleWasNotPossible)
-                                        showPopUp(message)
-                                    }
-                                }
-
-                            Log.d(TAG, "Got ID token")
-                        }
-                        else -> {
-                            Log.d(TAG, "No ID token!")
-                        }
-                    }
-                } catch (e: ApiException) {
-                    Log.w(TAG, "Google sign in failed", e)
-                }
-        }
-    }
-
+    /**
+     * All the actions required to swap to the Main Activity
+     */
     private fun swapToMainScreen() {
+        // Creates an intent that loads the MainActivity
         val intent = Intent(this, MainActivity::class.java)
 
+        // Finishes the current activity and starts the new one
         finish()
         startActivity(intent)
     }
 
     private fun swapToRegisterScreen() {
+        // Creates an intent that loads the RegisterActivity
         val intent = Intent(this, RegisterActivity::class.java)
 
+        // Finishes the current activity and starts the new one
         finish()
         startActivity(intent)
     }
 
+    /**
+     * All the stuff to create the LoginActivity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Use the layoutInflater to Inflate the LoginActivity
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        oneTapClient = Identity.getSignInClient(this)
-        signInRequest = BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    .setServerClientId(getString(R.string.web_client_id))
-                    .setFilterByAuthorizedAccounts(true)
-                    .build())
-            .build()
-
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-
-        /* binding.bGoogleSignIn.setOnClickListener {
-            showOneTapUI()
-        } */
-
         binding.bLogin.setOnClickListener {
+            /* If all the fields has been filled, then checks if the email doesnt contains any uppercase
+               letter. Else, shows a pop up */
             if (!fieldsEmpty()) {
                 if (binding.tietEmail.text!!.any { it.isUpperCase() }) {
                     val message = getString(R.string.no_upper_cases_at_email)
@@ -132,6 +82,7 @@ class LoginActivity : AppCompatActivity() {
                     val email = binding.tietEmail.text.toString()
                     val password = binding.tietPassword.text.toString()
 
+                    // Sign in with the received email and password
                     signInWithEmailAndPassword(email, password)
                 }
             } else {
@@ -146,24 +97,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun showOneTapUI() {
-        oneTapClient.beginSignIn(signInRequest)
-            .addOnSuccessListener(this) { result ->
-                try {
-                    requestCredentials.launch(
-                        IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
-                    )
-                } catch (e: IntentSender.SendIntentException) {
-                    Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
-                }
-            }
-            .addOnFailureListener(this) { e ->
-                // No saved credentials found. Launch the One Tap sign-up flow, or
-                // do nothing and continue presenting the signed-out UI.
-                Log.d(TAG, e.localizedMessage)
-            }
-    }
-
+    /**
+     * Shows a pop up with the given message
+     * @param message The message to show to the user
+     */
     fun showPopUp(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(message)
@@ -175,11 +112,21 @@ class LoginActivity : AppCompatActivity() {
         alert.show()
     }
 
+    /**
+     * Checks that every text field has been filled
+     * @return True if every text field has been filled
+     *         False otherwise
+     */
     private fun fieldsEmpty(): Boolean {
         return (binding.tietEmail.text.toString().isEmpty() ||
                 binding.tietPassword.text.toString().isEmpty())
     }
 
+    /**
+     * When the activity starts, it checks if the current
+     * user is null or not. If is not null, it swaps to the main
+     * screen. Else, the login activity is shown.
+     */
     public override fun onStart() {
         super.onStart()
 
@@ -189,6 +136,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * With the Firebase Authentication instance, the user signs in
+     * with the given email and password. If it fails, a pop up is shown.
+     * @param email The email address given by the user
+     * @param password The password given by the user
+     */
     private fun signInWithEmailAndPassword(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
