@@ -19,6 +19,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Provides the only Firestore instance in the app and the only Firebase Translator object instance
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class HealthAdviceProviderModule {

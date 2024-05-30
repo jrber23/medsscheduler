@@ -18,7 +18,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
+/**
+ * Provides the Firebase Authentication object and applies a Singleton pattern to it
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class FirebaseAuthenticationProviderModule {

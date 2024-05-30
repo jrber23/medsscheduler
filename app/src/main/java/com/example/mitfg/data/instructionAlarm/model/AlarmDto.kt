@@ -12,17 +12,23 @@ package com.example.mitfg.data.instructionAlarm.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_FREQUENCY
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_HOUR_START
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_ID
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_MEDICINE_NAME
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_MEDICINE_PRESENTATION
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_MINUTE_START
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_QUANTITY
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_TAKEN_DOSAGES
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.COLUMN_TOTAL_DOSAGES
-import com.example.mitfg.data.instructionAlarm.AlarmContact.AlarmTable.TABLE_NAME
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_FREQUENCY
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_HOUR_START
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_ID
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_MEDICINE_NAME
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_MEDICINE_PRESENTATION
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_MINUTE_START
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_QUANTITY
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_TAKEN_DOSAGES
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.COLUMN_TOTAL_DOSAGES
+import com.example.mitfg.data.instructionAlarm.AlarmContract.AlarmTable.TABLE_NAME
 
+/**
+ * Data Transfer Object of an alarm.
+ * It includes an ID, the name of the associated medicine, its presentation,
+ * the dose quantity, the frequency, the starting hour and the starting minute
+ * and an indicator of the total and taken dosages since its creation.
+ */
 @Entity(tableName = TABLE_NAME)
 data class AlarmDto(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = COLUMN_ID) val id: Long,

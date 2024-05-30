@@ -16,11 +16,16 @@ import javax.inject.Inject
 class AdverseEffectRepositoryImpl @Inject constructor(
     private val adverseEffectDataSource: AdverseEffectDataSource
 ) : AdverseEffectRepository {
+
+    /**
+     * Retrieves all storage adverse effects from the data source
+     * @return an encapsulation of a list of adverse effects. It's mapped to an domain model object
+     */
     override suspend fun getAllAdverseEffects(): Result<List<AdverseEffect?>> =
         adverseEffectDataSource.getAllAdverseEffects().fold(
-            onSuccess = { list ->
-                Result.success(list.map {
-                    it?.toDomain()
+            onSuccess = { retrievedList ->
+                Result.success(retrievedList.map { currentAdverseEffect ->
+                    currentAdverseEffect?.toDomain()
                 })
             },
             onFailure = {

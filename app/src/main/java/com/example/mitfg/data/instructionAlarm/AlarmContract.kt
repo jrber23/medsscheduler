@@ -9,7 +9,10 @@
 
 package com.example.mitfg.data.instructionAlarm
 
-object AlarmContact {
+/**
+ * Object where every name column of the alarms table is assigned
+ */
+object AlarmContract {
 
     const val DB_NAME = "SettedAlarmsDB"
 

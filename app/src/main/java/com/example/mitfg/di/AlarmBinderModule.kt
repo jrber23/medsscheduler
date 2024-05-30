@@ -10,20 +10,23 @@
 package com.example.mitfg.di
 
 import com.example.mitfg.data.instructionAlarm.AlarmDataSource
-import com.example.mitfg.data.instructionAlarm.AlarmDataSourceImpl
 import com.example.mitfg.data.instructionAlarm.AlarmRepository
 import com.example.mitfg.data.instructionAlarm.AlarmRepositoryImpl
+import com.example.mitfg.data.instructionAlarm.AlarmRoom
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+/**
+ * Binds the alarm data source and repository interfaces with its implementation
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AlarmBinderModule {
 
     @Binds
-    abstract fun bindAlarmDataSource(alarmDataSourceImpl: AlarmDataSourceImpl) : AlarmDataSource
+    abstract fun bindAlarmDataSource(alarmRoom: AlarmRoom) : AlarmDataSource
 
     @Binds
     abstract fun bindAlarmRepository(alarmRepositoryImpl: AlarmRepositoryImpl) : AlarmRepository

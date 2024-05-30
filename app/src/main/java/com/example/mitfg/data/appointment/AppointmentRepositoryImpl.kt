@@ -17,10 +17,20 @@ import javax.inject.Inject
 class AppointmentRepositoryImpl @Inject constructor(
     private val appointmentDataSource: AppointmentDataSource
 ) : AppointmentRepository {
+
+    /**
+     * Adds a new appointment to a data source
+     * @param appointment The object with all the data to be storage. It's mapped to a DTO object.
+     */
     override suspend fun addNewAppointment(appointment: Appointment) {
         appointmentDataSource.addNewAppointment(appointment.toDto())
     }
 
+    /**
+     * Retrieves all apointments of the user with the given email address
+     * @param email the patient email address
+     * @return an encapsulation of a list of appointments. It's mapped to a domain model object.
+     */
     override suspend fun getAppointmentsOfUser(email: String): Result<List<Appointment?>> =
         appointmentDataSource.getAppointmentsOfUser(email).fold(
             onSuccess = { list ->
@@ -37,6 +47,11 @@ class AppointmentRepositoryImpl @Inject constructor(
             }
         )
 
+    /**
+     * Retrieves all apointments of a doctor with the given email address
+     * @param email the doctor email address
+     * @return an encapsulation of a list of appointments. It's mapped to a domain model object.
+     */
     override suspend fun getDoctorAppointments(email: String): Result<List<Appointment?>> =
         appointmentDataSource.getDoctorAppointments(email).fold(
             onSuccess = { list ->

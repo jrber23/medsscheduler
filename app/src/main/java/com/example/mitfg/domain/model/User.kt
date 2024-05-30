@@ -9,6 +9,9 @@
 
 package com.example.mitfg.domain.model
 
+/**
+ * A user has data that shows if it's doctor or not, the associated doctor and a list of potential drug interactions for the user
+ */
 data class User(
     val name: String,
     val surnames: String,

@@ -11,7 +11,7 @@ package com.example.mitfg.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.mitfg.data.instructionAlarm.AlarmContact.DB_NAME
+import com.example.mitfg.data.instructionAlarm.AlarmContract.DB_NAME
 import com.example.mitfg.data.instructionAlarm.AlarmDao
 import com.example.mitfg.data.instructionAlarm.AlarmDatabase
 import dagger.Module
@@ -21,7 +21,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
+/**
+ * Provides the database object and the alarm DAO
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class AlarmProviderModule {

@@ -22,13 +22,20 @@ import java.util.Calendar.getInstance
 import java.util.Date
 import javax.inject.Inject
 
-class AppointmentDataSourceImpl @Inject constructor(
+class AppointmentFirestore @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : AppointmentDataSource {
+
+    /**
+     * Adds a new appointment to a data source
+     * @param appointmentDto The object with all the data to be storage.
+     */
     override suspend fun addNewAppointment(appointmentDto: AppointmentDto) {
+        // Looks for the collection with the given name
         val docRef = firestore.collection("appointments")
 
-        val data = hashMapOf(
+        // Maps all the DTO data to the right document field
+        val dataToAdd = hashMapOf(
             "emailPatient" to appointmentDto.emailPatient,
             "emailDoctor" to appointmentDto.emailDoctor,
             "day" to appointmentDto.day,
@@ -39,45 +46,63 @@ class AppointmentDataSourceImpl @Inject constructor(
             "timestamp" to Timestamp(Date())
         )
 
-        docRef.add(data).await()
+        // The new appointment is added
+        docRef.add(dataToAdd).await()
     }
 
+    /**
+     * Retrieves all apointments of the user with the given email address
+     * @param email the patient email address
+     * @return an encapsulation of a list of appointments
+     */
     override suspend fun getAppointmentsOfUser(email: String) : Result<List<AppointmentDto?>> =
         withContext(Dispatchers.IO) {
 
             return@withContext try {
+
+                // Gets the current year, month and day
                 val calendar = getInstance()
                 val year = calendar.get(Calendar.YEAR)
                 val month = calendar.get(Calendar.MONTH) + 1
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
 
+                // Looks for all the appointments after the current date
                 val docRef = firestore.collection("appointments")
                     .whereEqualTo("emailPatient", email)
                     .whereGreaterThanOrEqualTo("year", year)
                     .whereGreaterThanOrEqualTo("month", month)
                     .whereGreaterThanOrEqualTo("day", day)
 
-                val list = mutableListOf<AppointmentDto?>()
+                val result = mutableListOf<AppointmentDto?>()
                 val snapshot = docRef.get().await()
                 val documents = snapshot.documents
 
+                // Every retrieved document is mapped to a DTO object and added to the result list
                 for (element in documents) {
-                    list.add(element.toObject<AppointmentDto?>())
+                    result.add(element.toObject<AppointmentDto?>())
                 }
 
-                Result.success(list)
+                Result.success(result)
             } catch (e: FirebaseFirestoreException) {
                 Result.failure(e)
             }
         }
 
+    /**
+     * Retrieves all apointments of a doctor with the given email address
+     * @param email the doctor email address
+     * @return an encapsulation of a list of appointments
+     */
     override suspend fun getDoctorAppointments(email: String): Result<List<AppointmentDto?>> =
         withContext(Dispatchers.IO) {
+
+            // Gets the current year, month and day
             val calendar = getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH) + 1
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
+            // Looks for all the appointments after the current date
             val docRef = firestore.collection("appointments")
                 .whereEqualTo("emailDoctor", email)
                 .whereGreaterThanOrEqualTo("year", year)
@@ -85,15 +110,16 @@ class AppointmentDataSourceImpl @Inject constructor(
                 .whereGreaterThanOrEqualTo("day", day)
 
             return@withContext try {
-                val list = mutableListOf<AppointmentDto?>()
+                val result = mutableListOf<AppointmentDto?>()
                 val snapshot = docRef.get().await()
                 val documents = snapshot.documents
 
+                // Every retrieved document is mapped to a DTO object and added to the result list
                 for (element in documents) {
-                    list.add(element.toObject<AppointmentDto?>())
+                    result.add(element.toObject<AppointmentDto?>())
                 }
 
-                Result.success(list)
+                Result.success(result)
             } catch (e: FirebaseFirestoreException) {
                 Result.failure(e)
             }

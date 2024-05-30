@@ -10,7 +10,7 @@
 package com.example.mitfg.di
 
 import com.example.mitfg.data.appointment.AppointmentDataSource
-import com.example.mitfg.data.appointment.AppointmentDataSourceImpl
+import com.example.mitfg.data.appointment.AppointmentFirestore
 import com.example.mitfg.data.appointment.AppointmentRepository
 import com.example.mitfg.data.appointment.AppointmentRepositoryImpl
 import dagger.Binds
@@ -18,13 +18,15 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-
+/**
+ * Binds the appointment data source and repository interfaces with its implementation
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppointmentBinderModule {
 
     @Binds
-    abstract fun bindAppointmentDataSource(appointmentDataSourceImpl: AppointmentDataSourceImpl) : AppointmentDataSource
+    abstract fun bindAppointmentDataSource(appointmentFirestore: AppointmentFirestore) : AppointmentDataSource
 
     @Binds
     abstract fun bindAppointmentRepository(appointmentRepositoryImpl: AppointmentRepositoryImpl) : AppointmentRepository

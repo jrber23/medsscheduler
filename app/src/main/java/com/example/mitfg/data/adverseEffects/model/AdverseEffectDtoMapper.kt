@@ -11,6 +11,20 @@ package com.example.mitfg.data.adverseEffects.model
 
 import com.example.mitfg.domain.model.AdverseEffect
 
-fun AdverseEffectDto.toDomain() : AdverseEffect = AdverseEffect(id = id, name = name)
+/**
+ * It converts an object AdverseEffectDto into the domain model object
+ */
+fun AdverseEffectDto.toDomain() : AdverseEffect =
+    AdverseEffect(
+        id = id,
+        name = name
+    )
 
-fun AdverseEffect.toDto() : AdverseEffectDto = AdverseEffectDto(id = id, name = name)
+/**
+ * It converts a domain model object into an AdverseEffectDto object
+ */
+fun AdverseEffect.toDto() : AdverseEffectDto =
+    AdverseEffectDto(
+        id = id,
+        name = name
+    )

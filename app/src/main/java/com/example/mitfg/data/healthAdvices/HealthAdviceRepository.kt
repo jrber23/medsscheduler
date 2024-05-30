@@ -13,6 +13,10 @@ import com.example.mitfg.domain.model.HealthAdvice
 
 interface HealthAdviceRepository {
 
+    /**
+     * Retrieves all the health advices storage in the data source
+     * @return an encapsulation of a list of health advices. It's mapped to a domain model object
+     */
     suspend fun getRandomHealthAdvice(): Result<HealthAdvice?>
 
 }

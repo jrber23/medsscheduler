@@ -11,6 +11,9 @@ package com.example.mitfg.data.instructionAlarm.model
 
 import com.example.mitfg.domain.model.Alarm
 
+/**
+ * It converts an object AlarmDto into the domain model object
+ */
 fun AlarmDto.toDomain() : Alarm = Alarm(
     id = id,
     medicineName = medicineName,
@@ -23,6 +26,9 @@ fun AlarmDto.toDomain() : Alarm = Alarm(
     takenDosages = takenDosages
 )
 
+/**
+ * It converts a domain model object into an AlarmDto object
+ */
 fun Alarm.toDto() : AlarmDto = AlarmDto(
     id = id,
     medicineName = medicineName,

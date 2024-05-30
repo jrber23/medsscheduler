@@ -13,6 +13,10 @@ import com.example.mitfg.domain.model.AdverseEffect
 
 interface AdverseEffectRepository {
 
+    /**
+     * Retrieves all storage adverse effects from the data source
+     * @return an encapsulation of a list of adverse effects. It's mapped to an domain model object
+     */
     suspend fun getAllAdverseEffects(): Result<List<AdverseEffect?>>
 
 

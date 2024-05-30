@@ -9,11 +9,14 @@
 
 package com.example.mitfg.data.medicines.model
 
+/**
+ * Data Transfer Object of a medicine.
+ * It includes an ID, a name, a description, and a list
+ * of associated adverse effects.
+ */
 data class MedicineDto(
     var id: String,
     var name: String,
     var description: String,
     var adverseEffects: List<String>
-) {
-    constructor() : this("", "", "", emptyList())
-}
+)

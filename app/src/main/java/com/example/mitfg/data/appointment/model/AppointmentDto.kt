@@ -9,6 +9,11 @@
 
 package com.example.mitfg.data.appointment.model
 
+/**
+ * Data Transfer Object of an appointment.
+ * It includes an both emails of patient and the doctor,
+ * and the day, month, year, hour and minute of the appointment.
+ */
 data class AppointmentDto(
     val emailPatient: String,
     val emailDoctor: String,
@@ -18,5 +23,5 @@ data class AppointmentDto(
     val hour: Int,
     val minute: Int
 ) {
-    constructor(): this("", "", 0,0,0,0,0)
+
 }

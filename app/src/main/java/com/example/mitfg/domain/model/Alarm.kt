@@ -9,6 +9,11 @@
 
 package com.example.mitfg.domain.model
 
+/**
+ * All the data that contains the alarm. It's an ID, the medicine name associated to the alarm,
+ * its presentation (pills, packets...), the quantity, the starting hour and minute, the total
+ * triggered alarms and the number of taken dosages among the total.
+ */
 data class Alarm(
     val id: Long,
     val medicineName: String,

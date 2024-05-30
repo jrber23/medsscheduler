@@ -13,6 +13,10 @@ import com.example.mitfg.data.adverseEffects.model.AdverseEffectDto
 
 interface AdverseEffectDataSource {
 
+    /**
+     * Retrieves all storage adverse effects from the data source
+     * @return an encapsulation of a list of adverse effects.
+     */
     suspend fun getAllAdverseEffects() : Result<List<AdverseEffectDto?>>
 
 }

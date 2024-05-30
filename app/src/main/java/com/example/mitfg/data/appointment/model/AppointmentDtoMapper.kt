@@ -11,6 +11,30 @@ package com.example.mitfg.data.appointment.model
 
 import com.example.mitfg.domain.model.Appointment
 
-fun AppointmentDto.toDomain() : Appointment = Appointment(emailPatient = emailPatient, emailDoctor = emailDoctor, day = day, month = month, year = year, hour = hour, minute = minute)
+/**
+ * It converts an object AppointmentDto into the domain model object
+ */
+fun AppointmentDto.toDomain() : Appointment =
+    Appointment(
+        emailPatient = emailPatient,
+        emailDoctor = emailDoctor,
+        day = day,
+        month = month,
+        year = year,
+        hour = hour,
+        minute = minute
+    )
 
-fun Appointment.toDto() : AppointmentDto = AppointmentDto(emailPatient = emailPatient, emailDoctor = emailDoctor, day = day, month = month, year = year, hour = hour, minute = minute)
+/**
+ * It converts a domain model object into an AppointmentDto object
+ */
+fun Appointment.toDto() : AppointmentDto =
+    AppointmentDto(
+        emailPatient = emailPatient,
+        emailDoctor = emailDoctor,
+        day = day,
+        month = month,
+        year = year,
+        hour = hour,
+        minute = minute
+    )

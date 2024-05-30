@@ -11,6 +11,9 @@ package com.example.mitfg.data.users.model
 
 import com.example.mitfg.domain.model.User
 
+/**
+ * Data Transfer Object of a user.
+ */
 data class UserDto(
     val name: String,
     val surnames: String,

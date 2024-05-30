@@ -18,24 +18,35 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AdverseEffectDataSourceImpl @Inject constructor(
+class AdverseEffectFirestore @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : AdverseEffectDataSource {
+
+    /**
+     * Retrieves all storage adverse effects from the data source
+     * @return an encapsulation of a list of adverse effects.
+     */
     override suspend fun getAllAdverseEffects(): Result<List<AdverseEffectDto?>> =
         withContext(Dispatchers.IO) {
-            val docRef = firestore.collection("adverse_effects")
-            return@withContext try {
-                val list = mutableListOf<AdverseEffectDto?>()
-                val snapshot = docRef.get().await()
-                val documents = snapshot.documents
 
-                for (element in documents) {
+            // Looks for the collection with the given name
+            val documentRef = firestore.collection("adverse_effects")
+
+            return@withContext try {
+                val result = mutableListOf<AdverseEffectDto?>()
+
+                // Waits until all the data is retrieved
+                val snapshot = documentRef.get().await()
+                val retrievedDocuments = snapshot.documents
+
+                // For each retrieved document, it's casted to the right DTO object and assigns its ID and the DTO object is added to the result list
+                for (element in retrievedDocuments) {
                     val adverseEffect = element.toObject<AdverseEffectDto?>()
                     adverseEffect!!.id = element.id
-                    list.add(adverseEffect)
+                    result.add(adverseEffect)
                 }
 
-                Result.success(list)
+                Result.success(result)
             } catch (e: FirebaseFirestoreException) {
                 Result.failure(e)
             }

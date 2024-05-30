@@ -9,6 +9,10 @@
 
 package com.example.mitfg.data.pharmacies.model
 
+/**
+ * Data Transfer Object of a pharmacy.
+ * It includes the latitude, longitude and a geohash to load in Firestore.
+ */
 data class PharmacyDto(
     val pharmacyName: String,
     val address: String,
@@ -17,6 +21,4 @@ data class PharmacyDto(
     val lat: Double,
     val lng: Double,
     val geohash: String
-) {
-    constructor() : this("", "", "", "", 0.0, 0.0, "")
-}
+)

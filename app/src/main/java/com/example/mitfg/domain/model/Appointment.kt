@@ -9,6 +9,10 @@
 
 package com.example.mitfg.domain.model
 
+/**
+ * An appointment contains the email address of the patient and the associated doctor and
+ * the day, month, year, hour and minute of the appointment.
+ */
 data class Appointment(
     val emailPatient: String,
     val emailDoctor: String,

@@ -9,11 +9,13 @@
 
 package com.example.mitfg.data.adverseEffects.model
 
+/**
+ * Data Transfer Object of an adverse effect.
+ * It includes an ID an a name to identify each one.
+ */
 data class AdverseEffectDto(
     var id: String,
     val name: String
 ) {
-
-    constructor() : this("", "")
 
 }

@@ -11,14 +11,17 @@ package com.example.mitfg.data.healthAdvices
 
 import com.example.mitfg.data.healthAdvices.model.toDomain
 import com.example.mitfg.domain.model.HealthAdvice
-import com.example.mitfg.firebase.FirebaseTranslator
 import javax.inject.Inject
 import kotlin.random.Random
 
 class HealthAdviceRepositoryImpl @Inject constructor(
-    private val healthAdviceDataSource: HealthAdviceDataSource,
-    private val translator: FirebaseTranslator
+    private val healthAdviceDataSource: HealthAdviceDataSource
 ) : HealthAdviceRepository {
+
+    /**
+     * Retrieves all the health advices storage in the data source
+     * @return an encapsulation of a list of health advices. It's mapped to a domain model object
+     */
     override suspend fun getRandomHealthAdvice(): Result<HealthAdvice?> =
         healthAdviceDataSource.getAllHealthAdvices().fold(
             onSuccess = { list ->

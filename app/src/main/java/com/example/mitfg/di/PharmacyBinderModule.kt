@@ -10,7 +10,7 @@
 package com.example.mitfg.di
 
 import com.example.mitfg.data.pharmacies.PharmacyDataSource
-import com.example.mitfg.data.pharmacies.PharmacyDataSourceImpl
+import com.example.mitfg.data.pharmacies.PharmacyFirestore
 import com.example.mitfg.data.pharmacies.PharmacyRepository
 import com.example.mitfg.data.pharmacies.PharmacyRepositoryImpl
 import dagger.Binds
@@ -18,13 +18,15 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-
+/**
+ * Binds the pharmacy data source and repository interfaces with its implementation
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class PharmacyBinderModule {
 
     @Binds
-    abstract fun bindPharmacyDataSource(pharmacyDataSourceImpl: PharmacyDataSourceImpl) : PharmacyDataSource
+    abstract fun bindPharmacyDataSource(pharmacyFirestore: PharmacyFirestore) : PharmacyDataSource
 
     @Binds
     abstract fun bindPharmacyRepository(pharmacyRepositoryImpl: PharmacyRepositoryImpl) : PharmacyRepository

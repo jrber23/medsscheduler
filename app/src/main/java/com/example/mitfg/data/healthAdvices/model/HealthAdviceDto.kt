@@ -9,6 +9,10 @@
 
 package com.example.mitfg.data.healthAdvices.model
 
+/**
+ * Data Transfer Object of a health advice.
+ * It includes an ID, a title, a description and an URL of an image.
+ */
 data class HealthAdviceDto(
     var id: String,
     var title: String,

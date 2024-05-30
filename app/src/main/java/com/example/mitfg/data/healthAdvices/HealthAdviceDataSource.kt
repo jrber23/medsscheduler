@@ -14,6 +14,10 @@ import com.example.mitfg.data.healthAdvices.model.HealthAdviceDto
 
 interface HealthAdviceDataSource {
 
+    /**
+     * Retrieves all the health advices storage in the data source
+     * @return an encapsulation of a list of health advices
+     */
     suspend fun getAllHealthAdvices(): Result<List<HealthAdviceDto?>>
 
 }

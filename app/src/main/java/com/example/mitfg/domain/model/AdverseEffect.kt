@@ -9,6 +9,9 @@
 
 package com.example.mitfg.domain.model
 
+/**
+ * The adverse effect contains an ID and the name of an adverse effect
+ */
 data class AdverseEffect(
     val id: String,
     val name: String

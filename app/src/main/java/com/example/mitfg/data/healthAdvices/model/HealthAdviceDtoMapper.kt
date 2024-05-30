@@ -11,6 +11,24 @@ package com.example.mitfg.data.healthAdvices.model
 
 import com.example.mitfg.domain.model.HealthAdvice
 
-fun HealthAdviceDto.toDomain() : HealthAdvice = HealthAdvice(id = id, description = description, image = image, title = title)
+/**
+ * It converts an object HealthAdviceDto into the domain model object
+ */
+fun HealthAdviceDto.toDomain() : HealthAdvice =
+    HealthAdvice(
+        id = id,
+        description = description,
+        image = image,
+        title = title
+    )
 
-fun HealthAdvice.toDto() : HealthAdviceDto = HealthAdviceDto(id = id, description = description, image = image, title = title)
+/**
+ * It converts a domain model object into an HealthAdviceDto object
+ */
+fun HealthAdvice.toDto() : HealthAdviceDto =
+    HealthAdviceDto(
+        id = id,
+        description = description,
+        image = image,
+        title = title
+    )
