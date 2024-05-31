@@ -24,6 +24,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel class responsible for managing the logic and data of the alarm detail screen.
+ */
 @HiltViewModel
 class AlarmDetailViewModel @Inject constructor(
     private val alarmRepository: AlarmRepository,
@@ -32,21 +35,32 @@ class AlarmDetailViewModel @Inject constructor(
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
+    // MutableStateFlow to hold the current alarm being managed.
     private val _alarm = MutableStateFlow<Alarm?>(null)
     val alarm = _alarm.asStateFlow()
 
+    // MutableStateFlow to hold the adverse effects of a medicine.
     private val _medicineAdverseEffects = MutableStateFlow<List<String>?>(null)
     val medicineAdverseEffects = _medicineAdverseEffects.asStateFlow()
 
+    // MutableStateFlow to hold the drug interactions of a user.
     private val _userDrugInteractions = MutableStateFlow<List<String>?>(null)
     val userDrugInteractions = _userDrugInteractions.asStateFlow()
 
+    // MutableStateFlow to hold the critical interactions between a user's drug interactions
+    // and the adverse effects of a medicine.
     private val _userCriticalInteractions = MutableStateFlow<List<String>?>(null)
     val userCriticalInteractions = _userCriticalInteractions.asStateFlow()
 
+    // MutableStateFlow to indicate whether both lists of adverse effects and drug interactions
+    // are filled and not null.
     private val _bothListsAreFilled = MutableStateFlow<Boolean>(false)
     val bothListsAreFilled = _bothListsAreFilled.asStateFlow()
 
+    /**
+     * Fetches an alarm by its ID from the repository and updates the _alarm StateFlow.
+     * @param id ID of the alarm to fetch.
+     */
     fun getAlarmById(id: Long) {
         viewModelScope.launch {
             alarmRepository.getAlarmById(id).collect { retrievedAlarm ->
@@ -55,19 +69,22 @@ class AlarmDetailViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Fetches medicine by name from the repository and updates the _medicineAdverseEffects StateFlow.
+     * Also triggers the retrieval of user drug interactions.
+     * @param medicineName Name of the medicine to fetch.
+     */
     fun getMedicineByName(medicineName: String) {
         viewModelScope.launch {
             medicineRepository.getMedicineByName(medicineName).fold(
                 onSuccess = { foundMedicine ->
+                    // Updates the medicine adverse effects list
                     _medicineAdverseEffects.update { foundMedicine!!.adverseEffects }
 
                     getPatientDrugInteractions()
 
-                    if (_medicineAdverseEffects.value != null && _userDrugInteractions.value != null) {
-                        _bothListsAreFilled.update { true }
-
-                        Log.d("IS_TRUE", _bothListsAreFilled.value.toString())
-                    }
+                    // If both lists are not null, the boolean value updates to true
+                    adverseEffectsAndDrugInteractionsAreNotNull()
                 },
                 onFailure = { throwable ->
                     Log.d("FAILURE", throwable.toString())
@@ -76,6 +93,10 @@ class AlarmDetailViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Fetches user drug interactions from the repository and updates the _userDrugInteractions StateFlow.
+     * Also triggers the retrieval of medicine adverse effects for the user.
+     */
     fun getPatientDrugInteractions() {
         viewModelScope.launch {
             val patientEmail = auth.currentUser!!.email.toString()
@@ -84,9 +105,8 @@ class AlarmDetailViewModel @Inject constructor(
                 onSuccess = { foundList ->
                     _userDrugInteractions.update { foundList }
 
-                    if (_medicineAdverseEffects.value != null && _userDrugInteractions.value != null) {
-                        _bothListsAreFilled.update { true }
-                    }
+                    // If both lists are not null, the boolean value updates to true
+                    adverseEffectsAndDrugInteractionsAreNotNull()
 
                     getMedicineAdverseEffectsForUser()
                 },
@@ -97,18 +117,31 @@ class AlarmDetailViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Finds critical interactions between user drug interactions and medicine adverse effects.
+     * Updates the _userCriticalInteractions StateFlow.
+     */
     fun getMedicineAdverseEffectsForUser() {
-        val list = ArrayList<String>()
+        val userDrugInteractions = ArrayList<String>()
 
+        // If an element is present in both collections, the element is added to the list
         for (element in _userDrugInteractions.value!!) {
             if (element in _medicineAdverseEffects.value!!) {
-                list.add(element)
+                userDrugInteractions.add(element)
             }
         }
 
-        _userCriticalInteractions.update { list }
+        _userCriticalInteractions.update { userDrugInteractions }
+    }
 
-        Log.d("CRITICAL_INTERACTIONS", _userCriticalInteractions.value!!.size.toString())
+    /**
+     * Checks if both the medicine adverse effects and user drug interactions lists are not null.
+     * If both lists are not null, updates the _bothListsAreFilled StateFlow to indicate that both lists are filled.
+     */
+    fun adverseEffectsAndDrugInteractionsAreNotNull() {
+        if (_medicineAdverseEffects.value != null && _userDrugInteractions.value != null) {
+            _bothListsAreFilled.update { true }
+        }
     }
 
 }

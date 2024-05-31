@@ -15,8 +15,8 @@ package com.example.mitfg.data.medicines.model
  * of associated adverse effects.
  */
 data class MedicineDto(
-    var id: String,
-    var name: String,
-    var description: String,
-    var adverseEffects: List<String>
+    var id: String = "",
+    var name: String = "",
+    var description: String = "",
+    var adverseEffects: List<String> = emptyList()
 )
