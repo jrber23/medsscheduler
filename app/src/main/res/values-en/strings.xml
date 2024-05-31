@@ -81,4 +81,5 @@
     <string name="surnames_user_hint">Type your surname…</string>
     <string name="existing_medicine_name">A medicine with the given name already exists</string>
     <string name="patient_critical_effects">Critical interactions for the user:</string>
+    <string name="new_medicine_added">A new medicine has been added</string>
 </resources>

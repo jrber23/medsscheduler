@@ -25,17 +25,26 @@ import com.example.mitfg.databinding.ActivityMedicineCreationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * The medicine creation activity that shows every content of medicine creation UI to the user.
+ */
 @AndroidEntryPoint
 class MedicineCreationActivity : AppCompatActivity() {
 
+    // ViewModel instance for managing medicine creation-related data
     private val viewModel: MedicineCreationViewModel by viewModels()
 
+    /**
+     * Called when the activity is first created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Inflate the layout using view binding
         val binding = ActivityMedicineCreationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Observes the adverse effect list from the ViewModel and updates the ListView accordingly
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.adverseEffectList.collect { list ->
@@ -46,24 +55,30 @@ class MedicineCreationActivity : AppCompatActivity() {
             }
         }
 
+        // Handles item clicks on the ListView to add selected adverse effects to the ViewModel
         binding.listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position).toString()
 
             viewModel.addNewAdverseEffect(selectedItem)
         }
 
+        // Handles button click to create a new medicine
         binding.bCrearMedicamento.setOnClickListener {
+            // Get input values
             val medicineName = binding.etMedicineName.text.toString()
-            viewModel.existsNewMedicine(medicineName)
-
             val description = binding.etMedicineDescription.text.toString()
 
+            // Checks if a medicine with the given name exists
+            viewModel.existsNewMedicine(medicineName)
+
+            // Check for empty fields. If there are any empty field, a message error is shown.
             if (!thereAreEmptyFields(medicineName, description)) {
+                // If the medicine already exists, shows a message error
                 if (viewModel.existsMedicine.value != null) {
                     if (!viewModel.existsMedicine.value!!) {
                         viewModel.addNewMedicine(medicineName, description)
 
-                        Toast.makeText(applicationContext, "Se ha insertado una nueva medicina", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, R.string.new_medicine_added, Toast.LENGTH_SHORT).show()
                     } else {
                         val message = getString(R.string.existing_medicine_name)
 
@@ -78,10 +93,20 @@ class MedicineCreationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Checks if there are empty fields
+     * @param medicineName The string extracted from the medicine name field
+     * @param medicineDescription The string extracted from the medicine description field
+     * @return true if there are any empty field, and false, otherwise
+     */
     private fun thereAreEmptyFields(medicineName: String, medicineDescription: String): Boolean {
         return (medicineName.isEmpty() || medicineDescription.isEmpty())
     }
 
+    /**
+     * Shows a popup dialog with the given message
+     * @param message The message to display in the popup
+     */
     private fun showPopUp(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(message)

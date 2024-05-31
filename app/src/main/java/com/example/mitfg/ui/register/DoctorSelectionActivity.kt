@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
- * The Doctor Selection activity that shows every content of registration UI to the user.
+ * The Doctor Selection activity that shows every content of doctor selection UI to the user.
  */
 @AndroidEntryPoint
 class DoctorSelectionActivity : AppCompatActivity() {

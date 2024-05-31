@@ -81,4 +81,5 @@
     <string name="surnames_user_hint">Introdueix els teus cognoms…</string>
     <string name="existing_medicine_name">Ja existeix un medicament amb el nom proporcionat</string>
     <string name="patient_critical_effects">Efectes crítics per al usuari:</string>
+    <string name="new_medicine_added">S\'ha insertat una nova medicina</string>
 </resources>

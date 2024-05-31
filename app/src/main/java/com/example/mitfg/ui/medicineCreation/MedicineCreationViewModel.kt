@@ -24,26 +24,35 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-
+/**
+ * The medicine creation's view model that handles every data shown by the activity.
+ */
 @HiltViewModel
 class MedicineCreationViewModel @Inject constructor(
     private val adverseEffectRepository: AdverseEffectRepository,
     private val medicineRepository: MedicineRepository
 ) : ViewModel() {
 
+    // StateFlow to hold the list of adverse effects
     private val _adverseEffectList = MutableStateFlow<List<String?>>(emptyList())
     val adverseEffectList : StateFlow<List<String?>> = _adverseEffectList.asStateFlow()
 
+    // StateFlow to hold the selected adverse effects
     private val _selectedAdverseEffects = MutableStateFlow<List<String>>(ArrayList<String>())
     val selectedAdverseEffect : StateFlow<List<String>> = _selectedAdverseEffects.asStateFlow()
 
+    // StateFlow to indicate if a medicine with the given name already exists
     private val _existsMedicine = MutableStateFlow<Boolean?>(null)
     val existsMedicine : StateFlow<Boolean?> = _existsMedicine.asStateFlow()
 
+    // Fetches the list of all adverse effects when the ViewModel is initialized
     init {
         getAllAdverseEffects()
     }
 
+    /**
+     * Fetches the list of all adverse effects from the repository
+     */
     private fun getAllAdverseEffects() {
         viewModelScope.launch {
             adverseEffectRepository.getAllAdverseEffects().fold(
@@ -57,14 +66,24 @@ class MedicineCreationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Adds a new medicine to the repository
+     * @param medicineName The medicine name
+     * @param description The medicine description
+     */
     fun addNewMedicine(medicineName: String, description: String) {
-        val newMedicine : Medicine = Medicine("", medicineName, description, _selectedAdverseEffects.value)
+        val selectedEffects = _selectedAdverseEffects.value
+        val newMedicine = Medicine("", medicineName, description, selectedEffects)
 
         viewModelScope.launch {
             medicineRepository.addNewMedicine(newMedicine)
         }
     }
 
+    /**
+     * Adds or removes an adverse effect from the selected list
+     * @param selectedItem The selected value in the adverse effects list
+     */
     fun addNewAdverseEffect(selectedItem: String) {
         if (!_selectedAdverseEffects.value.contains(selectedItem)) {
             _selectedAdverseEffects.update { newList ->
@@ -77,6 +96,10 @@ class MedicineCreationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Checks if a medicine with the given name already exists
+     * @param medicineName The medicine name to check if the medicine already exists
+     */
     fun existsNewMedicine(medicineName: String) {
         runBlocking {
             medicineRepository.existsMedicine(medicineName).fold(

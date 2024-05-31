@@ -141,4 +141,5 @@
     <string name="healthAdvice_image_Description">Imagen que se muestra en el popup de consejos de salud</string>
     <string name="existing_medicine_name">Ya existe un medicamento con el nombre proporcionado</string>
     <string name="patient_critical_effects">Efectos críticos para el usuario:</string>
+    <string name="new_medicine_added">Se ha insertado una nueva medicina</string>
 </resources>
