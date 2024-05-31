@@ -23,23 +23,32 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The Doctor Selection's view model that handles every data shown by the activity.
+ */
 @HiltViewModel
 class DoctorSelectionViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
+    // StateFlow to hold the list of doctors
     private val _doctorList = MutableStateFlow<List<User?>>(emptyList())
     val doctorList : StateFlow<List<User?>> = _doctorList.asStateFlow()
 
+    // Fetch the list of all doctors when the ViewModel is initialized
     init {
         getAllDoctors()
     }
 
+    /**
+     * Fetches the list of all doctors from the repository and updates the StateFlow.
+     */
     private fun getAllDoctors() {
         viewModelScope.launch {
             userRepository.getAllDoctors().fold(
                 onSuccess = { list ->
+                    // Update the _doctorList StateFlow with the fetched list of doctors
                     _doctorList.update { list }
                 },
                 onFailure = { throwable ->
@@ -49,8 +58,14 @@ class DoctorSelectionViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Updates the associated doctor for the current user.
+     *
+     * @param email The email of the selected doctor.
+     */
     fun updateDoctor(email: String) {
         viewModelScope.launch {
+            // Get the current user's email
             val user = auth.currentUser!!.email.toString()
 
             userRepository.updateDoctor(email, user)

@@ -11,7 +11,6 @@ package com.example.mitfg.ui.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -23,26 +22,39 @@ import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * The Doctor Selection activity that shows every content of registration UI to the user.
+ */
 @AndroidEntryPoint
 class DoctorSelectionActivity : AppCompatActivity() {
 
+    // ViewModel instance for managing doctor selection-related data
     private val viewModel: DoctorSelectionViewModel by viewModels()
 
+    // Binding object for accessing the views in the layout
     private lateinit var _binding : ActivityDoctorSelectionBinding
 
+    // Callback interface implementation for handling item clicks in the doctor list
     private val callback =
         object : DoctorListAdapter.ItemClicked {
             override fun onClick(email: String) {
+                // Update the selected doctor in the ViewModel
                 viewModel.updateDoctor(email)
 
+                // Navigate to the main activity
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
 
+                // Finish the current activity
                 finish()
             }
 
         }
 
+    /**
+     * Called when the activity is first created. Initializes binding,
+     * sets up the RecyclerView, and collects the doctor list from the ViewModel.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,14 +63,14 @@ class DoctorSelectionActivity : AppCompatActivity() {
         val view = _binding.root
         setContentView(view)
 
-        val layoutManager = LinearLayoutManager(this) // Puedes usar LinearLayoutManager u otro LayoutManager según tus necesidades
+        // Set up the RecyclerView with a LinearLayoutManager and the DoctorListAdapter
+        val layoutManager = LinearLayoutManager(this)
         _binding.recyclerViewDoctors.layoutManager = layoutManager
 
         val adapter = DoctorListAdapter(callback)
         _binding.recyclerViewDoctors.adapter = adapter
 
-        Log.d("Recycler_VIEW", _binding.recyclerViewDoctors.adapter.toString())
-
+        // Collect the list of doctors from the ViewModel and submit it to the adapter
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.doctorList.collect { list ->
