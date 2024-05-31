@@ -21,4 +21,6 @@ data class PharmacyDto(
     val lat: Double,
     val lng: Double,
     val geohash: String
-)
+) {
+    constructor() : this("", "", "", "", 0.0, 0.0, "")
+}
