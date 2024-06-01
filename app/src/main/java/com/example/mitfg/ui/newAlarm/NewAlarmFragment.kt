@@ -22,9 +22,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mitfg.ui.alarmDetail.AlarmDetailActivity
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentNewAlarmBinding
+import com.example.mitfg.ui.alarmDetail.AlarmDetailActivity
 import com.example.mitfg.ui.main.AlarmReceiver
 import com.example.mitfg.ui.newAlarm.alarmCreationStages.AlarmCreationActivity
 import dagger.hilt.android.AndroidEntryPoint

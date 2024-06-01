@@ -39,6 +39,7 @@ import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
 import com.example.mitfg.domain.model.HealthAdvice
 import com.example.mitfg.ui.login.LoginActivity
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -115,7 +116,7 @@ class MainActivity : AppCompatActivity(), MenuProvider, TextToSpeech.OnInitListe
         textToSpeech = TextToSpeech(applicationContext, this)
 
         navController = binding.navHostFragment.getFragment<NavHostFragment>().navController
-        binding.bottomNavigationView
+        binding.bottomNavigationView as NavigationBarView
         binding.bottomNavigationView.setupWithNavController(navController)
 
         setSupportActionBar(binding.materialToolbar)

@@ -16,26 +16,26 @@
     <fragment
         android:id="@+id/newAlarmFragment"
         android:name="com.example.mitfg.ui.newAlarm.NewAlarmFragment"
-        android:label="fragment_new_alarm"
-        tools:layout="@layout/fragment_new_alarm" />
+        android:label="@string/alarmsFragmentTitle"
+        tools:layout="@layout/fragment_new_alarm"/>
     <fragment
         android:id="@+id/medicinesListFragment"
         android:name="com.example.mitfg.ui.doctor.fragments.MedicinesListFragment"
-        android:label="fragment_medicines_list"
+        android:label="@string/medicinesListTitle"
         tools:layout="@layout/fragment_medicines_list" />
     <fragment
         android:id="@+id/appointmentReservationFragment"
         android:name="com.example.mitfg.ui.appointmentReservation.AppointmentReservationFragment"
-        android:label="fragment_appointment_reservation"
+        android:label="@string/newAppointmentsFragment"
         tools:layout="@layout/fragment_appointment_reservation" />
     <fragment
         android:id="@+id/pharmacyLocationsFragment"
         android:name="com.example.mitfg.ui.pharmacy.PharmacyLocationsFragment"
-        android:label="fragment_pharmacy_locations"
+        android:label="@string/pharmacyFragmentTitle"
         tools:layout="@layout/fragment_pharmacy_locations" />
     <fragment
         android:id="@+id/doctorAppointmentsFragment"
         android:name="com.example.mitfg.ui.doctor.DoctorAppointmentsFragment"
-        android:label="fragment_doctor_appointments"
+        android:label="@string/newAppointmentsFragment"
         tools:layout="@layout/fragment_doctor_appointments" />
 </navigation>

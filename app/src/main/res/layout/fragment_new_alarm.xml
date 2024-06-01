@@ -8,16 +8,12 @@
   ~ (See accompanying file LICENSE.txt)
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_new_alarm"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.newAlarm.NewAlarmFragment">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewAlarms"
@@ -43,7 +39,3 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-</FrameLayout>
