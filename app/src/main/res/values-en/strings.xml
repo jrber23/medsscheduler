@@ -82,4 +82,5 @@
     <string name="existing_medicine_name">A medicine with the given name already exists</string>
     <string name="patient_critical_effects">Critical interactions for the user:</string>
     <string name="new_medicine_added">A new medicine has been added</string>
+    <string name="logo_description">The logo\'s description</string>
 </resources>

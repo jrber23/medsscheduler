@@ -8,7 +8,8 @@
   -->
 
 <resources>
-    <string name="app_name">MedsScheduler</string>
+    <string name="app_name">Meds
+        Scheduler</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="tf_login_email_hint">Introduce tu email…</string>
     <string name="tf_login_password_hint">Introduce tu contraseña…</string>
@@ -142,4 +143,5 @@
     <string name="existing_medicine_name">Ya existe un medicamento con el nombre proporcionado</string>
     <string name="patient_critical_effects">Efectos críticos para el usuario:</string>
     <string name="new_medicine_added">Se ha insertado una nueva medicina</string>
+    <string name="logo_description">Descripción del logo</string>
 </resources>
