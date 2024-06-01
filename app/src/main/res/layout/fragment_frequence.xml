@@ -26,6 +26,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
             android:text="@string/next"
+            android:textColor="@color/black"
             android:contentDescription="@string/buttonNext_Description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="@string/last"
+            android:textColor="@color/black"
             android:contentDescription="@string/buttonBefore_Description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonNext"
@@ -49,7 +51,6 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="64dp"
             android:textSize="20sp"
-            android:textColor="@color/black"
             android:text="@string/tvFrequence"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

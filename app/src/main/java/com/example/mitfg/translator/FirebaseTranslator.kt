@@ -7,7 +7,7 @@
  * (See accompanying file LICENSE.txt)
  */
 
-package com.example.mitfg.firebase
+package com.example.mitfg.translator
 
 import androidx.compose.ui.text.intl.Locale
 import com.google.mlkit.common.model.DownloadConditions

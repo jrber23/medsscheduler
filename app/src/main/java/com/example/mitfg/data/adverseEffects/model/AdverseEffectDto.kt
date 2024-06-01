@@ -14,8 +14,8 @@ package com.example.mitfg.data.adverseEffects.model
  * It includes an ID an a name to identify each one.
  */
 data class AdverseEffectDto(
-    var id: String,
-    val name: String
+    var id: String = "",
+    val name: String = ""
 ) {
 
 }

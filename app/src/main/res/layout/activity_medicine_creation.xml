@@ -22,7 +22,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="52dp"
         android:text="@string/medicineCreationName"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:text="@string/tvMedicineDescriptionLabel"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvMedicineCreationName"
         app:layout_constraintTop_toBottomOf="@+id/tvMedicineCreationName" />
@@ -71,7 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/tvSecondaryEffects"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvMedicineDescription"
         app:layout_constraintTop_toBottomOf="@+id/etMedicineDescription" />
@@ -83,6 +80,7 @@
         android:layout_marginTop="12dp"
         android:choiceMode="multipleChoice"
         android:isScrollContainer="true"
+        android:backgroundTint="@color/white"
         android:contentDescription="@string/listView_Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

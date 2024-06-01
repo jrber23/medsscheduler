@@ -48,7 +48,7 @@ class MedicineCreationActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.adverseEffectList.collect { list ->
-                    val arrayAdapter = ArrayAdapter(applicationContext, android.R.layout.simple_list_item_multiple_choice, list)
+                    val arrayAdapter = ArrayAdapter(applicationContext, R.layout.single_list_item_multiple_choice_custom, list)
 
                     binding.listView.adapter = arrayAdapter
                 }

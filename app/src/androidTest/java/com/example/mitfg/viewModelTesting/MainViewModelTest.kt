@@ -15,7 +15,7 @@ import com.example.mitfg.data.FakeAlarmRepository
 import com.example.mitfg.data.FakeHealthAdviceRepository
 import com.example.mitfg.data.FakeUserRepository
 import com.example.mitfg.domain.model.User
-import com.example.mitfg.firebase.FirebaseTranslator
+import com.example.mitfg.translator.FirebaseTranslator
 import com.example.mitfg.ui.main.MainViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -42,7 +42,7 @@ class MainViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val testUser = User("Rodrigo", "Pineda","nach8@yahoo.com", "holamundo", true, emptyList(), null)
+    private val testUser = User("Rodrigo", "Pineda","nach8@yahoo.com", "holamundo", true, emptyList(), null, emptyList())
 
     @Before
     fun setUp() {

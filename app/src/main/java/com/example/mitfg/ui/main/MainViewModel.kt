@@ -17,7 +17,7 @@ import com.example.mitfg.data.instructionAlarm.AlarmRepository
 import com.example.mitfg.data.users.UserRepository
 import com.example.mitfg.domain.model.HealthAdvice
 import com.example.mitfg.domain.model.User
-import com.example.mitfg.firebase.FirebaseTranslator
+import com.example.mitfg.translator.FirebaseTranslator
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

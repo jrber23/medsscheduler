@@ -9,7 +9,7 @@
 
 package com.example.mitfg.di
 
-import com.example.mitfg.firebase.FirebaseTranslator
+import com.example.mitfg.translator.FirebaseTranslator
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore

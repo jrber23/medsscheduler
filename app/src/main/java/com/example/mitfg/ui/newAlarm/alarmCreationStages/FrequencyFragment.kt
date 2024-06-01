@@ -90,7 +90,7 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
         ArrayAdapter.createFromResource(
             requireActivity().baseContext,
             R.array.frequence_array,
-            android.R.layout.simple_spinner_item
+            R.layout.simple_spinner_item_custom
         ).also { arrayAdapter ->
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = arrayAdapter

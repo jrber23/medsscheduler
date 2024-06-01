@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022-2024 Universitat Politècnica de València
+  ~ Authors: José Ramón Bermejo Canet
+  ~                jrber222@gmail.com
+  ~
+  ~ Distributed under MIT license
+  ~ (See accompanying file LICENSE.txt)
+  -->
+
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightSmall"
+    android:gravity="center_vertical"
+    android:textColor="@color/red"
+    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd" />

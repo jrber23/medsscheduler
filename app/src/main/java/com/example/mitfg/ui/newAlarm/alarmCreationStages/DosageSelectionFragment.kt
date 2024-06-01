@@ -111,7 +111,7 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection), Te
         ArrayAdapter.createFromResource(
             requireActivity().baseContext,
             array,
-            android.R.layout.simple_spinner_item
+            R.layout.simple_spinner_item_custom
         ).also { arrayAdapter ->
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = arrayAdapter
