@@ -7,7 +7,7 @@
  * (See accompanying file LICENSE.txt)
  */
 
-package com.example.mitfg.ui.main
+package com.example.mitfg.receivers
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -17,6 +17,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.example.mitfg.R
 import com.example.mitfg.data.instructionAlarm.AlarmRepository
+import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -67,7 +68,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, idAlarm.toInt(), intent, flag)
         val vibrationPattern = longArrayOf(0, 2000, 1000, 500, 500, 500)
 
-        val notification = NotificationCompat.Builder(context, MainActivity.MY_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, MainActivity.MY_NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_delete)
             .setContentTitle(context.getString(R.string.time_medicine))
             .setContentText(context.getString(R.string.time_medicine_message))

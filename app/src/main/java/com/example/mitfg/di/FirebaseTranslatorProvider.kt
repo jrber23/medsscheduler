@@ -10,29 +10,17 @@
 package com.example.mitfg.di
 
 import com.example.mitfg.utils.FirebaseTranslator
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 /**
- * Provides the only Firestore instance in the app and the only Firebase Translator object instance
+ * Provides the only FirebaseTranslator object instance in the application
  */
 @Module
 @InstallIn(SingletonComponent::class)
-class HealthAdviceProviderModule {
+class FirebaseTranslatorProvider {
 
-    @Provides
-    @Singleton
-    fun provideFirebaseFirestore() : FirebaseFirestore =
-        Firebase.firestore
-
-    @Provides
-    @Singleton
     fun provideFirebaseTranslator() : FirebaseTranslator =
         FirebaseTranslator()
 

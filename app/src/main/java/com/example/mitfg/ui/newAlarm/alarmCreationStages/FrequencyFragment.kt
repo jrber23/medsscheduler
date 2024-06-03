@@ -12,13 +12,10 @@ package com.example.mitfg.ui.newAlarm.alarmCreationStages
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.ComponentName
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -30,25 +27,27 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentFrequenceBinding
-import com.example.mitfg.ui.main.AlarmReceiver
+import com.example.mitfg.receivers.AlarmReceiver
+import com.example.mitfg.receivers.RebootReceiver
 import com.example.mitfg.ui.main.MainActivity
-import com.example.mitfg.ui.main.RebootReceiver
+import com.example.mitfg.utils.TextToSpeechHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnItemSelectedListener, TextToSpeech.OnInitListener {
+class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnItemSelectedListener {
 
     private var _binding : FragmentFrequenceBinding? = null
     private val binding get() = _binding
     private val viewModel: AlarmCreationViewModel by activityViewModels()
 
-    private lateinit var textToSpeech: TextToSpeech
+    @Inject
+    lateinit var voiceMessagePlayer: TextToSpeechHelper
 
     private fun playFrequencySelectionAudioMessage() {
-        textToSpeech.speak(getString(R.string.frequencySelectionVoiceMessage), TextToSpeech.QUEUE_FLUSH, null, null)
+        voiceMessagePlayer.speak(getString(R.string.frequencySelectionVoiceMessage))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,20 +57,7 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
         setUpFrequencySpinner()
         setUpButtonsListeners()
 
-        textToSpeech = TextToSpeech(requireContext(), this)
-    }
-
-    private fun setVoiceLanguage() : Int {
-        val locale = Locale.getDefault().displayLanguage
-
-        val result = when (locale) {
-            "English" -> textToSpeech.setLanguage(Locale("en", "US"))
-            "Spanish" -> textToSpeech.setLanguage(Locale("es", "ES"))
-            "Catalan" -> textToSpeech.setLanguage(Locale("ca", "ES"))
-            else -> textToSpeech.setLanguage(Locale("es", "ES"))
-        }
-
-        return result
+        playFrequencySelectionAudioMessage()
     }
 
     private fun setUpButtonsListeners() {
@@ -202,7 +188,7 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
     }
 
     private fun playAlarmCreationSuccessAudioMessage() {
-        textToSpeech.speak(getString(R.string.alarmCreated), TextToSpeech.QUEUE_FLUSH, null, null)
+        voiceMessagePlayer.speak(getString(R.string.alarmCreated))
     }
 
     private fun finishActivity() {
@@ -221,19 +207,4 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
-
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            val result = setVoiceLanguage()
-
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e(ContentValues.TAG, "Language not supported")
-            } else {
-                playFrequencySelectionAudioMessage()
-            }
-        } else {
-            Log.e(ContentValues.TAG, "Initialization failed")
-        }
-    }
-
 }

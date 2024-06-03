@@ -11,7 +11,6 @@ package com.example.mitfg.ui.alarmDetail
 
 import android.app.AlarmManager
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -87,7 +86,7 @@ class AlarmDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.medicineAdverseEffects.collect { list ->
-                    if (list != null && !isEmpty(binding.secondaryEffectsDetails.text)) {
+                    if (list != null && textViewIsEmpty(binding.secondaryEffectsDetails.text)) {
 
                         var text = ""
                         for ((index, element) in list.withIndex()) {
@@ -108,7 +107,7 @@ class AlarmDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userCriticalInteractions.collect { criticalInteractionsList ->
-                    if (criticalInteractionsList != null && !isEmpty(binding.criticalInteractionsDetailTv.text)) {
+                    if (criticalInteractionsList != null && textViewIsEmpty(binding.criticalInteractionsDetailTv.text)) {
                         var text = ""
                         for ((index, element) in criticalInteractionsList.withIndex()) {
                             text = if (index == criticalInteractionsList.size - 1) {
@@ -123,6 +122,10 @@ class AlarmDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun textViewIsEmpty(text: CharSequence) : Boolean {
+        return text == ""
     }
 }
 

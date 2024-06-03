@@ -7,7 +7,7 @@
  * (See accompanying file LICENSE.txt)
  */
 
-package com.example.mitfg.ui.main
+package com.example.mitfg.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

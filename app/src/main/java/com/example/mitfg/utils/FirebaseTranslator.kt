@@ -7,12 +7,13 @@
  * (See accompanying file LICENSE.txt)
  */
 
-package com.example.mitfg.translator
+package com.example.mitfg.utils
 
 import androidx.compose.ui.text.intl.Locale
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.tasks.await
 
@@ -24,28 +25,38 @@ class FirebaseTranslator {
     // The established language in the device
     private lateinit var targetLanguage: String
 
+    // The translator that translates any text into the targeted language
+    private val translator : Translator
+
+    init {
+        setTargetLanguage()
+
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.SPANISH)
+            .setTargetLanguage(targetLanguage)
+            .build()
+
+        translator = Translation.getClient(options)
+    }
+
     /**
-     * Translates the received language into the selected language
-     * @param text The text to translate
-     * @return The encapsulation of the translated text
+     * Sets in the target language the device current language
      */
-    suspend fun translate(text: String): Result<String> {
+    fun setTargetLanguage() {
         // Establish the current language
         targetLanguage = when (Locale.current.language) {
             "en" -> TranslateLanguage.ENGLISH
             "ca" -> TranslateLanguage.CATALAN
             else -> TranslateLanguage.SPANISH
         }
+    }
 
-        // Set the translator options
-        val options = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.SPANISH)
-            .setTargetLanguage(targetLanguage)
-            .build()
-
-        // Creates the translator
-        val translator = Translation.getClient(options)
-
+    /**
+     * Translates the received language into the selected language
+     * @param text The text to translate
+     * @return The encapsulation of the translated text
+     */
+    suspend fun translate(text: String): Result<String> {
         // Establish the translator conditions
         val conditions = DownloadConditions.Builder()
             .requireWifi()
@@ -58,7 +69,4 @@ class FirebaseTranslator {
 
         return Result.success(traduction)
     }
-
-
-
 }

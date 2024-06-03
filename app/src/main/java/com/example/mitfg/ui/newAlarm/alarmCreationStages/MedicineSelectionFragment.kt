@@ -9,10 +9,7 @@
 
 package com.example.mitfg.ui.newAlarm.alarmCreationStages
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,21 +17,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentMedicineSelectionBinding
+import com.example.mitfg.utils.TextToSpeechHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection), TextToSpeech.OnInitListener {
+class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection) {
 
     private var _binding : FragmentMedicineSelectionBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AlarmCreationViewModel by activityViewModels()
 
-    private lateinit var textToSpeech: TextToSpeech
+    @Inject
+    lateinit var voiceMessagePlayer: TextToSpeechHelper
 
     private fun playSelectMedicineAudioMessage() {
-        textToSpeech.speak(getString(R.string.medicineSelectionVoiceMessage), TextToSpeech.QUEUE_FLUSH, null, null)
+        voiceMessagePlayer.speak(getString(R.string.medicineSelectionVoiceMessage))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,20 +61,7 @@ class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection)
             }
         }
 
-        textToSpeech = TextToSpeech(requireContext(), this)
-    }
-
-    private fun setVoiceLanguage() : Int {
-        val locale = Locale.getDefault().displayLanguage
-
-        val result = when (locale) {
-            "English" -> textToSpeech.setLanguage(Locale("en", "US"))
-            "Spanish" -> textToSpeech.setLanguage(Locale("es", "ES"))
-            "Catalan" -> textToSpeech.setLanguage(Locale("ca", "ES"))
-            else -> textToSpeech.setLanguage(Locale("es", "ES"))
-        }
-
-        return result
+        playSelectMedicineAudioMessage()
     }
 
     private fun finishAlarmActivity() {
@@ -89,20 +75,6 @@ class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection)
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            val result = setVoiceLanguage()
-
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e(ContentValues.TAG, "Language not supported")
-            } else {
-                playSelectMedicineAudioMessage()
-            }
-        } else {
-            Log.e(ContentValues.TAG, "Initialization failed")
-        }
     }
 
 }

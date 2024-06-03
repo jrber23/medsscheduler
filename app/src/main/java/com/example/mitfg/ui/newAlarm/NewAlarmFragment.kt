@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentNewAlarmBinding
 import com.example.mitfg.ui.alarmDetail.AlarmDetailActivity
-import com.example.mitfg.ui.main.AlarmReceiver
+import com.example.mitfg.receivers.AlarmReceiver
 import com.example.mitfg.ui.newAlarm.alarmCreationStages.AlarmCreationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

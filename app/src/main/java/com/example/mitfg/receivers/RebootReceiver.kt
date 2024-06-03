@@ -7,7 +7,7 @@
  * (See accompanying file LICENSE.txt)
  */
 
-package com.example.mitfg.ui.main
+package com.example.mitfg.receivers
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -20,6 +20,7 @@ import android.content.Intent
 import android.util.Log
 import com.example.mitfg.R
 import com.example.mitfg.data.instructionAlarm.AlarmRepository
+import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,7 @@ class RebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == "android.intent.action.BOOT_COMPLETED") {
             val channel = NotificationChannel(
-                MainActivity.MY_CHANNEL_ID,
+                MainActivity.MY_NOTIFICATION_CHANNEL_ID,
                 "MySuperChannel",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {

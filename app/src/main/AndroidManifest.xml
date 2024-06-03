@@ -65,15 +65,15 @@
             android:exported="true" />
 
         <receiver
-            android:name=".ui.main.AlarmReceiver"
+            android:name=".receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".ui.main.NotificationActionReceiver"
+            android:name=".receivers.NotificationActionReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".ui.main.RebootReceiver"
+            android:name=".receivers.RebootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

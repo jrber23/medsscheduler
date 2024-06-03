@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022-2024 Universitat Politècnica de València
+  ~ Authors: José Ramón Bermejo Canet
+  ~                jrber222@gmail.com
+  ~
+  ~ Distributed under MIT license
+  ~ (See accompanying file LICENSE.txt)
+  -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.alarmDetail.AlarmDetailActivity"
+        tools:layout_editor_absoluteX="-56dp"
+        tools:layout_editor_absoluteY="3dp">
+
+        <TextView
+            android:id="@+id/alarmDetailTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/alarmDetailTitle"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/secondaryEffectsTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textSize="20sp"
+            android:text="@string/tvSecondaryEffects"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/dosagesOnARowTvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/secondLine" />
+
+        <TextView
+            android:id="@+id/medicineTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="@string/medicineTvTitle"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.068"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/alarmDetailTitleTv" />
+
+        <TextView
+            android:id="@+id/instructionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textSize="20sp"
+            android:text="@string/instructionTvTitle"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/medicineTv"
+            app:layout_constraintTop_toBottomOf="@+id/medicineTv" />
+
+        <View
+            android:id="@+id/firstLine"
+            android:layout_width="675dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:contentDescription="@string/firstLine_Description"
+            app:layout_constraintEnd_toEndOf="@+id/alarmDetailTitleTv"
+            app:layout_constraintStart_toStartOf="@+id/alarmDetailTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/instructionTv" />
+
+        <TextView
+            android:id="@+id/completedDosesTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:text="@string/dosagesOnARowTitle"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.003"
+            app:layout_constraintStart_toStartOf="@+id/instructionTv"
+            app:layout_constraintTop_toBottomOf="@+id/firstLine" />
+
+        <TextView
+            android:id="@+id/dosagesOnARowTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="32dp"
+            android:text="@string/completedDosesTitle"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/completedDosesTvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/completedDosesTvTitle" />
+
+        <View
+            android:id="@+id/secondLine"
+            android:layout_width="675dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:contentDescription="@string/firstLine_Description"
+            app:layout_constraintEnd_toEndOf="@+id/alarmDetailTitleTv"
+            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintStart_toStartOf="@+id/alarmDetailTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/dosagesOnARowTvTitle" />
+
+        <TextView
+            android:id="@+id/secondaryEffectsDetails"
+            android:layout_width="355dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/secondaryEffectsTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/secondaryEffectsTitleTv" />
+
+        <TextView
+            android:id="@+id/criticalInteractionsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/patient_critical_effects"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@+id/secondaryEffectsTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/secondaryEffectsDetails" />
+
+        <TextView
+            android:id="@+id/criticalInteractionsDetailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="@+id/criticalInteractionsTv"
+            app:layout_constraintTop_toBottomOf="@+id/criticalInteractionsTv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
