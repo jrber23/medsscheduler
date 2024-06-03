@@ -22,24 +22,36 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The appointment reservation fragment's view model.
+ * It contains every data that the fragment handles.
+ */
 @HiltViewModel
 class AppointmentReservationViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
+    // MutableStateFlow to hold the list of appointments
     private val _appointmentList = MutableStateFlow<List<Appointment?>>(emptyList())
     val appointmentList = _appointmentList.asStateFlow()
 
+    // Fetch appointments of the current user upon ViewModel creation
     init {
         getAppointmentsOfUser()
     }
 
+    /**
+     * Fetches appointments of the current user from the repository.
+     */
     private fun getAppointmentsOfUser() {
         viewModelScope.launch {
+            // Get the current user's email
             val email = auth.currentUser!!.email.toString()
 
+            // Fetch appointments from the repository
             appointmentRepository.getAppointmentsOfUser(email).fold(
+                // On success, update the appointmentList StateFlow
                 onSuccess = { list ->
                     _appointmentList.update { list }
                 },
@@ -49,7 +61,4 @@ class AppointmentReservationViewModel @Inject constructor(
             )
         }
     }
-
-
-
 }

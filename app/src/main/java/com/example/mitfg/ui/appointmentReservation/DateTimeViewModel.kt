@@ -30,9 +30,11 @@ class DateTimeViewModel @Inject constructor(
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
+    // State flow variable for appointment list
     private val _appointmentList = MutableStateFlow<List<Appointment?>>(mutableListOf())
     val appointmentList = _appointmentList.asStateFlow()
 
+    // State flow variable for a new appointment
     private val _newAppointment = MutableStateFlow(Appointment(auth.currentUser!!.email.toString(), "", 0,0,0,0,0))
     val newAppointment = _newAppointment.asStateFlow()
 
@@ -41,28 +43,47 @@ class DateTimeViewModel @Inject constructor(
         getPatientDoctorByEmail()
     }
 
+    /**
+     * Assign hour and minute to the new appointment
+     * @param hourOfDay the new appointment's hour
+     * @param minute the new appointment's minute
+     */
     fun assignHourAndMinute(hourOfDay: Int, minute: Int) {
         _newAppointment.update { appointment ->
             appointment.copy(hour = hourOfDay, minute = minute)
         }
     }
 
+    /**
+     * Assign date to the new appointment
+     * @param year the new appointment's year
+     * @param month the new appointment's month
+     * @param day the new appointment's day
+     */
     fun assignDate(year: Int, month: Int, day: Int) {
         _newAppointment.update { appointment ->
             appointment.copy(day = day, month = month, year = year)
         }
     }
 
+    /**
+     * Add the new appointment to the repository
+     */
     fun addAppointment() {
         viewModelScope.launch {
             appointmentRepository.addNewAppointment(_newAppointment.value)
 
+            // Update the appointment list
             getAppointmentsOfUser()
         }
     }
 
+    /**
+     * Get appointments associated with the current user
+     */
     private fun getAppointmentsOfUser() {
         viewModelScope.launch {
+            // The current user email
             val email = auth.currentUser!!.email.toString()
 
             appointmentRepository.getAppointmentsOfUser(email).fold(
@@ -76,8 +97,12 @@ class DateTimeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Get the doctor email associated with the current user
+     */
     private fun getPatientDoctorByEmail() {
         viewModelScope.launch {
+            // The current user email
             val email = auth.currentUser!!.email.toString()
 
             userRepository.getPatientDoctorByEmail(email).fold(

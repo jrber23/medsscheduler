@@ -13,14 +13,22 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mitfg.databinding.ActivityAppointmentDateHourSelectionBinding
 
+/**
+ * The activity to select the date and the hour appointment.
+ */
 class AppointmentDateHourSelectionActivity : AppCompatActivity() {
 
+    // View binding instance
     private lateinit var _binding : ActivityAppointmentDateHourSelectionBinding
     private val binding get() = _binding
 
+    /**
+     * Called when the activity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Initialize view binding and set the content view of the activity
         _binding = ActivityAppointmentDateHourSelectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
