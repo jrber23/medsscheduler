@@ -27,38 +27,54 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The AlarmCreationActivity's View Model. It handles
+ * every data that's used by the activity
+ */
 @HiltViewModel
 class AlarmCreationViewModel @Inject constructor(
     private val medicineRepository: MedicineRepository,
     private val alarmRepository: AlarmRepository,
     @ApplicationContext private val context: Context
 ): ViewModel() {
+    // MutableStateFlow for holding the list of medicines
     private val _medicinesList = MutableStateFlow<List<Medicine?>>(listOf())
     val medicinesList = _medicinesList.asStateFlow()
 
+    // MutableStateFlow for holding the alarm object
     private val _alarm = MutableStateFlow(Alarm(0, "", "","",0,0,0, 0, 0))
     val alarm = _alarm.asStateFlow()
 
+    // MutableStateFlow for holding the value that shows if the alarm is completed
     private val _alarmIsCompleted = MutableStateFlow<Boolean>(false)
     val alarmIsCompleted = _alarmIsCompleted.asStateFlow()
 
+    // MutableStateFlow for holding the current progress var value
     private var _progressBarValue = MutableStateFlow(0)
     val progressBarValue = _progressBarValue.asStateFlow()
 
+    // Object that handles the progress bar increase value
     companion object {
         private const val PROGRESS_BAR_INCREASE = 100/4
     }
 
+    // When the activity is created, the medicines list is retrieved
     init {
         getMedicinesList()
     }
 
+    /**
+     * Increase the progress bar value with PROGRESS_BAR_INCREASE
+     */
     fun increaseProgressBar() {
         viewModelScope.launch {
             _progressBarValue.update { it + PROGRESS_BAR_INCREASE }
         }
     }
 
+    /**
+     * Adds a new alarm to the database.
+     */
     fun addAlarm() {
         viewModelScope.launch {
             val id = alarmRepository.addAlarm(_alarm.value)
@@ -71,12 +87,20 @@ class AlarmCreationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Decrease the progress bar value with PROGRESS_BAR_INCREASE
+     */
     fun decreaseProgressBar() {
         viewModelScope.launch {
             _progressBarValue.update { it - PROGRESS_BAR_INCREASE }
         }
     }
 
+    /**
+     * Assigns a new frecuency depending on the string value selected
+     *
+     * @param frequencyString The value selected by the user
+     */
     fun assignFrequencyInstruction(frequencyString: String) {
         var frequency : Long = 0
         when (frequencyString) {
@@ -92,32 +116,53 @@ class AlarmCreationViewModel @Inject constructor(
         }
     }
 
-    fun assignPillQuantity(quantity: String) {
+    /**
+     * Assigns a dosage quantity to the alarm
+     *
+     * @param quantity The quantity to assign
+     */
+    fun assignDosageQuantity(quantity: String) {
         _alarm.update { alarm ->
             alarm.copy(quantity = quantity)
         }
-
-        Log.d("DOSAGE", _alarm.value.quantity)
     }
 
+    /**
+     * Assigns a medicine name to the alarm
+     *
+     * @param medicineName The medicine name to assign
+     */
     fun assignMedicineName(medicineName : String) {
         _alarm.update { alarm ->
             alarm.copy(medicineName = medicineName)
         }
     }
 
+    /**
+     * Assigns an hour start to the alarm
+     *
+     * @param newHourStart The hour start to assign
+     */
     fun assignHourStart(newHourStart : Int) {
         _alarm.update { alarm ->
             alarm.copy(hourStart = newHourStart)
         }
     }
 
+    /**
+     * Assigns a minute start to the alarm
+     *
+     * @param newMinuteStart The minute start to assign
+     */
     fun assignMinuteStart(newMinuteStart : Int) {
         _alarm.update { alarm ->
             alarm.copy(minuteStart = newMinuteStart)
         }
     }
 
+    /**
+     * Retrieves all existing medicines from the database.
+     */
     private fun getMedicinesList() {
         viewModelScope.launch {
             medicineRepository.getAllMedicines().fold(
@@ -131,6 +176,11 @@ class AlarmCreationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Assigns a medicine presentation to the alarm
+     *
+     * @param presentation The medicine presentation to assign
+     */
     fun assignMedicinePresentation(presentation: String) {
         _alarm.update { alarm ->
             var presentationAbrev = ""
@@ -145,14 +195,12 @@ class AlarmCreationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Retrieves the alarm current medicine presentation
+     *
+     * @return the current medicine presentation
+     */
     fun getMedicinePresentation(): String {
         return _alarm.value.medicinePresentation
-    }
-
-    fun sumale() {
-        viewModelScope.launch {
-            val rows = alarmRepository.addDosageToAlarm(_alarm.value.id)
-            Log.d("SE SUMA UNA DOSIS", rows.toString())
-        }
     }
 }

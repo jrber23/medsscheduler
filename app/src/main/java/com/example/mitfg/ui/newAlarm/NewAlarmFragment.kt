@@ -9,9 +9,6 @@
 
 package com.example.mitfg.ui.newAlarm
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -24,11 +21,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentNewAlarmBinding
-import com.example.mitfg.receivers.AlarmReceiver
 import com.example.mitfg.ui.alarmDetail.AlarmDetailActivity
 import com.example.mitfg.ui.newAlarm.alarmCreationStages.AlarmCreationActivity
+import com.example.mitfg.utils.AlarmManagerHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * The fragment where all the created alarms are shown.
@@ -42,6 +40,10 @@ class NewAlarmFragment : Fragment(R.layout.fragment_new_alarm) {
 
     // ViewModel instance for managing UI-related data
     private val viewModel: NewAlarmViewModel by viewModels()
+
+    // The AlarmManagerHelper instance
+    @Inject
+    lateinit var alarmManagerHelper: AlarmManagerHelper
 
     // ItemTouchHelper callback for handling swipe actions on RecyclerView items
     private val itemTouchHelperCallback =
@@ -111,17 +113,9 @@ class NewAlarmFragment : Fragment(R.layout.fragment_new_alarm) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.alarmIdToDelete.collect { newAlarmIdToDelete ->
                     if (newAlarmIdToDelete != null) {
-                        val intent = Intent(context, AlarmReceiver::class.java)
-                        val alarmToCancel : PendingIntent =
-                            PendingIntent.getBroadcast(
-                                requireContext(),
-                                newAlarmIdToDelete.toInt(),
-                                intent,
-                                PendingIntent.FLAG_MUTABLE
-                            )
+                        val alarmId = newAlarmIdToDelete.toInt()
 
-                        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                        alarmManager.cancel(alarmToCancel)
+                        alarmManagerHelper.cancel(alarmId)
                     }
                 }
             }

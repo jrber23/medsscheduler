@@ -50,7 +50,7 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
                 position: Int,
                 id: Long
             ) {
-                viewModel.assignPillQuantity(parent?.getItemAtPosition(position).toString())
+                viewModel.assignDosageQuantity(parent?.getItemAtPosition(position).toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -105,7 +105,7 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
     }
 
     private fun assignPillQuantity() {
-        viewModel.assignPillQuantity(binding.pillQuantitySpinner.selectedItem.toString())
+        viewModel.assignDosageQuantity(binding.pillQuantitySpinner.selectedItem.toString())
     }
 
     private fun navigateForward() {

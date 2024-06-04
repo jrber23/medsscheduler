@@ -79,5 +79,18 @@ class AlarmManagerHelper @Inject constructor(
         )
     }
 
+    fun cancel(alarmId : Int) {
+        val intent = Intent(context, AlarmReceiver::class.java)
+        val alarmToCancel : PendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                alarmId,
+                intent,
+                PendingIntent.FLAG_MUTABLE
+            )
+
+        alarmManager.cancel(alarmToCancel)
+    }
+
 
 }
