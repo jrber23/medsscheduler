@@ -17,23 +17,29 @@ import com.example.mitfg.databinding.ActivityAlarmCreationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * The activity that manages the new alarm state and the progress bar value
+ */
 @AndroidEntryPoint
 class AlarmCreationActivity : AppCompatActivity() {
 
+    // The ViewModel instance of this activity
     private val viewModel: AlarmCreationViewModel by viewModels()
+
+    /**
+     * Method that launches when this activity is created
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityAlarmCreationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Updates the progress bar value every time a stage is completed
         lifecycleScope.launch {
             viewModel.progressBarValue.collect { newProgressBarValue ->
                 binding.alarmCreationProgressBar.progress = newProgressBarValue
             }
         }
-
     }
-
-
 }
