@@ -9,12 +9,7 @@
 
 package com.example.mitfg.ui.newAlarm.alarmCreationStages
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -27,13 +22,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mitfg.R
 import com.example.mitfg.databinding.FragmentFrequenceBinding
-import com.example.mitfg.receivers.AlarmReceiver
-import com.example.mitfg.receivers.RebootReceiver
 import com.example.mitfg.ui.main.MainActivity
+import com.example.mitfg.utils.AlarmManagerHelper
 import com.example.mitfg.utils.TextToSpeechHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +38,9 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
 
     @Inject
     lateinit var voiceMessagePlayer: TextToSpeechHelper
+
+    @Inject
+    lateinit var alarmManagerHelper: AlarmManagerHelper
 
     private fun playFrequencySelectionAudioMessage() {
         voiceMessagePlayer.speak(getString(R.string.frequencySelectionVoiceMessage))
@@ -132,51 +128,9 @@ class FrequencyFragment : Fragment(R.layout.fragment_frequence), AdapterView.OnI
 
         viewModel.alarmIsCompleted.collect { isCompleted ->
             if (isCompleted) {
-                val intent = Intent(context, AlarmReceiver::class.java)
+                val alarm = viewModel.alarm.value
 
-                intent.putExtra("idAlarm", viewModel.alarm.value.id)
-                intent.putExtra("medicineName", viewModel.alarm.value.medicineName)
-
-                var medicinePresentation = ""
-
-                when (viewModel.getMedicinePresentation()) {
-                    requireContext().getString(R.string.pillAbrev) -> medicinePresentation = requireContext().getString(R.string.showPill)
-                    requireContext().getString(R.string.packetAbrev) -> medicinePresentation = requireContext().getString(R.string.showPacket)
-                    requireContext().getString(R.string.MlAbrev) -> medicinePresentation = requireContext().getString(R.string.showMl)
-                    else -> ""
-                }
-
-                intent.putExtra("medicinePresentation", medicinePresentation)
-                intent.putExtra("dosage", viewModel.alarm.value.quantity)
-
-                val pendingIntent = PendingIntent.getBroadcast(
-                    context,
-                    viewModel.alarm.value.id.toInt(),
-                    intent,
-                    PendingIntent.FLAG_MUTABLE
-                )
-
-                val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                val calendar = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, viewModel.alarm.value.hourStart)
-                    set(Calendar.MINUTE, viewModel.alarm.value.minuteStart)
-                }
-
-                val receiver = ComponentName(requireContext(), RebootReceiver::class.java)
-
-                requireContext().packageManager.setComponentEnabledSetting(
-                    receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    // viewModel.alarm.value.frequency,
-                    pendingIntent
-                )
+                alarmManagerHelper.createAlarm(alarm)
 
                 Toast.makeText(context, getString(R.string.alarmCreated), Toast.LENGTH_SHORT).show()
 
