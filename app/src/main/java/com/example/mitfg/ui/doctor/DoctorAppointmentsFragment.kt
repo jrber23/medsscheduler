@@ -21,22 +21,31 @@ import com.example.mitfg.databinding.FragmentDoctorAppointmentsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+/**
+ *
+ */
 @AndroidEntryPoint
 class DoctorAppointmentsFragment : Fragment(R.layout.fragment_doctor_appointments) {
 
+    // The binding that contains every reference to all the UI elements
     private var _binding : FragmentDoctorAppointmentsBinding? = null
     private val binding get() = _binding!!
 
+    // The ViewModel instance of this fragment
     private val viewModel: DoctorAppointmentsViewModel by viewModels()
 
+    /**
+     * This method launches when the fragment is created
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDoctorAppointmentsBinding.bind(view)
 
+        // Creates the adapter and attaches it to the recycler view
         val adapter = DoctorAppointmentsListAdapter()
         binding.recyclerViewDoctorAppointments.adapter = adapter
 
+        // Every time a new list value is received, the recycler view is updated.
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.doctorAppointmentsList.collect { newList ->

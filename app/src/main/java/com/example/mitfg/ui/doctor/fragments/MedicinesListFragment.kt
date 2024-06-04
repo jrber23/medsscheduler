@@ -18,12 +18,19 @@ import com.example.mitfg.databinding.FragmentMedicinesListBinding
 import com.example.mitfg.ui.medicineCreation.MedicineCreationActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragment that shows a medicines list.
+ */
 @AndroidEntryPoint
 class MedicinesListFragment : Fragment(R.layout.fragment_medicines_list) {
 
+    // View binding for the fragment layout
     private var _binding : FragmentMedicinesListBinding? = null
     private val binding get() = _binding!!
 
+    /**
+     * Called when the fragment's view has been created.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMedicinesListBinding.bind(view)
@@ -33,11 +40,18 @@ class MedicinesListFragment : Fragment(R.layout.fragment_medicines_list) {
         }
     }
 
+    /**
+     * Navigates to the MedicineCreationActivity for creating a new medicine.
+     */
     private fun swapToMedicineCreationActivity() {
         val destinationIntent = Intent(requireContext(), MedicineCreationActivity::class.java)
         startActivity(destinationIntent)
     }
 
+    /**
+     * Called when the fragment's view is destroyed.
+     * Cleans up the view binding.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

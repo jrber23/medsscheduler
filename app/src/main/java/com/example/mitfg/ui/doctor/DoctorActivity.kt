@@ -17,17 +17,25 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.mitfg.databinding.ActivityDoctorBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ *
+ */
 @AndroidEntryPoint
 class DoctorActivity : AppCompatActivity() {
 
+    // The controller that allow navigating between activities or fragments.
     private lateinit var navController: NavController
 
+    /**
+     * Method that launches when this activity is created
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityDoctorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Setting up the nav controller
         navController = binding.doctorNavHostFragment.getFragment<NavHostFragment>().navController
         binding.doctorBottomNavigationView
         binding.doctorBottomNavigationView.setupWithNavController(navController)

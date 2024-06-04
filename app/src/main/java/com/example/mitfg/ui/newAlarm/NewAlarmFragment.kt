@@ -115,7 +115,7 @@ class NewAlarmFragment : Fragment(R.layout.fragment_new_alarm) {
                     if (newAlarmIdToDelete != null) {
                         val alarmId = newAlarmIdToDelete.toInt()
 
-                        alarmManagerHelper.cancel(alarmId)
+                        alarmManagerHelper.cancelAlarm(alarmId)
                     }
                 }
             }
