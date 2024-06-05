@@ -9,8 +9,6 @@
 
 package com.example.mitfg.ui.main
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,6 +34,7 @@ import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityMainBinding
 import com.example.mitfg.domain.model.HealthAdvice
 import com.example.mitfg.ui.login.LoginActivity
+import com.example.mitfg.utils.NotificationChannelManager
 import com.example.mitfg.utils.TextToSpeechHelper
 import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.auth.FirebaseAuth
@@ -73,10 +72,8 @@ class MainActivity : AppCompatActivity(), MenuProvider {
     @Inject
     lateinit var voiceMessagePlayer : TextToSpeechHelper
 
-    // Object with an ID to identify the notification channel
-    companion object {
-        const val MY_NOTIFICATION_CHANNEL_ID = "myChannel"
-    }
+    @Inject
+    lateinit var notificationChannelManager: NotificationChannelManager
 
     /**
      * Called when the activity is first created.
@@ -184,18 +181,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
      * be triggered by the established alarms.
      */
     private fun createNotificationChannel() {
-        val channel = NotificationChannel(
-            MY_NOTIFICATION_CHANNEL_ID,
-            "MySuperChannel",
-            NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = "SUSCRIBETE"
-        }
-
-        val notificationManager: NotificationManager =
-            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationManager.createNotificationChannel(channel)
+        notificationChannelManager.createNotificationChannel()
     }
 
     /**
