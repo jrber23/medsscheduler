@@ -98,7 +98,12 @@ class AlarmListAdapter(private val itemClicked: ItemClicked) : androidx.recycler
             }
 
             // Sets the description text with quantity, medicine presentation, frequency, and start time
-            binding.tvAlarmDescription.text = "${alarm.quantity} $medicinePresentation - $frequencyText - ${alarm.hourStart}:${alarm.minuteStart}"
+            if (alarm.minuteStart < 10) {
+                binding.tvAlarmDescription.text = "${alarm.quantity} $medicinePresentation - $frequencyText - ${alarm.hourStart}:0${alarm.minuteStart}"
+            } else {
+                binding.tvAlarmDescription.text = "${alarm.quantity} $medicinePresentation - $frequencyText - ${alarm.hourStart}:${alarm.minuteStart}"
+            }
+
 
             // Sets up the click listener to trigger the callback when the item is clicked
             binding.root.setOnClickListener {

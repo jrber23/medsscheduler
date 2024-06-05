@@ -34,17 +34,27 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:contentDescription="@string/navHostFragment_Description"
         android:padding="8dp"
         app:defaultNavHost="true"
-        android:contentDescription="@string/navHostFragment_Description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarmCreationProgressBar"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/alarmSummarizeTv"
         app:navGraph="@navigation/nav_graph_new_alarm"
         tools:layout="@layout/fragment_new_alarm" />
+
+    <TextView
+        android:id="@+id/alarmSummarizeTv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmCreationProgressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityAlarmCreationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,6 +40,19 @@ class AlarmCreationActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.progressBarValue.collect { newProgressBarValue ->
                 binding.alarmCreationProgressBar.progress = newProgressBarValue
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.alarm.collect { newAlarmValue ->
+                val medicinePresentationEntire = when (newAlarmValue.medicinePresentation) {
+                    getString(R.string.pillAbrev) -> getString(R.string.showPill)
+                    getString(R.string.packetAbrev) -> getString(R.string.showPacket)
+                    getString(R.string.MlAbrev) -> getString(R.string.showMl)
+                    else -> { "" }
+                }
+
+                binding.alarmSummarizeTv.text = "${newAlarmValue.medicineName} - ${newAlarmValue.quantity} ${medicinePresentationEntire}"
             }
         }
     }

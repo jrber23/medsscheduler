@@ -9,6 +9,7 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -53,6 +54,15 @@
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="@+id/tvAlarmTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvAlarmTitle" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="80dp"
+                android:layout_height="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/red_arrow_foreground" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
