@@ -22,12 +22,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The Doctor appointment fragment's view model.
+ * It handles every data that is shown in the fragment.
+ */
 @HiltViewModel
 class DoctorAppointmentsViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
+    // MutableStateFlow for holding the doctor list of appointments
     private val _doctorAppointmentsList = MutableStateFlow<List<Appointment?>>(mutableListOf())
     val doctorAppointmentsList = _doctorAppointmentsList.asStateFlow()
 
@@ -35,6 +40,9 @@ class DoctorAppointmentsViewModel @Inject constructor(
         getDoctorAppointments()
     }
 
+    /**
+     * It retrieves every appointment of the logged doctor
+     */
     private fun getDoctorAppointments() {
         viewModelScope.launch {
             val doctorEmail = auth.currentUser!!.email.toString()

@@ -23,26 +23,42 @@ import com.example.mitfg.utils.TextToSpeechHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * The fragment dosage selection.
+ * It's here where the user selects the alarm dosage.
+ */
 @AndroidEntryPoint
 class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
 
+    // The binding that contains every reference to all the UI elements
     private var _binding : FragmentDosageSelectionBinding? = null
     private val binding get() = _binding!!
+
+    // The fragment's ViewModel instance
     private val viewModel: AlarmCreationViewModel by activityViewModels()
 
+    // The TextToSpeechHelper instance
     @Inject
     lateinit var voiceMessagePlayer: TextToSpeechHelper
 
+    /**
+     * Plays the message that guides the user to select a dosage
+     */
     private fun playDosageSelectionAudioMessage() {
         voiceMessagePlayer.speak(getString(R.string.dosageSelectionVoiceMessage))
     }
 
+    /**
+     * This method launches when the fragment is created
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDosageSelectionBinding.bind(view)
 
+        // Get a reference to the spinner from the binding
         val spinner: Spinner = binding.pillQuantitySpinner
 
+        // Create an OnItemSelectedListener for the spinner
         val listener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -58,8 +74,10 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
             }
         }
 
+        // Get the medicine presentation from the ViewModel
         val medicinePresentation = viewModel.getMedicinePresentation()
 
+        // Set the appropriate array adapter based on the medicine presentation
         when (medicinePresentation) {
             getString(R.string.pillAbrev) -> {
                 setQuantityArrayAdapter(getString(R.string.pill), R.array.pill_quantity_array, spinner)
@@ -74,8 +92,10 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
             }
         }
 
+        // Assign the listener to the spinner
         spinner.onItemSelectedListener = listener
 
+        // Set click listeners for the "Next" and "Before" buttons
         binding.buttonNext.setOnClickListener {
             viewModel.increaseProgressBar()
 
@@ -88,9 +108,13 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
             navigateBack()
         }
 
+        // Play the audio message for dosage selection
         playDosageSelectionAudioMessage()
     }
 
+    /**
+     * Sets the adapter for the quantity spinner based on the medicine presentation
+     */
     private fun setQuantityArrayAdapter(medicinePresentation: String, array: Int, spinner: Spinner) {
         binding.tvDosage.text = medicinePresentation
 
@@ -104,20 +128,32 @@ class DosageSelectionFragment : Fragment(R.layout.fragment_dosage_selection) {
         }
     }
 
+    /**
+     * Assigns the selected pill quantity to the ViewModel
+     */
     private fun assignPillQuantity() {
         viewModel.assignDosageQuantity(binding.pillQuantitySpinner.selectedItem.toString())
     }
 
+    /**
+     * Navigates to the next fragment and assigns the selected pill quantity
+     */
     private fun navigateForward() {
         assignPillQuantity()
 
         findNavController().navigate(R.id.frequenceFragment)
     }
 
+    /**
+     * Navigates to the previous fragment
+     */
     private fun navigateBack() {
         findNavController().navigate(R.id.medicationPresentationFragment)
     }
 
+    /**
+     * Cleans up the binding when the view is destroyed
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

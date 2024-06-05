@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
- *
+ * The fragment that shows every appointment of a doctor
  */
 @AndroidEntryPoint
 class DoctorAppointmentsFragment : Fragment(R.layout.fragment_doctor_appointments) {

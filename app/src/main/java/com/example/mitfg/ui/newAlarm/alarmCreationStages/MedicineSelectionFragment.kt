@@ -36,6 +36,7 @@ class MedicineSelectionFragment : Fragment(R.layout.fragment_medicine_selection)
     // The activity's ViewModel instance
     private val viewModel: AlarmCreationViewModel by activityViewModels()
 
+    // The TextToSpeechHelper instance
     @Inject
     lateinit var voiceMessagePlayer: TextToSpeechHelper
 
