@@ -50,8 +50,16 @@ class AlarmReceiver : BroadcastReceiver() {
             alarmRepository.addDosageToAlarm(idAlarm)
         }
 
+        val alarmId = idAlarm.toInt()
+
         // Create and display a notification
-        createSimpleNotification(idAlarm, medicineName, medicinePresentation, dosage)
+        notificationChannelManager
+            .buildNewNotification(
+                alarmId,
+                medicineName,
+                medicinePresentation,
+                dosage
+            )
     }
 
     /**
@@ -62,7 +70,7 @@ class AlarmReceiver : BroadcastReceiver() {
      * @param medicinePresentation the presentation of the medicine
      * @param dosage the dosage of the medicine
      */
-    private fun createSimpleNotification(
+    /* private fun createSimpleNotification(
         idAlarm: Long,
         medicineName: String?,
         medicinePresentation: String?,
@@ -81,6 +89,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 )
 
         // Display the notification
-        notificationChannelManager.displayNotification(alarmId, notification)
-    }
+        // notificationChannelManager.displayNotification(alarmId, notification)
+    } */
 }

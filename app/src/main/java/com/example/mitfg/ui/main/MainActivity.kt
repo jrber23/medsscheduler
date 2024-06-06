@@ -11,6 +11,7 @@ package com.example.mitfg.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -120,8 +121,13 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         addMenuProvider(this)
 
         // Handle "addTakenDosage" intent action
-        if (intent.action == "addTakenDosage") {
+        if (intent.action.equals("addTakenDosage")) {
+            Log.d("SE ALCANZO", "Se ha alcancado este punto")
+
             val idAlarm = intent.getLongExtra("idAlarm", -1)
+            val idAlarmToInt = idAlarm.toInt()
+
+            notificationChannelManager.cancelNotification(idAlarmToInt)
 
             viewModel.addTakenDosage(idAlarm)
         }

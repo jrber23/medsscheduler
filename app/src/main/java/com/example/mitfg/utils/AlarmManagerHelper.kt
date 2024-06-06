@@ -23,7 +23,7 @@ import java.util.Calendar
 import javax.inject.Inject
 
 class AlarmManagerHelper @Inject constructor(
-    private val context: Context
+    val context: Context
 ) {
 
     // The AlarmManager instance for scheduling alarms

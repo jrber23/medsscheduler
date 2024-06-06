@@ -21,11 +21,11 @@ import com.example.mitfg.ui.main.MainActivity
 import javax.inject.Inject
 
 /**
- * Object that manages the aplication notifications channel.
+ * Object that manages the application notifications channel.
  * It's here where all the notifications are created and launched.
  */
 class NotificationChannelManager @Inject constructor(
-    private val context: Context
+    val context: Context
 ) {
 
     // Initialize NotificationManager using the system service
@@ -80,7 +80,7 @@ class NotificationChannelManager @Inject constructor(
         idAlarm: Int,
         medicineName: String?,
         medicinePresentation: String?,
-        dosage: String?) : Notification {
+        dosage: String?) {
         // Create an Intent to open the MainActivity when the notification is clicked
         val intent = Intent(context, MainActivity::class.java).apply {
             // Set the flags to clear the task and specify the action
@@ -88,12 +88,14 @@ class NotificationChannelManager @Inject constructor(
             action = "addTakenDosage"
             // Add extras to the intent
             extras.apply {
-                putExtra("idAlarm", idAlarm)
+                val alarmId = idAlarm.toLong()
+
+                putExtra("idAlarm", alarmId)
             }
         }
 
         // Create a pending intent for the notification action
-        val flag = PendingIntent.FLAG_MUTABLE
+        val flag = PendingIntent.FLAG_IMMUTABLE
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, idAlarm, intent, flag)
 
         // Define a vibration pattern for the notification
@@ -101,7 +103,7 @@ class NotificationChannelManager @Inject constructor(
 
         // // Build the notification using NotificationCompat
         val notification = NotificationCompat.Builder(context, MY_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_delete) // Set the small icon for the notification
+            .setSmallIcon(R.drawable.medicines_icon) // Set the small icon for the notification
             .setContentTitle(context.getString(R.string.time_medicine)) // Set the notification title
             .setContentText(context.getString(R.string.time_medicine_message)) // Set the notification text
             .setStyle(
@@ -114,7 +116,11 @@ class NotificationChannelManager @Inject constructor(
             .setPriority(NotificationCompat.PRIORITY_DEFAULT) // Set the priority level
             .build() // Build the notification
 
-        return notification
+        notificationManager.notify(idAlarm, notification)
+    }
+
+    fun cancelNotification(id: Int) {
+        notificationManager.cancel(id)
     }
 
 }
