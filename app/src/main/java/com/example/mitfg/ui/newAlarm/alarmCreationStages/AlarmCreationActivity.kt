@@ -43,6 +43,7 @@ class AlarmCreationActivity : AppCompatActivity() {
             }
         }
 
+        // Updates the alarm summarize everytime any data is updated
         lifecycleScope.launch {
             viewModel.alarm.collect { newAlarmValue ->
                 val medicinePresentationEntire = when (newAlarmValue.medicinePresentation) {

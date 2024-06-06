@@ -144,4 +144,8 @@
     <string name="patient_critical_effects">Efectos críticos para el usuario:</string>
     <string name="new_medicine_added">Se ha insertado una nueva medicina</string>
     <string name="logo_description">Descripción del logo</string>
+    <string name="medicineSelection">Selecciona un medicamento</string>
+    <string name="medicinePresentation">Selecciona la presentación del medicamento</string>
+    <string name="dosageSelection">Selecciona una dosis</string>
+    <string name="frequencySelection">Selecciona la hora de inicio y la frecuencia</string>
 </resources>

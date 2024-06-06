@@ -83,4 +83,8 @@
     <string name="patient_critical_effects">Critical interactions for the user:</string>
     <string name="new_medicine_added">A new medicine has been added</string>
     <string name="logo_description">The logo\'s description</string>
+    <string name="medicineSelection">Select a medicine</string>
+    <string name="medicinePresentation">Select the medicine presentation</string>
+    <string name="dosageSelection">Select a dosage</string>
+    <string name="frequencySelection">Select the starting hour and frequency</string>
 </resources>

@@ -22,14 +22,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMedicines"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="603dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@string/recyclerViewMedicines_Description"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/buttonBefore"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="70dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/medicineSelectionTitleTv" />
 
         <Button
             android:id="@+id/buttonNext"
@@ -55,6 +56,17 @@
             app:layout_constraintEnd_toStartOf="@+id/buttonNext"
             app:layout_constraintHorizontal_bias="0.091"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/medicineSelectionTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/medicineSelection"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

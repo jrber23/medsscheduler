@@ -83,4 +83,8 @@
     <string name="patient_critical_effects">Efectes crítics per al usuari:</string>
     <string name="new_medicine_added">S\'ha insertat una nova medicina</string>
     <string name="logo_description">Descripció del logotip</string>
+    <string name="medicineSelection">Selecciona un medicament</string>
+    <string name="medicinePresentation">Selecciona la presentació del medicament</string>
+    <string name="dosageSelection">Selecciona una dosi</string>
+    <string name="frequencySelection">Selecciona l\'hora d\'inici i la frequència</string>
 </resources>
