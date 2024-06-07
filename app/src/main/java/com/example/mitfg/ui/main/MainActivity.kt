@@ -88,13 +88,16 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
         createNotificationChannel()
 
-        popUpSetUp()
+        // If its not the first time this activity launches, the pop up won't be shown
+        if (savedInstanceState == null) {
+            popUpSetUp()
 
-        // Collect health advice data and update popup
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.healthAdvice.collect { advice ->
-                    updateHealthAdvicePopup(advice)
+            // Collect health advice data and update popup
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.healthAdvice.collect { advice ->
+                        updateHealthAdvicePopup(advice)
+                    }
                 }
             }
         }
@@ -110,7 +113,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
 
         // Setup navigation controller
         navController = binding.navHostFragment.getFragment<NavHostFragment>().navController
-        binding.bottomNavigationView as NavigationBarView
+        // binding.bottomNavigationView as NavigationBarView
         binding.bottomNavigationView.setupWithNavController(navController)
 
         // Setup action bar
@@ -138,13 +141,13 @@ class MainActivity : AppCompatActivity(), MenuProvider {
      * It will depend on if the user is a doctor or not.
      */
     fun showDoctorNavBar() {
-        binding.bottomNavigationView.menu.findItem(R.id.medicinesListFragment).isVisible =
+        (binding.bottomNavigationView as NavigationBarView).menu.findItem(R.id.medicinesListFragment).isVisible =
             viewModel.userIsDoctor()
 
-        binding.bottomNavigationView.menu.findItem(R.id.doctorAppointmentsFragment).isVisible =
+        (binding.bottomNavigationView as NavigationBarView).menu.findItem(R.id.doctorAppointmentsFragment).isVisible =
             viewModel.userIsDoctor()
 
-        binding.bottomNavigationView.menu.findItem(R.id.appointmentReservationFragment).isVisible =
+        (binding.bottomNavigationView as NavigationBarView).menu.findItem(R.id.appointmentReservationFragment).isVisible =
             !viewModel.userIsDoctor()
     }
 
@@ -221,14 +224,5 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         finish()
 
         startActivity(intent)
-    }
-
-    /**
-     * When the activity is destroyed, it will be finished.
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-
-        finish()
     }
 }
