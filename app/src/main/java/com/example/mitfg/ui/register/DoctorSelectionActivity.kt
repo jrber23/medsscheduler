@@ -9,14 +9,17 @@
 
 package com.example.mitfg.ui.register
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mitfg.R
 import com.example.mitfg.databinding.ActivityDoctorSelectionBinding
 import com.example.mitfg.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +41,21 @@ class DoctorSelectionActivity : AppCompatActivity() {
     private val callback =
         object : DoctorListAdapter.ItemClicked {
             override fun onClick(email: String) {
+                showUserDataDialog(email)
+            }
+
+        }
+
+    /**
+     * Creates the dialog where request user data treatment.
+     * @param email User's email to update their associated doctor
+     */
+    private fun showUserDataDialog(email: String) {
+        val builder : AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder
+            .setMessage(R.string.user_data_agreement)
+            .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, _ ->
                 // Update the selected doctor in the ViewModel
                 viewModel.updateDoctor(email)
 
@@ -47,9 +65,14 @@ class DoctorSelectionActivity : AppCompatActivity() {
 
                 // Finish the current activity
                 finish()
+            })
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
             }
 
-        }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     /**
      * Called when the activity is first created. Initializes binding,

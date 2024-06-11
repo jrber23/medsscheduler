@@ -87,4 +87,5 @@
     <string name="medicinePresentation">Select the medicine presentation</string>
     <string name="dosageSelection">Select a dosage</string>
     <string name="frequencySelection">Select the starting hour and frequency</string>
+    <string name="user_data_agreement">By accepting, you are giving your consent for the processing of your personal data. Do you accept?</string>
 </resources>

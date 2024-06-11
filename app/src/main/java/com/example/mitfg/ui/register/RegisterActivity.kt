@@ -79,18 +79,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     showPopUp(message)
                 } else {
-                    // Extract user details
-                    val email = binding.tietEmail.text.toString()
-                    val password = binding.tietPassword.text.toString()
-                    val isDoctor = binding.chkBoxIsUserDoctor.isChecked
-                    val name = binding.etUserName.text.toString()
-                    val surname = binding.etUserSurname.text.toString()
-
-                    registerUser(email, password)
-
-                    lifecycleScope.launch {
-                        viewModel.addUser(name, surname, email, password, isDoctor)
-                    }
+                    showUserDataDialog()
                 }
             } else {
                 val message = getString(R.string.emptyFieldsLoginOrRegisterMessage)
@@ -98,6 +87,36 @@ class RegisterActivity : AppCompatActivity() {
                 showPopUp(message)
             }
         }
+    }
+
+    /**
+     * Creates the dialog where request user data treatment.
+     */
+    private fun showUserDataDialog() {
+        val builder : AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder
+            .setMessage(R.string.user_data_agreement)
+            .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, _ ->
+                // Extract user details
+                val email = binding.tietEmail.text.toString()
+                val password = binding.tietPassword.text.toString()
+                val isDoctor = binding.chkBoxIsUserDoctor.isChecked
+                val name = binding.etUserName.text.toString()
+                val surname = binding.etUserSurname.text.toString()
+
+                registerUser(email, password)
+
+                lifecycleScope.launch {
+                    viewModel.addUser(name, surname, email, password, isDoctor)
+                }
+            })
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     /**

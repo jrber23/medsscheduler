@@ -115,31 +115,31 @@
     <string name="tv_login_name">Nombre:</string>
     <string name="name_user_hint">Introduce tu nombre…</string>
     <string name="surnames_user_hint">Introduce tus apellidos…</string>
-    <string name="alarmCreationProgressBar_Description">Barra de progreso para indicar el grado de progreso en la creación de una alarma</string>
-    <string name="navHostFragment_Description">Contenedor de los fragments que conforman el proceso de creación de una alarma</string>
-    <string name="firstLine_Description">Linea separatoria de apartados de la interfaz de detalle de alarma</string>
-    <string name="doctorNavHostFragment_Description">Contenedor de fragments que conforman la interfaz de usuario de un doctor</string>
-    <string name="doctorBottomNavigationView_Description">Barra inferior que permite al usuario navegar entre los distintos fragments</string>
-    <string name="recyclerViewDoctors">Lista de doctores a los que el usuario se puede suscribir</string>
-    <string name="bLogin_Description">Botón para iniciar sesión</string>
-    <string name="appbar_Description">Barra de la aplicación</string>
-    <string name="bottomNavigationView_Description">Barra inferior que permite al usuario navegar por los distintos fragments</string>
-    <string name="listView_Description">Lista donde se muestran los efectos secundarios posibles</string>
-    <string name="bCrearMedicamento_Description">Botón para crear medicamento</string>
-    <string name="chkBoxIsUserDoctor_Description">Checkbox para indicar si el usuario es doctor</string>
-    <string name="bRegister_Description">Botón para registrarse</string>
-    <string name="cardView_Description">Carta que contiene todos los datos a representar</string>
-    <string name="recyclerViewPendingAppointments_Description">Lista con las citas del paciente</string>
-    <string name="recyclerViewDoctorAppointments_Description">Lista de las citas pendientes de un doctor</string>
-    <string name="buttonNext_Description">Botón para pasar al siguiente fragment</string>
-    <string name="buttonBefore_Description">Botón para volver al fragment anterior</string>
-    <string name="pillQuantitySpinner_Description">Spinner para seleccionar una dosis determinada</string>
-    <string name="frequence_spinner_Description">Spinner para seleccionar una frecuencia determinada</string>
-    <string name="timePickerFrequence_Description">TimePicker para seleccionar la hora de comienzo de la alarma</string>
-    <string name="medicinePresentationRecyclerView_Description">Lista de presentaciones de medicamentos</string>
-    <string name="recyclerViewMedicines_Description">Lista de medicamentos a seleccionar para la alarma</string>
-    <string name="recyclerViewAlarms_Description">Lista de alarmas</string>
-    <string name="healthAdvice_image_Description">Imagen que se muestra en el popup de consejos de salud</string>
+    <string name="alarmCreationProgressBar_Description" translatable="false">Barra de progreso para indicar el grado de progreso en la creación de una alarma</string>
+    <string name="navHostFragment_Description" translatable="false">Contenedor de los fragments que conforman el proceso de creación de una alarma</string>
+    <string name="firstLine_Description" translatable="false">Linea separatoria de apartados de la interfaz de detalle de alarma</string>
+    <string name="doctorNavHostFragment_Description" translatable="false">Contenedor de fragments que conforman la interfaz de usuario de un doctor</string>
+    <string name="doctorBottomNavigationView_Description" translatable="false">Barra inferior que permite al usuario navegar entre los distintos fragments</string>
+    <string name="recyclerViewDoctors" translatable="false">Lista de doctores a los que el usuario se puede suscribir</string>
+    <string name="bLogin_Description" translatable="false">Botón para iniciar sesión</string>
+    <string name="appbar_Description" translatable="false">Barra de la aplicación</string>
+    <string name="bottomNavigationView_Description" translatable="false">Barra inferior que permite al usuario navegar por los distintos fragments</string>
+    <string name="listView_Description" translatable="false">Lista donde se muestran los efectos secundarios posibles</string>
+    <string name="bCrearMedicamento_Description" translatable="false">Botón para crear medicamento</string>
+    <string name="chkBoxIsUserDoctor_Description" translatable="false">Checkbox para indicar si el usuario es doctor</string>
+    <string name="bRegister_Description" translatable="false">Botón para registrarse</string>
+    <string name="cardView_Description" translatable="false">Carta que contiene todos los datos a representar</string>
+    <string name="recyclerViewPendingAppointments_Description" translatable="false">Lista con las citas del paciente</string>
+    <string name="recyclerViewDoctorAppointments_Description" translatable="false">Lista de las citas pendientes de un doctor</string>
+    <string name="buttonNext_Description" translatable="false">Botón para pasar al siguiente fragment</string>
+    <string name="buttonBefore_Description" translatable="false">Botón para volver al fragment anterior</string>
+    <string name="pillQuantitySpinner_Description" translatable="false">Spinner para seleccionar una dosis determinada</string>
+    <string name="frequence_spinner_Description" translatable="false">Spinner para seleccionar una frecuencia determinada</string>
+    <string name="timePickerFrequence_Description" translatable="false">TimePicker para seleccionar la hora de comienzo de la alarma</string>
+    <string name="medicinePresentationRecyclerView_Description" translatable="false">Lista de presentaciones de medicamentos</string>
+    <string name="recyclerViewMedicines_Description" translatable="false">Lista de medicamentos a seleccionar para la alarma</string>
+    <string name="recyclerViewAlarms_Description" translatable="false">Lista de alarmas</string>
+    <string name="healthAdvice_image_Description" translatable="false">Imagen que se muestra en el popup de consejos de salud</string>
     <string name="existing_medicine_name">Ya existe un medicamento con el nombre proporcionado</string>
     <string name="patient_critical_effects">Efectos críticos para el usuario:</string>
     <string name="new_medicine_added">Se ha insertado una nueva medicina</string>
@@ -148,4 +148,5 @@
     <string name="medicinePresentation">Selecciona la presentación del medicamento</string>
     <string name="dosageSelection">Selecciona una dosis</string>
     <string name="frequencySelection">Selecciona la hora de inicio y la frecuencia</string>
+    <string name="user_data_agreement">Al aceptar, estás otorgando tu consentimiento para el tratamiento de tus datos personales. ¿Aceptas?</string>
 </resources>

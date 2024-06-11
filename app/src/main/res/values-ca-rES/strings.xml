@@ -87,4 +87,5 @@
     <string name="medicinePresentation">Selecciona la presentació del medicament</string>
     <string name="dosageSelection">Selecciona una dosi</string>
     <string name="frequencySelection">Selecciona l\'hora d\'inici i la frequència</string>
+    <string name="user_data_agreement">En acceptar, estàs atorgant el teu consentiment per al tractament de les dades personals. Acceptes?</string>
 </resources>
