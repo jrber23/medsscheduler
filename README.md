@@ -1,3 +1,8 @@
+## About the app
+
+MedsScheduler is an app which goal is helping users to remind what time they must take a dosage of a medicine. Also, if offers a simple appointment reservation system.
+For now, it's an MVP.
+
 ## Credits
 
 This project uses icons from Flaticon. Here are the mandatory attributions:
