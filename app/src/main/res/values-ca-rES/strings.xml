@@ -88,4 +88,8 @@
     <string name="dosageSelection">Selecciona una dosi</string>
     <string name="frequencySelection">Selecciona l\'hora d\'inici i la frequència</string>
     <string name="user_data_agreement">En acceptar, estàs atorgant el teu consentiment per al tractament de les dades personals. Acceptes?</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="existing_appointment_title">Cita ja existent</string>
+    <string name="existing_appointment_message">Ja existeix una cita en els 30 minuts anteriors als seleccionats</string>
+    <string name="selectADoctor">Selecciona un metge</string>
 </resources>

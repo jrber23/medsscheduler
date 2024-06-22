@@ -59,7 +59,8 @@ class UserFirestore @Inject constructor(
             "name" to user.name,
             "surnames" to user.surnames,
             "patientsList" to user.patientsList,
-            "associatedDoctor" to user.associatedDoctor
+            "associatedDoctor" to user.associatedDoctor,
+            "drugInteractions" to user.drugInteractions
         )
 
         // Awaits until the data has been added

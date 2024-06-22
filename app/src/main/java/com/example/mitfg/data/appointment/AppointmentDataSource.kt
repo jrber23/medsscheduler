@@ -33,4 +33,9 @@ interface AppointmentDataSource {
      */
     suspend fun getDoctorAppointments(email: String) : Result<List<AppointmentDto?>>
 
+    /**
+     *
+     */
+    suspend fun checkAppointment(appointmentDto: AppointmentDto) : Result<Boolean>
+
 }

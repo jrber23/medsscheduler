@@ -33,4 +33,9 @@ interface AppointmentRepository {
      */
     suspend fun getDoctorAppointments(email: String) : Result<List<Appointment?>>
 
+    /**
+     *
+     */
+    suspend fun checkAppointment(appointment: Appointment) : Result<Boolean>
+
 }

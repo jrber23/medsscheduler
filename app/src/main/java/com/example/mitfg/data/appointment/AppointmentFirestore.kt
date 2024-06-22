@@ -9,6 +9,7 @@
 
 package com.example.mitfg.data.appointment
 
+import android.util.Log
 import com.example.mitfg.data.appointment.model.AppointmentDto
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -124,4 +125,66 @@ class AppointmentFirestore @Inject constructor(
                 Result.failure(e)
             }
         }
-    }
+
+    /**
+     *
+     */
+    override suspend fun checkAppointment(
+        appointmentDto: AppointmentDto
+    ): Result<Boolean> =
+        withContext(Dispatchers.IO) {
+            var startMinute = appointmentDto.minute - 30
+            var endMinute = appointmentDto.minute + 30
+
+            var startHour = appointmentDto.hour
+            var endHour = appointmentDto.hour
+
+            if (startMinute < 0) {
+                startMinute += 60
+                startHour -= 1
+            }
+
+            if (endMinute >= 60) {
+                endMinute -= 60
+                endHour += 1
+            }
+
+            if (startHour < 0) {
+                startHour = 23
+            }
+
+            if (endHour >= 24) {
+                endHour = 0
+            }
+
+            return@withContext try {
+                // Looks for all the appointments after the current date
+                val startQuery = firestore.collection("appointments")
+                    .whereEqualTo("year", appointmentDto.year)
+                    .whereEqualTo("month", appointmentDto.month)
+                    .whereEqualTo("day", appointmentDto.day)
+                    .whereEqualTo("hour", startHour)
+                    .whereGreaterThanOrEqualTo("minute", startMinute)
+
+                val endQuery = firestore.collection("appointments")
+                    .whereEqualTo("year", appointmentDto.year)
+                    .whereEqualTo("month", appointmentDto.month)
+                    .whereEqualTo("day", appointmentDto.day)
+                    .whereEqualTo("hour", endHour)
+                    .whereLessThanOrEqualTo("minute", endMinute)
+
+
+                    val startSnapshot = startQuery.get().await()
+                    val endSnapshot = endQuery.get().await()
+
+                    Log.d("START_QUERY", startSnapshot.documents.size.toString())
+                    Log.d("END_QUERY", endSnapshot.documents.size.toString())
+
+                    val result = startSnapshot.documents.isNotEmpty() || endSnapshot.documents.isNotEmpty()
+
+                    Result.success(result)
+                } catch (e: FirebaseFirestoreException) {
+                    Result.failure(e)
+                }
+            }
+        }

@@ -108,7 +108,9 @@ class RegisterActivity : AppCompatActivity() {
                 registerUser(email, password)
 
                 lifecycleScope.launch {
-                    viewModel.addUser(name, surname, email, password, isDoctor)
+                    viewModel.registerUser(name, surname, email, password, isDoctor)
+
+                    viewModel.addUser()
                 }
             })
             .setNegativeButton(android.R.string.cancel) { dialog, _ ->

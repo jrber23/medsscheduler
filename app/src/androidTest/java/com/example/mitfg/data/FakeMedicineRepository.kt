@@ -33,4 +33,8 @@ class FakeMedicineRepository @Inject constructor() : MedicineRepository {
     override suspend fun getMedicineByName(name: String): Result<Medicine?> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun existsMedicine(medicineName: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
 }

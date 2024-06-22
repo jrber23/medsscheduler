@@ -10,7 +10,7 @@
 package com.example.mitfg.di
 
 import com.example.mitfg.data.medicines.MedicineDataSource
-import com.example.mitfg.data.medicines.MedicineDataSourceImpl
+import com.example.mitfg.data.medicines.MedicineFirestore
 import com.example.mitfg.data.medicines.MedicineRepository
 import com.example.mitfg.data.medicines.MedicineRepositoryImpl
 import dagger.Binds
@@ -29,7 +29,7 @@ abstract class FakeMedicineBinderModule {
     @Singleton
     @Binds
     abstract fun bindMedicineDataSource(
-        medicineDataSourceImpl: MedicineDataSourceImpl
+        medicineDataSourceImpl: MedicineFirestore
     ) : MedicineDataSource
 
 

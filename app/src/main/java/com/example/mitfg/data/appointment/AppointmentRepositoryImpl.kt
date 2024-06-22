@@ -67,4 +67,16 @@ class AppointmentRepositoryImpl @Inject constructor(
                 Result.failure(throwable)
             }
         )
-    }
+
+    override suspend fun checkAppointment(
+        appointment: Appointment
+    ): Result<Boolean> =
+        appointmentDataSource.checkAppointment(appointment.toDto()).fold(
+            onSuccess = { existsAnAppointment ->
+                Result.success(existsAnAppointment)
+            },
+            onFailure = { throwable ->
+                Result.failure(throwable)
+            }
+        )
+}

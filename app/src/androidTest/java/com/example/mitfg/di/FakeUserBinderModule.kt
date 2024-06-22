@@ -10,7 +10,7 @@
 package com.example.mitfg.di
 
 import com.example.mitfg.data.users.UserDataSource
-import com.example.mitfg.data.users.UserDataSourceImpl
+import com.example.mitfg.data.users.UserFirestore
 import com.example.mitfg.data.users.UserRepository
 import com.example.mitfg.data.users.UserRepositoryImpl
 import dagger.Binds
@@ -30,7 +30,7 @@ abstract class FakeUserBinderModule {
     @Singleton
     @Binds
     abstract fun bindUserDataSource(
-        userDataSourceImpl: UserDataSourceImpl
+        userDataSourceImpl: UserFirestore
     ) : UserDataSource
 
     @Singleton

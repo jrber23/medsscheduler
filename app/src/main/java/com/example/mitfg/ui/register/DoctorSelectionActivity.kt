@@ -33,6 +33,7 @@ class DoctorSelectionActivity : AppCompatActivity() {
 
     // ViewModel instance for managing doctor selection-related data
     private val viewModel: DoctorSelectionViewModel by viewModels()
+    private val registerViewModel : RegisterViewModel by viewModels()
 
     // Binding object for accessing the views in the layout
     private lateinit var _binding : ActivityDoctorSelectionBinding
@@ -56,6 +57,7 @@ class DoctorSelectionActivity : AppCompatActivity() {
         builder
             .setMessage(R.string.user_data_agreement)
             .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, _ ->
+
                 // Update the selected doctor in the ViewModel
                 viewModel.updateDoctor(email)
 

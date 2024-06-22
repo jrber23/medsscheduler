@@ -149,4 +149,9 @@
     <string name="dosageSelection">Selecciona una dosis</string>
     <string name="frequencySelection">Selecciona la hora de inicio y la frecuencia</string>
     <string name="user_data_agreement">Al aceptar, estás otorgando tu consentimiento para el tratamiento de tus datos personales. ¿Aceptas?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="existing_appointment_title">Cita ya existente</string>
+    <string name="existing_appointment_message">Ya existe una cita en los 30 minutos anteriores a los seleccionados</string>
+    <string name="selectADoctor">Selecciona un médico</string>
 </resources>

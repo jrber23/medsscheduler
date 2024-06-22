@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +39,9 @@ class DateTimeViewModel @Inject constructor(
     private val _newAppointment = MutableStateFlow(Appointment(auth.currentUser!!.email.toString(), "", 0,0,0,0,0))
     val newAppointment = _newAppointment.asStateFlow()
 
+    private val _existsAppointment = MutableStateFlow<Boolean?>(null)
+    val existsAppointment = _existsAppointment.asStateFlow()
+
     init {
         getAppointmentsOfUser()
         getPatientDoctorByEmail()
@@ -49,9 +53,15 @@ class DateTimeViewModel @Inject constructor(
      * @param minute the new appointment's minute
      */
     fun assignHourAndMinute(hourOfDay: Int, minute: Int) {
-        _newAppointment.update { appointment ->
-            appointment.copy(hour = hourOfDay, minute = minute)
+        Log.d("CHECK_APPOINTMENT", "Checking appointments for $hourOfDay:$minute")
+        viewModelScope.launch {
+            _newAppointment.update { appointment ->
+                appointment.copy(hour = hourOfDay, minute = minute)
+            }
+
+            Log.d("new_appointment_data", "Checking appointments for ${_newAppointment.value.hour}:${_newAppointment.value.minute}")
         }
+
     }
 
     /**
@@ -118,5 +128,18 @@ class DateTimeViewModel @Inject constructor(
         }
     }
 
-
+    suspend fun checkAppointment() {
+        runBlocking {
+            appointmentRepository.checkAppointment(
+                _newAppointment.value
+            ).fold(
+                onSuccess = { existsAnAppointment ->
+                    _existsAppointment.update { existsAnAppointment }
+                },
+                onFailure = { throwable ->
+                    Log.d("FAILURE", throwable.toString())
+                }
+            )
+        }
+    }
 }

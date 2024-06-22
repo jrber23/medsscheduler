@@ -16,9 +16,9 @@ import javax.inject.Inject
 class FakeUserRepository @Inject constructor() : UserRepository {
 
     private val fakeUsers = mutableListOf<User>(
-        User("José Ramón", "Bermejo Canet", "arroba@hotmail.com", "1234", true, emptyList(), null),
-        User("Rodrigo", "Pineda","nach8@yahoo.com", "holamundo", true, emptyList(), null),
-        User("Carolina", "Gomez","carolina.gomez@hotmail.com", "maja_2988", false, emptyList(), null)
+        User("José Ramón", "Bermejo Canet", "arroba@hotmail.com", "1234", true, emptyList(), null, emptyList()),
+        User("Rodrigo", "Pineda","nach8@yahoo.com", "holamundo", true, emptyList(), null, emptyList()),
+        User("Carolina", "Gomez","carolina.gomez@hotmail.com", "maja_2988", false, emptyList(), null , emptyList())
     )
 
     override suspend fun getUserByEmail(email: String): Result<User?> {
@@ -40,6 +40,10 @@ class FakeUserRepository @Inject constructor() : UserRepository {
     }
 
     override suspend fun getPatientDoctorByEmail(patientEmail: String): Result<String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getDrugInteractionsByEmail(patientEmail: String): Result<List<String>> {
         TODO("Not yet implemented")
     }
 }

@@ -78,6 +78,12 @@ class AlarmManagerHelper @Inject constructor(
         )
 
         // Set the alarm using AlarmManager
+        /* alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            alarm.frequency,
+            pendingIntent
+        ) */
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,

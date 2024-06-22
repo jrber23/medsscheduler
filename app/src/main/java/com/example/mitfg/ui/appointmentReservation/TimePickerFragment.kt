@@ -9,6 +9,7 @@
 
 package com.example.mitfg.ui.appointmentReservation
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.icu.util.Calendar
@@ -17,7 +18,10 @@ import android.text.format.DateFormat
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.mitfg.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * The fragment where the appointment exact hour is selected
@@ -49,7 +53,30 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
      */
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         // Assign selected hour and minute and add the appointment
-        viewModel.assignHourAndMinute(hourOfDay, minute)
-        viewModel.addAppointment()
+        lifecycleScope.launch {
+            viewModel.assignHourAndMinute(hourOfDay, minute)
+
+            viewModel.checkAppointment()
+
+            if (!viewModel.existsAppointment.value!!) {
+                viewModel.addAppointment()
+            } else {
+                val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
+                builder
+                    .setTitle(R.string.existing_appointment_title)
+                    .setMessage(R.string.existing_appointment_message)
+                    .setPositiveButton(android.R.string.ok) { dialog, which ->
+                        dismiss()
+                    }
+
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+            }
+        }
+
     }
+
+
+
 }
