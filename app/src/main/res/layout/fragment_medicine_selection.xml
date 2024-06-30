@@ -22,9 +22,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMedicines"
             android:layout_width="match_parent"
-            android:layout_height="603dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
+            android:layout_height="500dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:contentDescription="@string/recyclerViewMedicines_Description"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/buttonBefore"

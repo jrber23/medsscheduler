@@ -12,7 +12,9 @@ package com.example.mitfg.ui.pharmacy
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,13 +55,21 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
 
     // Object with a value that represents the code of the location request
     companion object {
-        const val REQUEST_CODE_LOCATION = 0
+        const val REQUEST_CODE_LOCATION = 1
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentPharmacyLocationsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     /**
      * This method is called when the fragment's view is created.
      */
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPharmacyLocationsBinding.bind(view)
@@ -75,6 +85,7 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.pharmacyList.collect { pharmaciesList ->
                     if (::mMap.isInitialized) {
+                        mMap.clear()
                         for (element in pharmaciesList) {
                             val coordinates = LatLng(element!!.lat, element.lng)
 
@@ -111,20 +122,9 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ),
-                    REQUEST_CODE_LOCATION
-                )
                 return
             }
             mMap.isMyLocationEnabled = enabledLocation
-
-            val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-            mapFragment.getMapAsync(this)
         } else {
             requestLocationPermission()
         }
@@ -141,7 +141,8 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
                 requireActivity(),
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
                 REQUEST_CODE_LOCATION
             )
         }
@@ -161,7 +162,6 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
             } else {
                 Toast.makeText(requireContext(), "Para activar la localización ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
             }
-            else -> {}
         }
     }
 
@@ -171,7 +171,9 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
     override fun onResume() {
         super.onResume()
 
-        enableLocation(false)
+        if (isLocationPermissionsGranted()) {
+            enableLocation(true)
+        }
     }
 
     /**
@@ -188,10 +190,15 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
 
-        if (ActivityCompat.checkSelfPermission(
+        /* if (ActivityCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_COARSE_LOCATION
         )
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -203,24 +210,48 @@ class PharmacyLocationsFragment : Fragment(R.layout.fragment_pharmacy_locations)
                 REQUEST_CODE_LOCATION
             )
             return
+        } */
+
+        if (isLocationPermissionsGranted()) {
+            enableLocation(true)
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
+            fusedLocation.lastLocation.addOnSuccessListener { location ->
+                location.let {
+                    val ubication = LatLng(location.latitude, location.longitude)
+
+                    updateUbication(ubication)
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubication, 15f))
+                }
+            }
+        } else {
+            requestLocationPermission()
         }
 
-        mMap.isMyLocationEnabled = true
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.uiSettings.isCompassEnabled = true
+        // mMap.isMyLocationEnabled = true
+
 
         // Get the last known location and center the map on it.
-        fusedLocation.lastLocation.addOnSuccessListener { location ->
+        /* fusedLocation.lastLocation.addOnSuccessListener { location ->
             location?.let {
                 val ubication = LatLng(location.latitude, location.longitude)
 
                 updateUbication(ubication)
 
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubication, 15f))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubication, 20f))
             }
         }
 
-        enableLocation(true)
+        enableLocation(true) */
 
 
     }
